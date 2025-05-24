@@ -1,3 +1,3 @@
-[submodule "instructor-frontend"]
+[submodule "frontend"]
 	path = frontend
 	url = https://github.com/matyasjay/instructor-frontend
