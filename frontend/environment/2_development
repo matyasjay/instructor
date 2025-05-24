@@ -1,8 +1,1 @@
-#/-------------------[DOTENV_PUBLIC_KEY]--------------------/
-#/            public-key encryption for .env files          /
-#/       [how it works](https://dotenvx.com/encryption)     /
-#/----------------------------------------------------------/
-DOTENV_PUBLIC_KEY_2_DEVELOPMENT="029155a75c1a1200172910c89305d3c78bc7758523018f097df13e540edace491a"
-
-# .env.2_development
-ENVIRONMENT=encrypted:BDZtnc8YG7yV6ZEADWX7UpI8uKtPMY3IQWxevyMjH7KKxaIwm6rrdAlZVsfEEJtc5euJkhV86Jgc5tsJygyOsjYbJgXXspKVitCkP+jqUOUaN47imnU18K00sggQPF7QY1VfvIZM+bQEhFuR
+ENVIRONMENT=development

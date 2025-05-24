@@ -1,8 +1,1 @@
-#/-------------------[DOTENV_PUBLIC_KEY]--------------------/
-#/            public-key encryption for .env files          /
-#/       [how it works](https://dotenvx.com/encryption)     /
-#/----------------------------------------------------------/
-DOTENV_PUBLIC_KEY_3_STAGING="026e73697163ad1b892098839700bde9070657fdca90ed5298158487c17389a084"
-
-# .env.3_staging
-ENVIRONMENT=encrypted:BMBCbOcv5FoiGsipl2V7zj5UeTnsCvtUHRv9VdESL2g+YgDPBfxPLvkSd9f4TEhZ/Ryx3QYP2vkxokvi6MUHYTnqIfItdG6YT7CnaDRLSdYDU5KOzVNcg4TgoU5+XUrZLF3ADUnigH8=
+ENVIRONMENT=staging
