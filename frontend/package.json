@@ -1,0 +1,24 @@
+{
+  "name": "@instructor/frontend",
+  "version": "1.0.0",
+  "description": "Virtual assistant frontend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "dotenvx run -f environment/1_local -- react-server ./App.jsx",
+    "build": "dotenvx run -f environment/4_production -- react-server build ./App.jsx",
+    "start": "dotenvx run -f environment/4_production -- react-server start",
+    "test": "dotenvx run -f environment/0_test -- echo \"Error: no test specified\" && exit 0",
+    "env:open": "sh environment/decrypt.sh",
+    "env:close": "sh environment/encrypt.sh"
+  },
+  "keywords": [],
+  "author": "Matyas Angyal - @matyasjay",
+  "license": "",
+  "packageManager": "pnpm@9.9.0+sha512.60c18acd138bff695d339be6ad13f7e936eea6745660d4cc4a776d5247c540d0edee1a563695c183a66eb917ef88f2b4feb1fc25f32a7adcadc7aaf3438e99c1",
+  "dependencies": {
+    "@lazarv/react-server": "0.0.0-experimental-2dab5bb-20250522-222c3bcf"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.44.1"
+  }
+}
