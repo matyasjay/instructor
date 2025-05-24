@@ -1,0 +1,15 @@
+#/-------------------[DOTENV_PUBLIC_KEY]--------------------/
+#/            public-key encryption for .env files          /
+#/       [how it works](https://dotenvx.com/encryption)     /
+#/----------------------------------------------------------/
+DOTENV_PUBLIC_KEY_0_TEST="0369e08e0e9757b8ded91da664b8244b542a2e9d74971461cf0ddedc6b0da15e3e"
+
+# 0_test
+#/-------------------[DOTENV_PUBLIC_KEY]--------------------/
+#/            public-key encryption for .env files          /
+#/       [how it works](https://dotenvx.com/encryption)     /
+#/----------------------------------------------------------/
+DOTENV_PUBLIC_KEY_0-TEST="0369e08e0e9757b8ded91da664b8244b542a2e9d74971461cf0ddedc6b0da15e3e"
+
+# .env.0-test
+ENVIRONMENT=encrypted:BIAIYU3mTlLv3DIEieWUPTqC2wxCXlGGKvIA1Ps4df/IBMQcvejK6sayF9yZrpTj8NyrBOIhV/XPfP1Q6KekhH15srkJtA41M/O7h7r+Ir7o0NTQ7ZI7i67sHGV0OM+mJ9YRwiQ=
