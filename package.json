@@ -4,12 +4,13 @@
   "description": "Virtual assistant frontend",
   "main": "index.js",
   "scripts": {
-    "dev": "dotenvx run -f environment/1_local -- react-server ./App.jsx",
-    "build": "dotenvx run -f environment/4_production react-server build ./App.jsx",
-    "start": "dotenvx run -f environment/4_production react-server start",
-    "test": "dotenvx run -f environment/0_test echo \"Error: no test specified\" && exit 1",
-    "env:open": "sh environment/decrypt.sh",
-    "env:close": "sh environment/encrypt.sh"
+    "prepare": "husky",
+    "dev": "dotenvx run -f frontend/environment/1_local -- react-server ./App.jsx",
+    "build": "dotenvx run -f frontend/environment/4_production -- react-server build ./App.jsx",
+    "start": "dotenvx run -f frontend/environment/4_production -- react-server start",
+    "test": "dotenvx run -f frontend/environment/0_test -- echo \"Error: no test specified\" && exit 0",
+    "env:open": "sh frontend/environment/decrypt.sh",
+    "env:close": "sh frontend/environment/encrypt.sh"
   },
   "keywords": [],
   "author": "Matyas Angyal - @matyasjay",

@@ -1,1 +1,8 @@
-ENVIRONMENT=test
+#/-------------------[DOTENV_PUBLIC_KEY]--------------------/
+#/            public-key encryption for .env files          /
+#/       [how it works](https://dotenvx.com/encryption)     /
+#/----------------------------------------------------------/
+DOTENV_PUBLIC_KEY_0_TEST="025c84ddc9635638b8eb0967e85de4fd748d2b1f89a19e79a4b22c23fe37472749"
+
+# 0_test
+ENVIRONMENT="encrypted:BOkQWGukhbLG4ulL/WgiG1BRojYw/eWcr9CdqdWVlql1Wfr3WI6MTVRum8BgpNGn0WR8gw2vge5ACt1ArpmQKP8zkV/H9GQZ8MQYn/klYkW3Dwx4b64QYtJyfe0klj2rCVJ8cPg="

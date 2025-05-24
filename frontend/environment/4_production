@@ -1,1 +1,8 @@
-ENVIRONMENT=production
+#/-------------------[DOTENV_PUBLIC_KEY]--------------------/
+#/            public-key encryption for .env files          /
+#/       [how it works](https://dotenvx.com/encryption)     /
+#/----------------------------------------------------------/
+DOTENV_PUBLIC_KEY_4_PRODUCTION="022261e3ba7f03c548642a8369eb1c4deaaf425b88fa5ca62132c973605ba71bfc"
+
+# 4_production
+ENVIRONMENT="encrypted:BNt4isGtrdzRUJqj3Wbi3b1Q5ZguXw5gkiax/9sl6+HYxpQcxGq/LH3mGJxz91caZIR322pHsTrFO9m3nVjGdCittTNQyCykGGQKbFzAu3uS8vG4C97bZEqgYfLcdo+oyYpRVLQpSLqJVco="
