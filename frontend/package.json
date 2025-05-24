@@ -1,17 +1,23 @@
 {
   "name": "@instructor/frontend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Virtual assistant frontend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "react-server ./App.jsx",
+    "build": "react-server build ./App.jsx",
+    "start": "react-server start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "env:close": "sh scripts/env-encrypt.sh"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Matyas Angyal - @matyasjay",
+  "license": "",
   "packageManager": "pnpm@9.9.0+sha512.60c18acd138bff695d339be6ad13f7e936eea6745660d4cc4a776d5247c540d0edee1a563695c183a66eb917ef88f2b4feb1fc25f32a7adcadc7aaf3438e99c1",
   "dependencies": {
-    "@lazarv/react-server": "0.0.0-experimental-2dab5bb-20250522-222c3bcf",
-    "typescript": "^5.8.3"
+    "@lazarv/react-server": "0.0.0-experimental-2dab5bb-20250522-222c3bcf"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.44.1"
   }
 }
