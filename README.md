@@ -55,27 +55,7 @@ Each template will be submitted via a GraphQL mutation and used to dynamically g
 
 ### System Architecture
 
-```plantuml
-@startuml
-skinparam componentStyle rectangle
-actor Developer
-
-package "Kubernetes Cluster" {
-  [React UI] --> [Go API Service]
-  [Go API Service] --> [LLM Provider (OpenAI)]
-  [Go API Service] --> [Data Storage]
-}
-
-Developer --> [React UI] : interacts via browser
-
-package "CI/CD" {
-  [GitHub Actions] --> [Docker Registry]
-  [GitHub Actions] --> [Terraform Cloud]
-  [Terraform Cloud] --> [Kubernetes Cluster]
-}
-
-@enduml
-```
+![UML diagram](./.github/uml.svg)
 
 This diagram shows runtime and CI/CD flow:
 
@@ -112,7 +92,7 @@ This diagram shows runtime and CI/CD flow:
   - Kubernetes cluster setup
   - Namespace and resource quotas per environment
   - TLS via Cert-Manager
-  - Postgres PVC setup (optional, see: [https://www.section.io/docs/tutorials/data/postgres-on-pvc/](https://www.section.io/docs/tutorials/data/postgres-on-pvc/))
+  - Postgres PVC [setup](https://www.section.io/docs/tutorials/data/postgres-on-pvc/](https://www.section.io/docs/tutorials/data/postgres-on-pvc/)
 
 - Define Kubernetes manifests:
 
@@ -165,7 +145,3 @@ Post-analysis, adjustments will be prioritized based on:
 - Reported friction in prompt building or integration
 - Common template structures suggesting pattern improvements
 - Performance bottlenecks or scaling needs
-
----
-
-If you'd like, I can also help generate a formatted PDF or slides based on this Markdown!
