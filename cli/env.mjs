@@ -30,7 +30,7 @@ const isServerEnvValid = getInvalids(REQUIRED_SERVER_ENVIRONMENT).length === 0;
 const isClientEnvValid = getInvalids(REQUIRED_CLIENT_ENVIRONMENT).length === 0;
 
 if (isServerEnvValid && isClientEnvValid) {
-  console.log("\nEnvironment validation succeded! ✅\n");
+  console.log("Environment validation succeded!");
   process.exit(0);
 }
 const invalids = [
@@ -49,6 +49,6 @@ console.log(
   `\nFound ${invalids.length} missing ${invalids.length > 1 ? "variables" : "variable"}.\n`,
 );
 
-console.log("\nEnvironment validation failed! ❌\n");
+console.log("Environment validation failed!");
 process.exit(13);
 /* eslint-enable */

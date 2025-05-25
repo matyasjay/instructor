@@ -9,6 +9,7 @@ pnpm-debug.log*
 .vercel/output
 .vercel/README.txt
 .vercel/.env*
+.kube
 dist
 dist-ssr
 
