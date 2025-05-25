@@ -34,3 +34,6 @@ http-test:
 
 http-fmt:
 	cd http && gofmt -w ./cmd/api-server/main.go
+
+bump:
+	pnpm bump
