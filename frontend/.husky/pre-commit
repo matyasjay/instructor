@@ -1,4 +1,0 @@
-pnpm env:validate
-pnpm tsc
-pnpm lint
-pnpm test

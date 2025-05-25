@@ -13,7 +13,6 @@ import router from "./router";
 import Layout from "./layout";
 import "../global.css";
 
-
 const root = document.getElementById("root");
 
 if (!root) {
