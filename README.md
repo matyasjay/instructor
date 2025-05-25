@@ -1,6 +1,6 @@
 # Instructor VTA
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/matyasjay/instructor)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/matyasjay/instructor)]((https://github.com/OWNER/REPO/releases/latest))
 
 ## Background
 
