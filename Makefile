@@ -12,7 +12,7 @@ push:
 	git push
 
 deploy:
-	${MAKE} frontend build
+	${MAKE} -C frontend build
 	dotenvx run -f .env.production -- node cli/deploy.mjs
 	vercel build 
 	vercel --prod
