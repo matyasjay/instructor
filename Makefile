@@ -1,3 +1,6 @@
+bump:
+	sh cli/bump.sh
+
 deploy:
 	cd frontend && pnpm build 
 	dotenvx run -f .env.production -- node cli/deploy.mjs
@@ -5,40 +8,46 @@ deploy:
 	vercel --prod
 	node cli/deploy-post.mjs
 
+# --- Environment
+
 env-decrypt:
 	sh cli/decrypt.sh
 
 env-encrypt:
 	sh cli/encrypt.sh
 
-frontend-build:
-	cd frontend && pnpm build
+# --- Frontend
 
 frontend-dev:
-	cd frontend && pnpm dev
+	cd frontend && pnpm i && dotenvx run -f ../.env.local -- node ../cli/env.mjs
+	cd frontend && dotenvx run -f ../.env.local -- vite
 
-frontend-lint:
-	cd frontend && tsc && pnpm lint:fix
+frontend-build:
+	cd frontend && pnpm i && dotenvx run -f ../.env.production -- node ../cli/env.mjs
+	cd frontend && tsc -b && dotenvx run -f ../.env.production -- pnpm exec vite build
+
+frontend-fmt:
+	cd frontend && prettier --write . && eslint . --fix
 
 frontend-test:
-	cd frontend && pnpm test
+	cd frontend && tsc && prettier --check . && eslint .
 
-http-run:
-	cd http && dotenvx run -f ../.env.production -- go run cmd/api-server/main.go
+frontend-run:
+	cd frontend && pnpm i && dotenvx run -f ../.env.production -- node ../cli/env.mjs
+	cd frontend && dotenvx run -f ../.env.production -- pnpm exec vite
+
+# --- HTTP
 
 http-build:
 	cd http/cmd/api-server && dotenvx run -f ../../../.env.production -- go build 
 
-http-docker:
-	docker build -t app . && docker run -it --init --rm -p 3333:3333 app
+http-fmt:
+	gofmt -w ./http/cmd/* ./http/internal/
 
 http-test:
 	cd http/cmd/api-server && dotenvx run -f ../../../.env.production -- go build 
 	rm http/cmd/api-server/api-server
 
-http-lint:
-	gofmt -w ./http/cmd/* ./http/internal/
-
-bump:
-	sh cli/bump.sh
+http-run:
+	cd http && dotenvx run -f ../.env.production -- go run cmd/api-server/main.go
 

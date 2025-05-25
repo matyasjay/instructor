@@ -1,3 +1,5 @@
-make frontend-lint
-make http-lint
+make frontend-fmt
+make frontend-test
+
+make http-fmt
 make http-test

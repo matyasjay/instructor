@@ -1,21 +1,12 @@
 {
   "name": "@instructor/frontend",
-  "description": "Instructor - Personal VTA Frontend Web Application",
+  "description": "Instructor VTA -- Funnel Application",
   "version": "1.0.0",
   "private": true,
   "main": "index.html",
   "type": "module",
   "scripts": {
-    "predev": "pnpm i && dotenvx run -f ../.env.local -- node ../cli/env.mjs",
-    "dev": "dotenvx run -f ../.env.local -- vite",
-    "prebuild": "dotenvx run -f ../.env.production --  node ../cli/env.mjs",
-    "build": "tsc -b && dotenvx run -f ../.env.production -- vite build",
-    "prestart": "dotenvx run -f ../.env.production -- node ../env.mjs",
-    "start": "dotenvx run -f ../.env.production -- vite",
-    "deploy": "vercel build && vercel .",
     "lint": "prettier --check . && eslint .",
-    "lint:fix": "prettier --write . && eslint . --fix",
-    "test": "pnpm test:unit",
     "test:unit": "dotenvx run ../.env.test -- vitest run",
     "test:unit:watch": "dotenvx run ../.env.test -- vitest watch",
     "test:unit:coverage": "dotenvx run ../.env.test -- vitest run --coverage"
@@ -30,11 +21,9 @@
     "react-error-boundary": "^6.0.0",
     "react-router": "^7.6.0",
     "react-router-dom": "^7.6.0",
-    "tailwind-merge": "^3.3.0",
-    "vercel": "^42.1.1"
+    "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
-    "@dotenvx/dotenvx": "^1.44.1",
     "@eslint/js": "^9.27.0",
     "@tailwindcss/postcss": "^4.1.7",
     "@tanstack/react-query-devtools": "^5.77.0",
