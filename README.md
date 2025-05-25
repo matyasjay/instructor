@@ -1,6 +1,7 @@
 # Instructor VTA
 
 [![Latest Release](https://img.shields.io/badge/Release-1.0.14-blue)](https://github.com/matyasjay/instructor/releases/latest)
+[![GolangCI](https://github.com/matyasjay/instructor/actions/workflows/golangcli-lint.yml/badge.svg?branch=main)](https://github.com/matyasjay/instructor/actions/workflows/golangcli-lint.yml)
 
 ## Background
 
