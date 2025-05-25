@@ -1,9 +1,9 @@
-name: golangci-lint
+name: GolangCI
+
 on:
   push:
     branches:
       - main
-      - master
   pull_request:
 
 permissions:
@@ -11,8 +11,8 @@ permissions:
   pull-requests: read
 
 jobs:
-  golangci:
-    name: lint
+  lint:
+    name: GolangCI - Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
