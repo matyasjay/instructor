@@ -1,6 +1,6 @@
 # Instructor VTA
 
-[![Static Badge](https://img.shields.io/badge/Release-1.0.11-blue)](https://github.com/OWNER/REPO/releases/latest)
+[![Latest Release](https://img.shields.io/badge/Release-1.0.11-blue)](https://github.com/matyasjay/instructor/releases/latest)
 
 ## Background
 
