@@ -1,0 +1,21 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "overrides": [
+    {
+      "files": ["*.svg"],
+      "options": {
+        "parser": "html"
+      }
+    },
+    {
+      "files": ["*.css"],
+      "options": {
+        "parser": "css"
+      }
+    }
+  ]
+}
