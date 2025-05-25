@@ -4,8 +4,9 @@ const REQUIRED_CLIENT_ENVIRONMENT = [];
 // prettier-ignore
 const REQUIRED_SERVER_ENVIRONMENT = [
   "ENVIRONMENT",
-  "HTTP_PORT", 
   "FRONTEND_PORT", 
+  "HTTP_PORT", 
+  "PSQL_URL"
 ];
 
 // if (process.env.ENVIRONMENT !== "test") {
