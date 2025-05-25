@@ -36,12 +36,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "./assets/**/*",
-    ".react-server/**/*.ts",
-    ".react-server/**/*.tsx",
-    "./types/**/*.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx"]
 }
