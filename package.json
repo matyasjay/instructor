@@ -3,15 +3,7 @@
   "version": "1.0.8",
   "description": "Instructor - Personal VTA",
   "scripts": {
-    "bump": "sh cli/bump.sh",
-    "prepare": "husky",
-    "frontend:dev": "cd frontend && pnpm run dev",
-    "frontend:build": "cd frontend && pnpm run build",
-    "frontend:start": "cd frontend && pnpm run start",
-    "frontend:lint": "cd frontend && pnpm run lint:fix",
-    "frontend:test": "cd frontend && pnpm run test",
-    "env:decrypt": "sh cli/decrypt.sh",
-    "env:encrypt": "sh cli/encrypt.sh"
+    "prepare": "husky"
   },
   "dependencies": {
     "husky": "^9.1.7",
