@@ -68,5 +68,9 @@
     "Firefox >= 78",
     "Safari >= 14",
     "Edge >= 88"
-  ]
+  ],
+  "engines": {
+    "node": "^=20.10",
+    "pnpm": "^=9.9"
+  }
 }

@@ -15,7 +15,7 @@ deploy:
 	${MAKE} -C frontend build
 	dotenvx run -f .env.production -- node cli/deploy.mjs
 	vercel build 
-	vercel --prod
+	vercel .
 	node cli/deploy-post.mjs
 
 # --- Environment
