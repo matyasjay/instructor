@@ -2,7 +2,9 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       ENVIRONMENT: "local" | "test" | "development" | "staging" | "production";
-      PORT: number;
+      FRONTEND_PORT: number;
+      HTTP_PORT: number;
+      PSQL_URL: string
     }
   }
 }

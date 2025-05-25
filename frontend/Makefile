@@ -1,6 +1,6 @@
 dev:
 	pnpm i && dotenvx run -f ../.env.local -- node ../cli/env.mjs
-	dotenvx run -f ../.env.local -- vite
+	dotenvx run -f ../.env.local -- pnpm exec vite
 
 build:
 	pnpm i && dotenvx run -f ../.env.production -- node ../cli/env.mjs

@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   server: {
-    port: process.env.PORT,
+    port: process.env.FRONTEND_PORT,
   },
   plugins: [react(), viteTsconfigPaths(), tailwindcss()],
   optimizeDeps: { exclude: ["fsevents"] },
