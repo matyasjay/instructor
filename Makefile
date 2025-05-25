@@ -14,7 +14,7 @@ sign:
 
 push:
 	sh cli/bump.sh
-	git push main
+	git push
 
 # --- Environment
 
