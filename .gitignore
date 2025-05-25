@@ -28,3 +28,10 @@ dist-ssr
 # Go Modules
 
 http/cmd/api-server/api-server
+
+# Terraform
+terraform/.terraform
+terraform/.terrafora.lock.hcl
+*.tfvars
+*.tfstate
+*.tfstate.backup
