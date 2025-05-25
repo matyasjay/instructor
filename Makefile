@@ -27,3 +27,10 @@ http-run:
 
 http-build:
 	cd http/cmd/api-server && dotenvx run -f ../../.env.production -- go build 
+
+http-test:
+	cd http/cmd/api-server && dotenvx run -f ../../.env.production -- go build 
+	rm http/cmd/api-server/api-server
+
+http-fmt:
+	cd http && gofmt -w ./cmd/api-server/main.go
