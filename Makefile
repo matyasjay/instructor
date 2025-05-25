@@ -1,20 +1,22 @@
-bump:
-	sh cli/bump.sh
-
-deploy:
-	cd frontend && pnpm build 
-	dotenvx run -f .env.production -- node cli/deploy.mjs
-	vercel build 
-	vercel --prod
-	node cli/deploy-post.mjs
+# --- Pipeline
 
 sign:
 	git add .
 	git commit -S
 
+shelf:
+	git push
+
 push:
 	sh cli/bump.sh
 	git push
+
+deploy:
+	${MAKE} frontend build
+	dotenvx run -f .env.production -- node cli/deploy.mjs
+	vercel build 
+	vercel --prod
+	node cli/deploy-post.mjs
 
 # --- Environment
 
