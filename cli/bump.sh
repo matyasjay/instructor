@@ -10,7 +10,8 @@ node cli/semver.mjs
 
 VERSION=$(node -p "require('./package.json').version")
 
-sed -i '' "s/Release-<value>-blue/Release-${VERSION}-blue/" README.md
+sed -i '' "s/Release-.*-blue/Release-${VERSION}-blue/" README.md
+
 git tag -a "v$VERSION" -m "Release v$VERSION"
 
 git add package.json README.md
