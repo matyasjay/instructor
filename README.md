@@ -1,8 +1,4 @@
-Sure! Here's your specification converted to Markdown format:
-
----
-
-# SPEC-1: Visual Prompt Builder for LLM
+# Instructor VTA
 
 ## Background
 
