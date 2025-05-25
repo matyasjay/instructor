@@ -22,16 +22,16 @@ frontend-test:
 	cd frontend && pnpm test
 
 http-run:
-	cd http && dotenvx run -f .env.production -- go run cmd/api-server/main.go
+	cd http && dotenvx run -f ../.env.production -- go run cmd/api-server/main.go
 
 http-build:
-	cd http/cmd/api-server && dotenvx run -f ../../.env.production -- go build 
+	cd http/cmd/api-server && dotenvx run -f ../../../.env.production -- go build 
 
 http-docker:
 	docker build -t app . && docker run -it --init --rm -p 3333:3333 app
 
 http-test:
-	cd http/cmd/api-server && dotenvx run -f ../../.env.production -- go build 
+	cd http/cmd/api-server && dotenvx run -f ../../../eenv.production -- go build 
 	rm http/cmd/api-server/api-server
 
 http-lint:
