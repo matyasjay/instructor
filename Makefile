@@ -8,6 +8,14 @@ deploy:
 	vercel --prod
 	node cli/deploy-post.mjs
 
+sign:
+	git add .
+	git commit -S
+
+push:
+	sh cli/bump.sh
+	git push main
+
 # --- Environment
 
 env-decrypt:
@@ -19,35 +27,30 @@ env-encrypt:
 # --- Frontend
 
 frontend-dev:
-	cd frontend && pnpm i && dotenvx run -f ../.env.local -- node ../cli/env.mjs
-	cd frontend && dotenvx run -f ../.env.local -- vite
+	${MAKE} -C frontend dev
 
 frontend-build:
-	cd frontend && pnpm i && dotenvx run -f ../.env.production -- node ../cli/env.mjs
-	cd frontend && tsc -b && dotenvx run -f ../.env.production -- pnpm exec vite build
+	${MAKE} -C frontend build
 
 frontend-fmt:
-	cd frontend && prettier --write . && eslint . --fix
+	${MAKE} -C frontend fmt
 
 frontend-test:
-	cd frontend && tsc && prettier --check . && eslint .
+	${MAKE} -C frontend test
 
 frontend-run:
-	cd frontend && pnpm i && dotenvx run -f ../.env.production -- node ../cli/env.mjs
-	cd frontend && dotenvx run -f ../.env.production -- pnpm exec vite
+	${MAKE} -C frontend run
 
 # --- HTTP
 
 http-build:
-	cd http/cmd/api-server && dotenvx run -f ../../../.env.production -- go build 
+	${MAKE} -C http build
 
 http-fmt:
-	gofmt -w ./http/cmd/* ./http/internal/
+	${MAKE} -C http fmt
 
 http-test:
-	cd http/cmd/api-server && dotenvx run -f ../../../.env.production -- go build 
-	rm http/cmd/api-server/api-server
+	${MAKE} -C http test
 
 http-run:
-	cd http && dotenvx run -f ../.env.production -- go run cmd/api-server/main.go
-
+	${MAKE} -C http run

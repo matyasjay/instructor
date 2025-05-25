@@ -1,14 +1,19 @@
+.DS_Store
+
 !.env.*
 .env.keys
-.DS_Store
+
 node_modules
+pnpm-debug.log*
+
 .vercel/output
 .vercel/README.txt
 .vercel/.env*
-pnpm-debug.log*
-node_modules
 dist
 dist-ssr
+
+#Editor
+
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -18,3 +23,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Go Modules
+
+http/cmd/api-server/api-server
