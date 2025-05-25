@@ -2,8 +2,8 @@
 // ... server only logic
 // }
 
-function App() {
+function Splash() {
   return <div className="flex flex-col">Welcome!</div>;
 }
 
-export default App;
+export default Splash;

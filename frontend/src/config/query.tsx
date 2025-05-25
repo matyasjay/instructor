@@ -1,4 +1,4 @@
-export const QUERY_DEFAULT_CONFIG = {
+export const defaultOptions = {
   defaultOptions: {
     queries: {
       throwOnError: true,
