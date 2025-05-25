@@ -16,7 +16,7 @@ frontend-dev:
 	cd frontend && pnpm dev
 
 frontend-lint:
-	cd frontend && tsc && pnpm lint
+	cd frontend && tsc && pnpm lint:fix
 
 frontend-test:
 	cd frontend && pnpm test
@@ -26,6 +26,9 @@ http-run:
 
 http-build:
 	cd http/cmd/api-server && dotenvx run -f ../../.env.production -- go build 
+
+http-docker:
+	docker build -t app . && docker run -it --init --rm -p 3333:3333 app
 
 http-test:
 	cd http/cmd/api-server && dotenvx run -f ../../.env.production -- go build 

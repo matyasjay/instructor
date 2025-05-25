@@ -6,19 +6,19 @@
   "main": "index.html",
   "type": "module",
   "scripts": {
-    "predev": "pnpm i && dotenvx run -f .env.local -- node validate-env.js",
-    "dev": "dotenvx run -f .env.local -- vite",
-    "prebuild": "dotenvx run -f .env.production --  node validate-env.js",
-    "build": "tsc -b && dotenvx run -f .env.production -- vite build",
-    "prestart": "dotenvx run -f .env.production -- node validate-env.js",
-    "start": "dotenvx run -f .env.production -- vite",
+    "predev": "pnpm i && dotenvx run -f ../.env.local -- node validate-env.js",
+    "dev": "dotenvx run -f ../.env.local -- vite",
+    "prebuild": "dotenvx run -f ../.env.production --  node validate-env.js",
+    "build": "tsc -b && dotenvx run -f ../.env.production -- vite build",
+    "prestart": "dotenvx run -f ../.env.production -- node validate-env.js",
+    "start": "dotenvx run -f ../.env.production -- vite",
     "deploy": "vercel build && vercel .",
     "lint": "prettier --check . && eslint .",
     "lint:fix": "prettier --write . && eslint . --fix",
     "test": "pnpm test:unit",
-    "test:unit": "dotenvx run .env.test -- vitest run",
-    "test:unit:watch": "dotenvx run .env.test -- vitest watch",
-    "test:unit:coverage": "dotenvx run .env.test -- vitest run --coverage"
+    "test:unit": "dotenvx run ../.env.test -- vitest run",
+    "test:unit:watch": "dotenvx run ../.env.test -- vitest watch",
+    "test:unit:coverage": "dotenvx run ../.env.test -- vitest run --coverage"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",

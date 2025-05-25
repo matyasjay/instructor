@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -16,5 +17,5 @@ func main() {
 		return c.String(http.StatusOK, "ok")
 	})
 
-	e.Logger.Fatal(e.Start(":3333"))
+	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }

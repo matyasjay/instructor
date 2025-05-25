@@ -3,8 +3,8 @@ dotenvx decrypt --env-file frontend/.env.local
 dotenvx decrypt --env-file frontend/.env.development
 dotenvx decrypt --env-file frontend/.env.staging
 dotenvx decrypt --env-file frontend/.env.production
-dotenvx decrypt --env-file http/.env.test
-dotenvx decrypt --env-file http/.env.local
-dotenvx decrypt --env-file http/.env.development
-dotenvx decrypt --env-file http/.env.staging
-dotenvx decrypt --env-file http/.env.production
+dotenvx decrypt --env-file .env.test
+dotenvx decrypt --env-file .env.local
+dotenvx decrypt --env-file .env.development
+dotenvx decrypt --env-file .env.staging
+dotenvx decrypt --env-file .env.production
