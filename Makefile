@@ -1,6 +1,11 @@
 frontend-build:
 	pnpm frontend:build
 
+frontend-deploy:
+	cd frontend && pnpm build 
+	vercel build 
+	vercel .
+
 frontend-dev:
 	pnpm frontend:dev
 
