@@ -2,7 +2,9 @@
 .env.keys
 .DS_Store
 node_modules
-.vercel
+.vercel/output
+.vercel/README.txt
+.vercel/.env*
 pnpm-debug.log*
 node_modules
 dist

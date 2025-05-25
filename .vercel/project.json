@@ -1,0 +1,10 @@
+{
+  "projectId": "vercel-project",
+  "orgId": "vercel-org",
+  "settings": {
+    "createdAt": "timestamp",
+    "outputDirectory": "frontend/dist",
+    "directoryListing": false,
+    "nodeVersion": "20.10"
+  }
+}

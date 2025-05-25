@@ -1,3 +1,10 @@
+deploy:
+	cd frontend && pnpm build 
+	dotenvx run -f .env.production -- node cli/deploy.mjs
+	vercel build 
+	vercel --prod
+	node cli/deploy-post.mjs
+
 env-decrypt:
 	sh cli/decrypt.sh
 
@@ -6,11 +13,6 @@ env-encrypt:
 
 frontend-build:
 	cd frontend && pnpm build
-
-frontend-deploy:
-	cd frontend && pnpm build 
-	vercel build 
-	vercel --prod
 
 frontend-dev:
 	cd frontend && pnpm dev
