@@ -1,6 +1,6 @@
 {
   "name": "@instructor/core",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Instructor - Personal VTA",
   "scripts": {
     "prepare": "husky"
