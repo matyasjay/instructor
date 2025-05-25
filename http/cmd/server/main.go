@@ -1,18 +1,22 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
-	"os"
+	"github.com/labstack/echo/v4"
 )
 
-func getRoot(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("got / request\n")
-	io.WriteString(w, "This is my website!\n")
-}
-func getHello(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("got /hello request\n")
-	io.WriteString(w, "Hello, HTTP!\n")
+func main() {
+	e := echo.New()
+
+	e.GET("/", func(c echo.Context) error {
+			return c.String(http.StatusOK, "ok")
+	})
+
+	e.GET("/manifest", func(c echo.Context) error {
+			return c.String(http.StatusOK, "ok")
+	})
+
+	e.Logger.Fatal(e.Start(":3333"))
 }

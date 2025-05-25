@@ -1,10 +1,16 @@
+env-decrypt:
+	sh cli/decrypt.sh
+
+env-encrypt:
+	sh cli/encrypt.sh
+
 frontend-build:
 	pnpm frontend:build
 
 frontend-deploy:
 	cd frontend && pnpm build 
 	vercel build 
-	vercel .
+	vercel --prod
 
 frontend-dev:
 	pnpm frontend:dev
@@ -17,4 +23,4 @@ frontend-test:
 	pnpm frontend:test
 
 http-run:
-	cd http && go run cmd/server/main.go
+	cd http && dotenvx run -f .env.production -- go run cmd/server/main.go
