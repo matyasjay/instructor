@@ -1,2 +1,4 @@
 make frontend-lint
+
 make http-build
+rm http/cmd/api-server/api-server
