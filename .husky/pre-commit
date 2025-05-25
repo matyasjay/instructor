@@ -1,1 +1,2 @@
 make frontend-lint
+make http-build

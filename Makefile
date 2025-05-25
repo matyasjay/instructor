@@ -23,4 +23,7 @@ frontend-test:
 	pnpm frontend:test
 
 http-run:
-	cd http && dotenvx run -f .env.production -- go run cmd/server/main.go
+	cd http && dotenvx run -f .env.production -- go run cmd/api-server/main.go
+
+http-build:
+	cd http/cmd/api-server && dotenvx run -f ../../.env.production -- go build 
