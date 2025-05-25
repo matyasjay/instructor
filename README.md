@@ -1,5 +1,7 @@
 # Instructor VTA
 
+![Create release](https://github.com/matyasjay/instructor/badge.svg?event=release)
+
 ## Background
 
 As LLMs become central to automation and productivity workflows, developers often need structured, repeatable ways to construct prompts with dynamic parameters. This project aims to provide a frontend interface for visually constructing prompts by filling in template parameters, and a backend service to handle those templates, parameters, and LLM execution.
