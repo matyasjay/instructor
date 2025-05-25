@@ -1,6 +1,6 @@
 # Instructor VTA
 
-![Create release](https://github.com/matyasjay/instructor/badge.svg?event=release)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/matyasjay/instructor)
 
 ## Background
 
