@@ -23,7 +23,7 @@ echo -n "${F_DIM}${C_GREY46}Current: ${VERSION}${NO_FORMAT}"
 echo -n "${F_BOLD}${C_GREY62}Enter project name (${DEFAULT_PROJECTNAME})?${NO_FORMAT}"
 
 read project
-project=${project:$DEFAULT_PROJECTNAME}
+project=${project:-$DEFAULT_PROJECTNAME}
 
 echo -n "${F_DIM}${C_GREY46}Project: '$project'${NO_FORMAT}"
 echo -n "${F_DIM}${C_GREY46}Cluster: '$project-<local|dev|stg|prod>'${NO_FORMAT}"
