@@ -20,7 +20,7 @@ fi
 VERSION=$(node -p "require('./package.json').version")
 echo "${C_INDIANRED1}Deprecated ${F_BOLD}${VERSION}${NO_FORMAT}"
 
-node script/package/semver.mjs
+node scripts/package/semver.mjs
 
 VERSION=$(node -p "require('./package.json').version")
 echo "${C_SEAGREEN2}Upstream ${F_BOLD}${VERSION}${NO_FORMAT}"
