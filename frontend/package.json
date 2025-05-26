@@ -1,7 +1,7 @@
 {
   "name": "@instructor/frontend",
   "description": "Instructor VTA -- Funnel Application",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "private": true,
   "main": "index.html",
   "type": "module",
