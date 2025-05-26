@@ -30,14 +30,7 @@ git tag -a "v${VERSION}" -m "Release v${VERSION}"
 
 echo "${F_DIM}${C_GREY62}Tag '${PROJECT} v${VERSION}' ready to be released.${NO_FORMAT}."
 
-git add \
-  package.json \ 
-  docker/package.json \
-  frontend/package.json \
-  http/package.json \
-  script/package.json \
-  terraform/package.json \
-  README.md 
+git add package.json  docker/package.json frontend/package.json http/package.json script/package.json terraform/package.json README.md 
 
 git commit -m "chore(ci): bump version v${VERSION}"
 
