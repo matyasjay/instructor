@@ -1,5 +1,8 @@
 # --- Pipeline
 
+bump:
+	sh scripts/package/bump.sh
+
 sign:
 	git add .
 	git commit -S

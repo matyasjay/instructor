@@ -5,8 +5,10 @@ let version = "";
 
 const jsons = [
   "./package.json",
+  "./docker/package.json",
   "./frontend/package.json",
   "./http/package.json",
+  "./scripts/package.json",
 ];
 
 const packages = jsons.map((json) => {
