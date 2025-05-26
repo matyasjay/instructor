@@ -11,6 +11,7 @@ const packages = jsons.map((json) => {
   const file = JSON.parse(readFileSync(json, "utf8"));
   const version = inc(file.version, "patch");
   file.version = version;
+  return file
 });
 
 jsons.forEach((json, index) =>
