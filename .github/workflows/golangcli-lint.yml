@@ -1,4 +1,4 @@
-name: GolangCI
+name: Lint
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   lint:
-    name: Lint
+    name: Golang CI
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

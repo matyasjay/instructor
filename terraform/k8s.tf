@@ -1,6 +1,6 @@
 resource "kubernetes_namespace" "app" {
   metadata {
-    name = "instructor"
+    name = "instructor-deployment"
   }
 }
 

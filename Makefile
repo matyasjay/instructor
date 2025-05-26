@@ -11,12 +11,22 @@ push:
 	sh cli/bump.sh
 	git push
 
+build:
+	${MAKE} -C frontend build
+	${MAKE} -C http build
+	sh cli/docker.sh
+
 deploy:
 	${MAKE} -C frontend build
+	sh cli/docker.sh
+	sh cli/kind.sh
+	sh cli/terraform.sh
+
+vercel:
+	${MAKE} -C frontend build
 	dotenvx run -f .env.production -- node cli/deploy.mjs
-	sh cli/image.sh
-	# vercel build 
-	# vercel .
+	vercel build 
+	vercel .
 	node cli/deploy-post.mjs
 
 # --- Environment

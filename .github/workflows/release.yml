@@ -10,10 +10,10 @@ permissions:
 
 jobs:
   release:
-    name: Release pushed tag
+    name: Create
     runs-on: ubuntu-22.04
     steps:
-      - name: Create
+      - name: Push Tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}

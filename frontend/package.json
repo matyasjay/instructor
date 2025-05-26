@@ -1,7 +1,7 @@
 {
   "name": "@instructor/frontend",
   "description": "Instructor VTA -- Funnel Application",
-  "version": "1.0.0",
+  "version": "1.0.19",
   "private": true,
   "main": "index.html",
   "type": "module",
@@ -70,7 +70,7 @@
     "Edge >= 88"
   ],
   "engines": {
-    "node": "22.12",
+    "node": "22",
     "pnpm": "10"
   }
 }

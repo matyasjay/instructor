@@ -1,8 +1,8 @@
 {
-  "projectId": "vercel-project",
-  "orgId": "vercel-org",
+  "projectId": "prj_yQuWZCpQ7wCZXWxqqaCJRBdVr41F",
+  "orgId": "team_N2hBeQ2Al7xuTzTBcrUom9cv",
   "settings": {
-    "createdAt": "timestamp",
+    "createdAt": "2025-05-26T07:20:39.172Z",
     "outputDirectory": "frontend/dist",
     "directoryListing": false,
     "nodeVersion": "20.10"
