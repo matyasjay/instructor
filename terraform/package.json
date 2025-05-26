@@ -1,0 +1,6 @@
+{
+  "name": "@instructor/terraform",
+  "description": "Instructor VTA - Terraform IaC",
+  "version": "1.1.4",
+  "private": true
+}

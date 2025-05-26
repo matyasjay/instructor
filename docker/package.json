@@ -1,0 +1,6 @@
+{
+  "name": "@instructor/docker",
+  "description": "Instructor VTA - Dockerfiles",
+  "version": "1.1.4",
+  "private": true
+}

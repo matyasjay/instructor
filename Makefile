@@ -8,34 +8,36 @@ shelf:
 	git push
 
 push:
-	sh cli/bump.sh
+	sh scripts/package/bump.sh
 	git push
 
 build:
 	${MAKE} -C frontend build
 	${MAKE} -C http build
-	sh cli/docker.sh
+
+plan:
+	cd terraform && terraform plan
+
+apply:
+	cd terraform && terraform apply
 
 deploy:
-	${MAKE} -C frontend build
-	sh cli/docker.sh
-	sh cli/kind.sh
-	sh cli/terraform.sh
+	dotenvx run -f .env.production -- sh scripts/deploy/docker.sh
 
 vercel:
 	${MAKE} -C frontend build
-	dotenvx run -f .env.production -- node cli/deploy.mjs
+	node scripts/deploy/vercel-pre.mjs
 	vercel build 
 	vercel .
-	node cli/deploy-post.mjs
+	node scripts/deploy/vercel-post.mjs
 
 # --- Environment
 
 env-decrypt:
-	sh cli/decrypt.sh
+	sh scripts/env/decrypt.sh
 
 env-encrypt:
-	sh cli/encrypt.sh
+	sh scripts/env/encrypt.sh
 
 # --- Frontend
 
