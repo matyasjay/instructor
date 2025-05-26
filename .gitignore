@@ -9,7 +9,6 @@ pnpm-debug.log*
 .vercel/output
 .vercel/README.txt
 .vercel/.env*
-.kube
 dist
 dist-ssr
 
@@ -30,8 +29,17 @@ dist-ssr
 http/cmd/api-server/api-server
 
 # Terraform
-.terraform
-.terrafora.lock.hcl
-*.tfvars
+**/.terraform/*
 *.tfstate
-*.tfstate.backup
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+.lock.hcl

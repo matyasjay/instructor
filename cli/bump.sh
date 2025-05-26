@@ -13,7 +13,7 @@ sed -i '' "s/Release-.*-blue/Release-${VERSION}-blue/" README.md
 
 git tag -a "v$VERSION" -m "Release v$VERSION"
 
-git add .
+git add package.json frontend/package.json http/package.json README.md
 
 git commit -m "chore(ci): bump version v$VERSION"
 
