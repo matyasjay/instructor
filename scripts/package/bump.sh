@@ -28,7 +28,7 @@ project=${project:-$DEFAULT_PROJECTNAME}
 echo -n "${F_DIM}${C_GREY46}Project: '$project'${NO_FORMAT}"
 echo -n "${F_DIM}${C_GREY46}Cluster: '$project-<local|dev|stg|prod>'${NO_FORMAT}"
 
-node cli/semver.mjs || exit 1
+node script/bump/semver.mjs || exit 1
 
 VERSION=$(node -p "require('./package.json').version")
 echo -n "${F_DIM}${C_GREY46}Version: ${VERSION}${NO_FORMAT}"
