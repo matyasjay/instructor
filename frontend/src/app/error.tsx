@@ -6,10 +6,12 @@ function ErrorDisplay({
   error?: Error;
   resetErrorBoundary?: () => void;
 }) {
+  const displayError =
+    error ?? Object(error).response?.data ?? "Unknown error!";
   return (
     <div role="alert">
       <p>Something went wrong:</p>
-      <pre style={{ color: "red" }}>{error.message}</pre>
+      <pre style={{ color: "red" }}>{JSON.stringify(displayError)}</pre>
     </div>
   );
 }

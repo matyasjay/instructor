@@ -1,3 +1,10 @@
+dev:
+	sh scripts/package/dev.sh
+	sh scripts/package/tail.sh
+
+tail:
+	sh scripts/package/tail.sh
+
 sign:
 	sh scripts/git/sign.sh
 

@@ -1,5 +1,5 @@
 import { use } from "react";
-import { client } from "../../../lib/http";
+import { client } from "@/lib/http";
 
 const promise = client.get("/");
 

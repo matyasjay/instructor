@@ -28,36 +28,36 @@ func main() {
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 	}))
 
-  e.OPTIONS("/*", func(c echo.Context) error {
-    return c.NoContent(http.StatusOK)
-  })
+	e.OPTIONS("/*", func(c echo.Context) error {
+		return c.NoContent(http.StatusOK)
+	})
 
 	e.GET("/", func(c echo.Context) error {
 		psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+			"password=%s dbname=%s sslmode=disable",
+			host, port, user, password, dbname)
 
 		db, err := sql.Open("postgres", psqlInfo)
 
 		if err != nil {
-			panic(err)
+			return c.JSON(http.StatusServiceUnavailable, err)
 		}
 
 		rows, err := db.Query("SELECT id, name FROM users")
 
 		if err != nil {
-			panic(err)
+			return c.JSON(http.StatusInternalServerError, err)
 		}
 
 		defer func() {
 			if cerr := rows.Close(); cerr != nil {
-				fmt.Printf("error closing DB: %v\n", cerr)
+				fmt.Printf("Error closing DB: %v\n", cerr)
 			}
 		}()
 
 		defer func() {
 			if cerr := db.Close(); cerr != nil {
-				fmt.Printf("error closing DB: %v\n", cerr)
+				fmt.Printf("Error closing DB: %v\n", cerr)
 			}
 		}()
 
@@ -68,6 +68,11 @@ func main() {
 		return c.String(http.StatusOK, "ok")
 	})
 
+	port := os.Getenv("HTTP_PORT")
 
-	e.Logger.Fatal(e.Start(":" + os.Getenv("HTTP_PORT")))
+	if port == "" {
+		port = "3333"
+	}
+
+	e.Logger.Fatal(e.Start(":" + port))
 }

@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "./fonts.css";
-@import "tailwind/preflight";
 
 @tailwind utilities;
 
