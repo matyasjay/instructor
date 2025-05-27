@@ -22,7 +22,7 @@ if ! git diff-index --quiet HEAD -- || [ -n "$(git ls-files --others --exclude-s
   echo "${F_BOLD}${C_INDIANRED1}Working directory is not clean. Commit or stash your changes first.${NO_FORMAT}"
   exit 1
 else
-  echo "${C_GREY46}Working directory is clean."
+  echo "${C_GREY46}INFO\tWorking directory is clean."
 fi
 
 VERSION=$(node -p "require('./package.json').version")

@@ -22,4 +22,4 @@ jsons.forEach((json, index) =>
   writeFileSync(json, JSON.stringify(packages[index], null, 2)),
 );
 
-console.log(`Version bumped to ${version}`);
+console.log(`INFO\tVersion bumped to ${version}`);
