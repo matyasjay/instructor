@@ -32,7 +32,7 @@ node scripts/package/semver.mjs
 
 VERSION=$(node -p "require('./package.json').version")
 
-echo "INFO\tPackage file versions updated to${NO_FORMAT}${C_SEAGREEN2} '${VERSION}'${NO_FORMAT}${C_GREY46}."
+echo "INFO\tPackage file versions updated to ${NO_FORMAT}${C_SEAGREEN2}${VERSION}${NO_FORMAT}${C_GREY46}."
 
 sed -i '' "s/Release-.*-blue/Release-${VERSION}-blue/" README.md
 git tag -a "v${VERSION}" -m "Release v${VERSION}"
