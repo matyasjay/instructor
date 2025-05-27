@@ -1,2 +1,1 @@
-make frontend-test
-make http-test
+make test

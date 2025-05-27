@@ -42,32 +42,5 @@ env-validate:
 	sh scripts/env/validate.sh "$(ENV)"
 
 test:
-	${MAKE} -C frontend test
-	${MAKE} -C http test
+	sh scripts/package/test.sh
 
-frontend-dev:
-	${MAKE} -C frontend dev
-
-frontend-build:
-	${MAKE} -C frontend build
-
-frontend-fmt:
-	${MAKE} -C frontend fmt
-
-frontend-test:
-	${MAKE} -C frontend test
-
-frontend-run:
-	${MAKE} -C frontend run
-
-http-build:
-	${MAKE} -C http build
-
-http-fmt:
-	${MAKE} -C http fmt
-
-http-test:
-	${MAKE} -C http test
-
-http-run:
-	${MAKE} -C http run
