@@ -1,7 +1,7 @@
 # --- Pipeline
 
 bump:
-	sh scripts/package/bump.sh
+	sh scripts/package/bump.sh "$(PROJECT)"
 
 sign:
 	git add .
@@ -11,8 +11,11 @@ shelf:
 	git push
 
 push:
-	sh scripts/package/bump.sh
+	sh scripts/package/bump.sh "$(PROJECT)"
 	git push
+
+prepare:
+	sh scripts/deploy/cluster.sh
 
 build:
 	${MAKE} -C frontend build

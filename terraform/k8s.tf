@@ -4,9 +4,9 @@ resource "kubernetes_namespace" "app" {
   }
 }
 
-resource "kubernetes_deployment" "frontend" {
+resource "kubernetes_deployment" "instructor-frontend" {
   metadata {
-    name      = "frontend"
+    name      = "instructor-frontend"
     namespace = kubernetes_namespace.app.metadata[0].name
   }
 
@@ -15,21 +15,23 @@ resource "kubernetes_deployment" "frontend" {
 
     selector {
       match_labels = {
-        app = "frontend"
+        app = "instructor-frontend"
       }
     }
 
     template {
       metadata {
         labels = {
-          app = "frontend"
+          app = "instructor-frontend"
         }
       }
 
       spec {
         container {
-          name  = "frontend"
-          image = "frontend-app:latest"
+          name  = "instructor-frontend"
+          image = "instructor-frontend-app:latest"
+          image_pull_policy = "Never"
+
           port {
             container_port = 3000
           }
@@ -39,29 +41,30 @@ resource "kubernetes_deployment" "frontend" {
   }
 }
 
-resource "kubernetes_service" "frontend" {
+resource "kubernetes_service" "instructor-frontend" {
   metadata {
-    name      = "frontend"
+    name      = "instructor-frontend"
     namespace = kubernetes_namespace.app.metadata[0].name
   }
 
   spec {
     selector = {
-      app = "frontend"
+      app = "instructor-frontend"
     }
 
     port {
       port        = 80
       target_port = 3000
+      node_port   = 30000 
     }
 
     type = "NodePort"
   }
 }
 
-resource "kubernetes_deployment" "backend" {
+resource "kubernetes_deployment" "instructor-backend" {
   metadata {
-    name      = "backend"
+    name      = "instructor-backend"
     namespace = kubernetes_namespace.app.metadata[0].name
   }
 
@@ -70,21 +73,23 @@ resource "kubernetes_deployment" "backend" {
 
     selector {
       match_labels = {
-        app = "backend"
+        app = "instructor-backend"
       }
     }
 
     template {
       metadata {
         labels = {
-          app = "backend"
+          app = "instructor-backend"
         }
       }
 
       spec {
         container {
-          name  = "backend"
-          image = "backend-app:latest"
+          name  = "instructor-backend"
+          image = "instructor-backend-app:latest"
+          image_pull_policy = "Never"
+
           port {
             container_port = 3333
           }
@@ -94,15 +99,15 @@ resource "kubernetes_deployment" "backend" {
   }
 }
 
-resource "kubernetes_service" "backend" {
+resource "kubernetes_service" "instructor-backend" {
   metadata {
-    name      = "backend"
+    name      = "instructor-backend"
     namespace = kubernetes_namespace.app.metadata[0].name
   }
 
   spec {
     selector = {
-      app = "backend"
+      app = "instructor-backend"
     }
 
     port {

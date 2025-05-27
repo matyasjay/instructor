@@ -18,8 +18,8 @@ RUN apk --no-cache add curl
 RUN curl -sfS https://dotenvx.sh/install.sh | sh
 
 COPY --from=builder /app/.env* ./
-COPY --from=builder /app/cmd/api-server/main.go .
+COPY --from=builder /app/cmd/api-server/main .
 
 EXPOSE 3333
 
-CMD ["dotenvx", "run", "--env-file=.env.production", "--", "./main"]
+CMD ["./main"]
