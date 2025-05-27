@@ -5,6 +5,15 @@ terraform {
       version  = "~> 2.0"
     }
   }
+
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "matyasjay"
+
+    workspaces {
+      name = "instructor-local"
+    }
+  }
 }
 
 provider "kubernetes" {
