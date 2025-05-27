@@ -2,8 +2,8 @@ dev:
 	sh scripts/package/dev.sh
 	sh scripts/package/tail.sh
 
-tail:
-	sh scripts/package/tail.sh
+test:
+	sh scripts/package/test.sh
 
 sign:
 	sh scripts/git/sign.sh
@@ -40,7 +40,4 @@ env-encrypt:
 
 env-validate:
 	sh scripts/env/validate.sh "$(ENV)"
-
-test:
-	sh scripts/package/test.sh
 
