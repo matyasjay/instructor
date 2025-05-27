@@ -14,7 +14,7 @@ else
   PROJECT=$1
 fi
 
-echo "${F_BOLD}Cluster info for '${PROJECT}-local'${NO_FORMAT}"
+echo "\n${F_BOLD}Cluster info for '${PROJECT}-local'${NO_FORMAT}"
 echo "${C_GREY46}"
 echo "Change project: make bump PROJECT=my-project${NO_FORMAT}"
 echo "${F_DIM}"

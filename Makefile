@@ -1,28 +1,28 @@
-# --- Pipeline
-
-info:
-	sh scripts/package/info.sh
-
-bump:
-	sh scripts/package/bump.sh "$(PROJECT)"
+# --- Git
 
 sign:
 	git add .
 	git commit -S
 
 shelf:
+	git add .
+	git commit -S
 	git push
 
-push:
+release:
 	sh scripts/package/bump.sh "$(PROJECT)"
 	git push
+
+# --- Package
+
+info:
+	sh scripts/package/info.sh
 
 reset:
 	sh scripts/deploy/reset.sh
 
 build:
-	${MAKE} -C frontend build
-	${MAKE} -C http build
+	sh scripts/package/build.sh
 
 plan:
 	cd terraform && terraform plan
@@ -31,22 +31,19 @@ apply:
 	cd terraform && terraform apply
 
 deploy:
-	dotenvx run -f .env.production -- sh scripts/deploy/docker.sh
+	sh scripts/deploy/docker.sh
 
 vercel:
-	${MAKE} -C frontend build
-	node scripts/deploy/vercel-pre.mjs
-	vercel build 
-	vercel .
-	node scripts/deploy/vercel-post.mjs
-
-# --- Environment
+	sh scripts/deploy/vercel.sh
 
 env-decrypt:
 	sh scripts/env/decrypt.sh
 
 env-encrypt:
 	sh scripts/env/encrypt.sh
+
+env-validate:
+	sh scripts/env/validate.sh "$(ENV)"
 
 # --- Frontend
 

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.44.1",
+    "chalk": "^5.4.1",
     "husky": "^9.1.7",
     "semver": "^7.7.2",
     "vercel": "^42.1.1"

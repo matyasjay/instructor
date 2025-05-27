@@ -6,7 +6,7 @@ C_SEAGREEN2="\033[38;5;83m"
 C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
-echo "${F_BOLD}Update package versions.${NO_FORMAT}"
+echo "\n${F_BOLD}Update package versions.${NO_FORMAT}\n"
 
 PROJECT=""
 
@@ -19,7 +19,7 @@ fi
 make info
 
 if ! git diff-index --quiet HEAD -- || [ -n "$(git ls-files --others --exclude-standard)" ]; then
-  echo "${F_BOLD}${C_INDIANRED1}Working directory is not clean. Commit or stash your changes first.${NO_FORMAT}"
+  echo "${F_BOLD}${C_INDIANRED1}Working directory is not clean. Commit or stash your changes first.${NO_FORMAT}\n"
   exit 1
 else
   echo "${C_GREY46}INFO\tWorking directory is clean."

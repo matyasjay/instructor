@@ -1,4 +1,11 @@
-/* eslint-disable */
+import chalk from "chalk";
+
+const red = chalk.redBright;
+const green = chalk.greenBright;
+const bold = chalk.bold;
+
+console.log(chalk.greenBright(bold(`\nValidating environment variables`)));
+
 const REQUIRED_CLIENT_ENVIRONMENT = [];
 
 // prettier-ignore
@@ -14,9 +21,6 @@ const REQUIRED_SERVER_ENVIRONMENT = [
 //   REQUIRED_SERVER_ENVIRONMENT.push("SENTRY_TOKEN");
 // }
 
-const red = "\u001b[31m";
-const resetColor = "\u001b[0m";
-
 const getInvalids = (envs) =>
   envs.reduce(
     (invalids, env) => (process.env[env] ? invalids : [...invalids, env]),
@@ -30,25 +34,31 @@ const isServerEnvValid = getInvalids(REQUIRED_SERVER_ENVIRONMENT).length === 0;
 const isClientEnvValid = getInvalids(REQUIRED_CLIENT_ENVIRONMENT).length === 0;
 
 if (isServerEnvValid && isClientEnvValid) {
-  console.log("Environment validation succeded!");
+  console.log(bold(green(`\nEnvironment validation succeded!\n`)));
   process.exit(0);
 }
+
 const invalids = [
   ...getInvalids(REQUIRED_SERVER_ENVIRONMENT),
   ...getInvalids(REQUIRED_CLIENT_ENVIRONMENT),
 ];
 
+console.log(
+  chalk.redBright(
+    bold(
+      `\nFound ${invalids.length} missing ${invalids.length > 1 ? "variables" : "variable"}.\n`,
+    ),
+  ),
+);
+
 invalids.forEach((env) => {
   const type = REQUIRED_SERVER_ENVIRONMENT.includes(env) ? "server" : "client";
   console.error(
-    `${red}Missing ${type} variable:${resetColor} ${env}${resetColor} is ${getErrorType(env)}!`,
+    chalk.grey(
+      `Missing ${type} variable: ${chalk.bold(chalk.blue(env))} is ${getErrorType(env)}!)`,
+    ),
   );
 });
 
-console.log(
-  `\nFound ${invalids.length} missing ${invalids.length > 1 ? "variables" : "variable"}.\n`,
-);
-
-console.log("Environment validation failed!");
+console.log(red.bold(`\nEnvironment validation failed!\n`));
 process.exit(13);
-/* eslint-enable */
