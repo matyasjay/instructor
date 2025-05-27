@@ -26,4 +26,4 @@ jobs:
           version: 10
           run_install: true
       - name: Run
-        run: make test
+        run: make frontend-test
