@@ -29,7 +29,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
+
+	defer func() {
+		if cerr := db.Close(); cerr != nil {
+			fmt.Printf("error closing DB: %v\n", cerr)
+		}
+	}()
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "ok")

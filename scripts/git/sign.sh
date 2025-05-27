@@ -8,6 +8,8 @@ C_GREY62="\033[38;5;247m"
 
 echo "${F_BOLD}Commit Git working tree${NO_FORMAT}${C_GREY46}"
 
+make build
+
 git add .
 git commit -S && echo "${NO_FORMAT}${C_SEAGREEN2}Commit signed successfully!${NO_FORMAT}"
 
