@@ -1,8 +1,3 @@
-# Instructor VTA
-
-[![Latest Release](https://img.shields.io/badge/Release-1.1.24-blue)](https://github.com/matyasjay/instructor/releases/latest)
-[![GolangCI](https://github.com/matyasjay/instructor/actions/workflows/golangcli-lint.yml/badge.svg?branch=main)](https://github.com/matyasjay/instructor/actions/workflows/golangcli-lint.yml)
-
 ## Background
 
 As LLMs become central to automation and productivity workflows, developers often need structured, repeatable ways to construct prompts with dynamic parameters. This project aims to provide a frontend interface for visually constructing prompts by filling in template parameters, and a backend service to handle those templates, parameters, and LLM execution.
