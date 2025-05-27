@@ -7,7 +7,7 @@ build:
 	tsc -b && dotenvx run -f ../.env.production -- pnpm exec vite build
 
 fmt:
-	prettier --loglevel silent --write . && eslint . --fix
+	prettier --log-level silent --write . && eslint . --fix 
 
 test:
 	tsc && prettier --check . && eslint .
