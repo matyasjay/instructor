@@ -1,9 +1,14 @@
-// if (import.meta.env.SSR) {
-// ... server only logic
-// }
+"use client";
+
+import { Suspense } from "react";
+import Component from "./component";
 
 function Product() {
-  return <div className="flex flex-col">Product</div>;
+  return (
+    <Suspense>
+      <Component />
+    </Suspense>
+  );
 }
 
 export default Product;

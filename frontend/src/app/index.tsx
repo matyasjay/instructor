@@ -1,7 +1,6 @@
-import { Suspense, useMemo } from "react";
+import { useMemo } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ErrorBoundary } from "react-error-boundary";
 import {
   useQueryClient,
   QueryClient,
@@ -12,6 +11,7 @@ import { defaultOptions } from "@/config/query";
 import router from "./router";
 import Layout from "./layout";
 import "../global.css";
+import { ErrorBoundary } from "./error";
 
 const root = document.getElementById("root");
 
@@ -19,25 +19,22 @@ if (!root) {
   throw new Error("No root element found to hydrate app!");
 }
 
-const AppError = () => {
-  return <span>Error!</span>;
-};
-
 const App = () => {
   const queryClient = useQueryClient(new QueryClient(defaultOptions));
-  const memoRouter = useMemo(() => createBrowserRouter(router), [queryClient]);
+
+  const memoRouter = useMemo(() => {
+    return createBrowserRouter(router, {});
+  }, [queryClient]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {import.meta.env.DEV && <ReactQueryDevtools />}
-      <Layout>
-        <Suspense fallback={null}>
-          <ErrorBoundary FallbackComponent={AppError}>
-            <RouterProvider router={memoRouter} />;
-          </ErrorBoundary>
-        </Suspense>
-      </Layout>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        {import.meta.env.DEV && <ReactQueryDevtools />}
+        <Layout>
+          <RouterProvider router={memoRouter} />
+        </Layout>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 };
 

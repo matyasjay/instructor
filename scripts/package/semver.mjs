@@ -9,6 +9,7 @@ const jsons = [
   "./frontend/package.json",
   "./http/package.json",
   "./scripts/package.json",
+  "./postgres/package.json",
 ];
 
 const packages = jsons.map((json) => {

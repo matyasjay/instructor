@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"net/http"
 	"os"
 
@@ -20,29 +21,53 @@ const (
 
 func main() {
 	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:3003"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+	}))
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+  e.OPTIONS("/*", func(c echo.Context) error {
+    return c.NoContent(http.StatusOK)
+  })
+
+	e.GET("/", func(c echo.Context) error {
+		psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		panic(err)
-	}
+		db, err := sql.Open("postgres", psqlInfo)
 
-	defer func() {
-		if cerr := db.Close(); cerr != nil {
-			fmt.Printf("error closing DB: %v\n", cerr)
+		if err != nil {
+			panic(err)
 		}
-	}()
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "ok")
+		rows, err := db.Query("SELECT id, name FROM users")
+
+		if err != nil {
+			panic(err)
+		}
+
+		defer func() {
+			if cerr := rows.Close(); cerr != nil {
+				fmt.Printf("error closing DB: %v\n", cerr)
+			}
+		}()
+
+		defer func() {
+			if cerr := db.Close(); cerr != nil {
+				fmt.Printf("error closing DB: %v\n", cerr)
+			}
+		}()
+
+		return c.JSON(http.StatusOK, rows)
 	})
 
 	e.GET("/manifest", func(c echo.Context) error {
 		return c.String(http.StatusOK, "ok")
 	})
+
 
 	e.Logger.Fatal(e.Start(":" + os.Getenv("HTTP_PORT")))
 }
