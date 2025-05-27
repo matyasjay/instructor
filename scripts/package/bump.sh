@@ -26,13 +26,13 @@ else
 fi
 
 VERSION=$(node -p "require('./package.json').version")
-echo "INFO\tDeprecated${NO_FORMAT} ${F_BOLD}${VERSION}${NO_FORMAT}${C_GREY46}"
+echo "INFO\tDeprecated${NO_FORMAT} ${C_INDIANRED1}${VERSION}${NO_FORMAT}${C_GREY46}"
 
 node scripts/package/semver.mjs
 
 VERSION=$(node -p "require('./package.json').version")
 
-echo "INFO\tPackage file versions updated to '${VERSION}'."
+echo "INFO\tPackage file versions updated to${NO_FORMAT}${C_SEAGREEN2} '${VERSION}'${NO_FORMAT}${C_GREY46}."
 
 sed -i '' "s/Release-.*-blue/Release-${VERSION}-blue/" README.md
 git tag -a "v${VERSION}" -m "Release v${VERSION}"
