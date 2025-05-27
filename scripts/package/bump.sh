@@ -6,7 +6,7 @@ C_SEAGREEN2="\033[38;5;83m"
 C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
-echo "\n${F_BOLD}Update package versions.${NO_FORMAT}\n"
+echo "\n${C_GREY62}@instructor/scripts -- Update Package Version${NO_FORMAT}"
 
 PROJECT=""
 
@@ -43,5 +43,5 @@ git add package.json  docker/package.json frontend/package.json http/package.jso
 git commit -m "chore(ci): bump version v${VERSION}"
 
 echo "\nINFO\tChanges are committed and ready to push.${NO_FORMAT}"
-echo "\n${F_BOLD}${C_SEAGREEN2}Updated package versions successfully!${NO_FORMAT}\n"
+echo "\n${F_BOLD}Package versions updated!${NO_FORMAT}\n"
 exit 0

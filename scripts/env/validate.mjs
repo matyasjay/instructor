@@ -1,11 +1,5 @@
 import chalk from "chalk";
 
-const red = chalk.redBright;
-const green = chalk.greenBright;
-const bold = chalk.bold;
-
-console.log(chalk.greenBright(bold(`\nValidating environment variables`)));
-
 const REQUIRED_CLIENT_ENVIRONMENT = [];
 
 // prettier-ignore
@@ -34,7 +28,7 @@ const isServerEnvValid = getInvalids(REQUIRED_SERVER_ENVIRONMENT).length === 0;
 const isClientEnvValid = getInvalids(REQUIRED_CLIENT_ENVIRONMENT).length === 0;
 
 if (isServerEnvValid && isClientEnvValid) {
-  console.log(bold(green(`\nEnvironment validation succeded!\n`)));
+  console.log(chalk.bold(`\nEnvironment validation succeded!\n`));
   process.exit(0);
 }
 
@@ -45,7 +39,7 @@ const invalids = [
 
 console.log(
   chalk.redBright(
-    bold(
+    chalk.bold(
       `\nFound ${invalids.length} missing ${invalids.length > 1 ? "variables" : "variable"}.\n`,
     ),
   ),
@@ -60,5 +54,5 @@ invalids.forEach((env) => {
   );
 });
 
-console.log(red.bold(`\nEnvironment validation failed!\n`));
+console.log(chalk.red.bold(`\nEnvironment validation failed!\n`));
 process.exit(13);

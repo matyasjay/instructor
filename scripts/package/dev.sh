@@ -7,6 +7,7 @@ C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
 echo "\n${F_BOLD}Initiating development containers${NO_FORMAT}${C_GREY46}\n"
+make frontend-build
 docker-compose -f docker/docker-compose.yml up --build -d
 
 
