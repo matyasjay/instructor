@@ -1,19 +1,8 @@
-# --- Git
-
 sign:
-	git add .
-	git commit -S
+	sh scripts/git/sign.sh
 
-shelf:
-	git add .
-	git commit -S
-	git push
-
-release:
-	sh scripts/package/bump.sh "$(PROJECT)"
-	git push
-
-# --- Package
+push:
+	sh scripts/git/push.sh "$(PROJECT)"
 
 info:
 	sh scripts/package/info.sh
@@ -45,8 +34,6 @@ env-encrypt:
 env-validate:
 	sh scripts/env/validate.sh "$(ENV)"
 
-# --- Frontend
-
 frontend-dev:
 	${MAKE} -C frontend dev
 
@@ -61,8 +48,6 @@ frontend-test:
 
 frontend-run:
 	${MAKE} -C frontend run
-
-# --- HTTP
 
 http-build:
 	${MAKE} -C http build

@@ -20,6 +20,11 @@ echo "Change project: make bump PROJECT=my-project${NO_FORMAT}"
 echo "${F_DIM}"
 echo "Project: '$PROJECT'"
 echo "Namespace: '$PROJECT-deployment'${NO_FORMAT}"
-echo "${C_GREY46}"
-kubectl get svc -n "${PROJECT}-deployment" 
+echo "\n${F_DIM}Application services:${NO_FORMAT}\n${C_GREY46}"
+
+kubectl get svc -n "${PROJECT}-deployment"
+
+echo "\n${NO_FORMAT}${F_DIM}Database services:${NO_FORMAT}\n${C_GREY46}"
+
+kubectl get svc -n database
 echo "${NO_FORMAT}"
