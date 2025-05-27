@@ -192,3 +192,52 @@ After launch, success will be evaluated through both functional validation and u
    Makefile
    package.json
 ```
+
+#### Package version update
+```
+$ make sign
+sh scripts/git/sign.sh
+Commit Git working tree
+make -C frontend fmt
+prettier --log-level silent --write . && eslint . --fix
+make -C http fmt
+gofmt -w ./cmd/* ./internal/
+
+Commit signed successfully!
+
+$ make push
+sh scripts/git/push.sh ""
+scripts/git/push.sh: line 9: PROJECT: command not found
+
+Update package versions.
+
+sh scripts/package/info.sh
+
+Cluster info for 'instructor-local'
+
+Change project: make bump PROJECT=my-project
+
+Project: 'instructor'
+Namespace: 'instructor-deployment'
+
+Application services:
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+instructor-backend    ClusterIP   10.96.7.118     <none>        80/TCP           143m
+instructor-frontend   NodePort    10.96.187.123   <none>        3000:30000/TCP   143m
+
+Database services:
+
+NAME       TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)    AGE
+postgres   ClusterIP   10.96.22.16   <none>        5432/TCP   16m
+
+Progress
+INFO    Working directory is clean.
+INFO    Deprecated 1.1.22
+INFO    Version bumped to 1.1.23
+INFO    Package file versions updated to 1.1.23.
+INFO    Tag 'instructor v1.1.23' ready to be released.
+INFO    Changes are committed and ready to push.
+
+Updated package versions successfully!
+```
