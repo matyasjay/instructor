@@ -11,7 +11,7 @@ echo "${F_BOLD}Sign Git Working Tree${NO_FORMAT}${C_GREY46}"
 make test
 make build
 
-echo "${NO_FORMAT}${C_GREY62}Commit Details:${NO_FORMAT}${C_GREY46}"
+echo "${NO_FORMAT}${C_GREY62}Commit Details:${NO_FORMAT}${C_GREY46}\n"
 
 git add .
 git commit -S  --no-verify
