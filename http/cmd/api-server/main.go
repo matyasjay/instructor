@@ -1,21 +1,21 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"os"
-	"database/sql"
-  "fmt"
 
-  _ "github.com/lib/pq"
+	_ "github.com/lib/pq"
 )
 
 const (
-  host     = "localhost"
-  port     = 5432
-  user     = "postgres"
-  password = "C77ahH3co@"
-  dbname   = "postgres"
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "C77ahH3co@"
+	dbname   = "postgres"
 )
 
 func main() {
