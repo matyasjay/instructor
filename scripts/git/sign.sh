@@ -6,10 +6,15 @@ C_SEAGREEN2="\033[38;5;83m"
 C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
-echo "${F_BOLD}Commit Git working tree${NO_FORMAT}${C_GREY46}"
+echo "${F_BOLD}Sign Git Working Tree${NO_FORMAT}${C_GREY46}"
 
+make test
 make build
 
+echo "${NO_FORMAT}${C_GREY62}Commit Details:${NO_FORMAT}${C_GREY46}"
+
 git add .
-git commit -S && echo "\n${NO_FORMAT}${F_BOLD}Ready to push!${NO_FORMAT}\n"
+git commit -S  --no-verify
+
+echo "\n${NO_FORMAT}${F_BOLD}Ready to push!${NO_FORMAT}\n"
 
