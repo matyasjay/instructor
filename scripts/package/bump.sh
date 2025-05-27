@@ -42,6 +42,6 @@ echo "INFO\tTag '${PROJECT} v${VERSION}' ready to be released.\n"
 git add package.json  docker/package.json frontend/package.json http/package.json scripts/package.json terraform/package.json README.md 
 git commit -m "chore(ci): bump version v${VERSION}"
 
-echo "INFO\tChanges are committed and ready to push.${NO_FORMAT}"
+echo "\nINFO\tChanges are committed and ready to push.${NO_FORMAT}"
 echo "\n${F_BOLD}${C_SEAGREEN2}DONE Updated package versions successfully!${NO_FORMAT}\n"
 exit 0
