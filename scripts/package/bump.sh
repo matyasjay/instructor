@@ -22,7 +22,7 @@ if ! git diff-index --quiet HEAD -- || [ -n "$(git ls-files --others --exclude-s
   echo "${F_BOLD}${C_INDIANRED1}Working directory is not clean. Commit or stash your changes first.${NO_FORMAT}\n"
   exit 1
 else
-  echo "${C_GREY46}INFO\tWorking directory is clean."
+  echo "${C_GREY46}Progress\nINFO\tWorking directory is clean."
 fi
 
 VERSION=$(node -p "require('./package.json').version")
@@ -43,5 +43,5 @@ git add package.json  docker/package.json frontend/package.json http/package.jso
 git commit -m "chore(ci): bump version v${VERSION}"
 
 echo "\nINFO\tChanges are committed and ready to push.${NO_FORMAT}"
-echo "\n${F_BOLD}${C_SEAGREEN2}DONE Updated package versions successfully!${NO_FORMAT}\n"
+echo "\n${F_BOLD}${C_SEAGREEN2}Updated package versions successfully!${NO_FORMAT}\n"
 exit 0
