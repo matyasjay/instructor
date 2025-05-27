@@ -43,5 +43,5 @@ git add package.json  docker/package.json frontend/package.json http/package.jso
 git commit -m "chore(ci): bump version v${VERSION}"
 
 echo "INFO\tChanges are committed and ready to push.${NO_FORMAT}"
-echo "${F_BOLD}${C_SEAGREEN2}DONE Updated package versions successfully!${NO_FORMAT}"
+echo "\n${F_BOLD}${C_SEAGREEN2}DONE Updated package versions successfully!${NO_FORMAT}\n"
 exit 0
