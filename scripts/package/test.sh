@@ -6,7 +6,7 @@ C_SEAGREEN2="\033[38;5;83m"
 C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
-echo "\n${C_GREY62}@instructor/scripts -- Tests${NO_FORMAT}\n"
+echo "\n${F_BOLD}Test Packages${NO_FORMAT}\n"
 
 echo "${C_GREY46}Test - frontend${NO_FORMAT}\n"
 cd frontend

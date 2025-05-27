@@ -6,5 +6,4 @@ C_SEAGREEN2="\033[38;5;83m"
 C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
-sh scripts/package/bump.sh "$(PROJECT)"
-git push
+sh scripts/package/bump.sh "$(PROJECT)" && git push

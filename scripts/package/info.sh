@@ -27,4 +27,5 @@ kubectl get svc -n "${PROJECT}-deployment"
 echo "\n${NO_FORMAT}${F_DIM}Database services:${NO_FORMAT}\n${C_GREY46}"
 
 kubectl get svc -n database
+
 echo "${NO_FORMAT}"

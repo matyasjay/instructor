@@ -6,7 +6,7 @@ C_SEAGREEN2="\033[38;5;83m"
 C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
-echo "\n${C_GREY62}@instructor/scripts -- Update Package Version${NO_FORMAT}"
+echo "\n${F_BOLD}Update Package Version${NO_FORMAT}\n"
 
 PROJECT=""
 
@@ -39,7 +39,7 @@ git tag -a "v${VERSION}" -m "Release v${VERSION}"
 
 echo "INFO\tTag '${PROJECT} v${VERSION}' ready to be released.\n"
 
-git add package.json  docker/package.json frontend/package.json http/package.json scripts/package.json terraform/package.json postgres/package,json README.md 
+git add package.json  docker/package.json frontend/package.json http/package.json scripts/package.json terraform/package.json postgres/package.json README.md 
 git commit -m "chore(ci): bump version v${VERSION}"
 
 echo "\nINFO\tChanges are committed and ready to push.${NO_FORMAT}"
