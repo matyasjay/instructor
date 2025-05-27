@@ -37,7 +37,7 @@ echo "INFO\tPackage file versions updated to ${NO_FORMAT}${C_SEAGREEN2}${VERSION
 sed -i '' "s/Release-.*-blue/Release-${VERSION}-blue/" README.md
 git tag -a "v${VERSION}" -m "Release v${VERSION}"
 
-echo "INFO\tTag '${PROJECT} v${VERSION}' ready to be released."
+echo "INFO\tTag '${PROJECT} v${VERSION}' ready to be released.\n"
 
 git add package.json  docker/package.json frontend/package.json http/package.json scripts/package.json terraform/package.json README.md 
 git commit -m "chore(ci): bump version v${VERSION}"
