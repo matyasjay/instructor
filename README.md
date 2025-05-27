@@ -139,8 +139,56 @@ After launch, success will be evaluated through both functional validation and u
 - ✅ **Backend reliability:** Monitor API uptime, response time, and error logs in production
 - ✅ **Adoption metrics:** Track number of template submissions, distinct users, and average usage duration
 
-Post-analysis, adjustments will be prioritized based on:
-
-- Reported friction in prompt building or integration
-- Common template structures suggesting pattern improvements
-- Performance bottlenecks or scaling needs
+```sh
+ instructor
+   docker
+   │ Dockerfile.backend
+   │ Dockerfile.frontend
+   │ kind-config.yml
+   └ package.json 
+   frontend
+   │ public
+   │ │ fonts
+   │ └ images
+   │ src
+   │ │ app
+   │ │ │ page-1
+   │ │ │ └ index.tsx
+   │ │ │ page-2
+   │ │ │ └ index.tsx  
+   │ │ │ index.tsx
+   │ │ │ layout.tsx
+   │ │ └ router.tsx
+   │ │ components
+   │ │ config
+   │ │ types
+   │ │ fonts.css  
+   │ └ global.css  
+   │ Makefile  
+   │ eslint.config.mjs  
+   │ index.html  
+   │ package.json
+   │ prettier.config.json  
+   │ tailwind.config.ts  
+   │ tsconfig.json  
+   └ vite.config.ts
+   http
+   │ cmd
+   │ internal
+   │ Makefile  
+   └ package.json
+   scripts
+   │ deploy
+   │ env
+   │ package
+   │ package.json  
+   terraform
+   │ k8s.tf
+   │ main.tf
+   │ outputs.tf
+   │ package.json
+   │ providers.tf  
+   └ variables.tf  
+   Makefile
+   package.json
+```
