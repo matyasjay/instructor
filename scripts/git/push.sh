@@ -7,13 +7,13 @@ C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
 
-
-echo "\n${F_BOLD}${C_INDIANRED1}--- Hit ENTER to confirm COMMIT and PUSH task ---${NO_FORMAT}\n"
+echo "\n${F_BOLD}${C_INDIANRED1}--- Hit ENTER to confirm COMMIT and PUSH task ---${NO_FORMAT}"
 
 read -r input
 
 if [ -z "$input" ]; then
-  echo "\n${F_BOLD}Sign and push local changes${NO_FORMAT}\n"
+  clear
+  echo "${F_BOLD}Sign and push local changes${NO_FORMAT}\n"
   make sign
   sh scripts/package/bump.sh "$(PROJECT)" && git push
 else
