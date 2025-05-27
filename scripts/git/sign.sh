@@ -6,7 +6,7 @@ C_SEAGREEN2="\033[38;5;83m"
 C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
-echo "${F_BOLD}Sign Git Working Tree${NO_FORMAT}${C_GREY46}"
+echo "\n${F_BOLD}Sign Git Working Tree${NO_FORMAT}${C_GREY46}"
 
 make test
 make build
