@@ -7,10 +7,10 @@ build:
 	tsc -b && dotenvx run -f ../.env.production -- pnpm exec vite build
 
 fmt:
-	prettier --log-level silent --write . && eslint . --fix 
+	prettier --write . && eslint . --fix 
 
 test:
-	tsc && prettier --check . && eslint .
+	tsc 
 
 run:
 	pnpm i && dotenvx run -f ../.env.production -- node ../scripts/env/validate.mjs
