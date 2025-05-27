@@ -1,5 +1,8 @@
 # --- Pipeline
 
+info:
+	sh scripts/package/info.sh
+
 bump:
 	sh scripts/package/bump.sh "$(PROJECT)"
 
