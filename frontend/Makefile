@@ -10,7 +10,7 @@ fmt:
 	prettier --write . && eslint . --fix 
 
 test:
-	tsc 
+	npx tsc
 
 run:
 	pnpm i && dotenvx run -f ../.env.production -- node ../scripts/env/validate.mjs

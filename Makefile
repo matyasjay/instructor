@@ -34,6 +34,10 @@ env-encrypt:
 env-validate:
 	sh scripts/env/validate.sh "$(ENV)"
 
+test:
+	${MAKE} -C frontend test
+	${MAKE} -C http test
+
 frontend-dev:
 	${MAKE} -C frontend dev
 
