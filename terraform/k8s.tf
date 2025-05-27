@@ -53,7 +53,7 @@ resource "kubernetes_service" "instructor-frontend" {
     }
 
     port {
-      port        = 80
+      port        = 3000
       target_port = 3000
       node_port   = 30000 
     }

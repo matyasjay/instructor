@@ -14,8 +14,8 @@ push:
 	sh scripts/package/bump.sh "$(PROJECT)"
 	git push
 
-prepare:
-	sh scripts/deploy/cluster.sh
+reset:
+	sh scripts/deploy/reset.sh
 
 build:
 	${MAKE} -C frontend build
