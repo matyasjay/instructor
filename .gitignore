@@ -27,10 +27,11 @@ dist-ssr
 # Go Modules
 
 tmp
-http/cmd/api-server/api-server
-http/cmd/api-server/main
+http/cmd/*
+!http/cmd/*.go
 
 # Terraform
+
 **/.terraform/*
 *.tfstate
 *.tfstate.*
