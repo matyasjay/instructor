@@ -6,6 +6,8 @@ C_SEAGREEN2="\033[38;5;83m"
 C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
+clear
+
 echo "\n${F_BOLD}Tail development container${NO_FORMAT}\n"
 
 docker-compose -f docker/docker-compose.yml logs -f --timestamps --no-log-prefix

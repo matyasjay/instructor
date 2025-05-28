@@ -6,6 +6,8 @@ C_SEAGREEN2="\033[38;5;83m"
 C_GREY46="\033[38;5;243m"
 C_GREY62="\033[38;5;247m"
 
+clear
+
 echo "\n${F_BOLD}Build Packages${NO_FORMAT}"
 
 cd frontend 
@@ -16,7 +18,7 @@ echo "${C_GREY46}Build Service - frontend${NO_FORMAT}\n"
 
 prettier --write --loglevel silent . && eslint . --fix 
 
-tsc -b && dotenvx run -f --quiet ../.env.production -- pnpm vite build .
+tsc -b && dotenvx run -f --quiet ../.env.production -- pnpm vite build . --log-level silent
 
 echo "${F_BOLD}Done!${NO_FORMAT}"
 
@@ -24,11 +26,9 @@ echo "\n${C_GREY46}Build Service - http${NO_FORMAT}\n"
 
 cd ../http 
 
-rm ./cmd/main
-
 gofmt -w ./cmd/* ./internal/
 
-cd cmd && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+CGO_ENABLED=0 GOOS=linux go build -C cmd -a -installsuffix cgo -o ../bin/main .
 
 echo "${F_BOLD}Done!${NO_FORMAT}"
 

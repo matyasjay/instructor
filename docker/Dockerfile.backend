@@ -1,6 +1,6 @@
 FROM golang:1.23 as builder
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY go.mod go.sum ./
 
@@ -8,17 +8,13 @@ RUN go mod download
 
 COPY . .
 
-RUN cd cmd/api-server && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+RUN CGO_ENABLED=0 GOOS=linux go build -C cmd -a -installsuffix cgo -o ../bin/main .
 
 FROM alpine:latest
 
-WORKDIR /root/
+WORKDIR /usr/src/app
 
-RUN apk --no-cache add curl
-RUN curl -sfS https://dotenvx.sh/install.sh | sh
-
-COPY --from=builder /app/.env* ./
-COPY --from=builder /app/cmd/api-server/main .
+COPY --from=builder /app/bin/main .
 
 EXPOSE 3333
 

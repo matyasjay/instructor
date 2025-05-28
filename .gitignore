@@ -27,8 +27,6 @@ dist-ssr
 # Go Modules
 
 tmp
-http/cmd/*
-!http/cmd/*.go
 
 # Terraform
 

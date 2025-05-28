@@ -12,17 +12,17 @@ echo "\n${F_BOLD}Run Development Container${NO_FORMAT}${C_GREY46}\n"
 
 echo "${NO_FORMAT}${F_BOLD}Building packages${NO_FORMAT}${C_GREY46}\n"
 
-cd frontend
+cd frontend 
 
-tsc -b && dotenvx run -f --quiet ../.env.local -- pnpm vite build .
+tsc -b && pnpm vite build . --log-level silent
 
-cd ../http/cmd && go build -o main .
+cd ../
+
+go build -C http/cmd -o ../bin/main .
 
 echo "${NO_FORMAT}${F_BOLD}Done!${NO_FORMAT}${C_GREY46}\n"
 
 echo "${NO_FORMAT}${F_BOLD}Building development images${NO_FORMAT}${C_GREY46}\n"
-
-cd ../../
 
 docker-compose -f docker/docker-compose.yml up --build 
 
