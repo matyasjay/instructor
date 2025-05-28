@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "strict": true,
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "Bundler",
-    "target": "ES2015",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "target": "es2017",
+    "lib": ["esnext", "DOM", "DOM.Iterable"],
     "jsx": "preserve",
     "types": ["node", "vite/client"],
     "allowJs": false,

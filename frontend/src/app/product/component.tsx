@@ -1,9 +1,8 @@
-import { use } from "react";
 import { client } from "@/lib/http";
 
 const promise = client.get("/");
 
-export default function Component() {
-  const result = use(promise);
+export default async function Component() {
+  const result = await promise;
   return <div>{JSON.stringify(result)}</div>;
 }

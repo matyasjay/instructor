@@ -14,4 +14,19 @@ datasource db {
   url      = env("PSQL_URL")
 }
 
-model Model
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique(map: "Contact.email_unique")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  sessions  Session[]
+}
+
+model Session {
+  id             String           @id @default(uuid())
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  userId         String
+}
+

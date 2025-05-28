@@ -1,6 +1,5 @@
 dev:
 	sh scripts/package/dev.sh
-	sh scripts/package/tail.sh
 
 test:
 	sh scripts/package/test.sh
@@ -41,3 +40,5 @@ env-encrypt:
 env-validate:
 	sh scripts/env/validate.sh "$(ENV)"
 
+prisma:
+	sh scripts/package/prisma.sh

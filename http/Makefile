@@ -1,12 +1,15 @@
+dev:
+	./bin/air
+
 build:
-	cd cmd/api-server && dotenvx run -f ../../../.env.production -- go build 
+	cd cmd && go build 
 
 fmt:
 	gofmt -w ./cmd/* ./internal/
 
 test:
-	cd cmd/api-server && dotenvx run -f ../../../.env.production -- go build 
+	cd cmd && go build 
 
 run:
-	dotenvx run -f ../.env.production -- go run cmd/api-server/main.go
+	dotenvx run -f ../.env.production -- go run cmd/main.go
 

@@ -11,19 +11,28 @@ echo "\n${F_BOLD}Build Packages${NO_FORMAT}"
 cd frontend 
 
 dotenvx run -f --quiet ../.env.production -- node ../scripts/env/validate.mjs
+
 echo "${C_GREY46}Build Service - frontend${NO_FORMAT}\n"
+
 prettier --write --loglevel silent . && eslint . --fix 
-tsc -b && dotenvx run -f --quiet ../.env.production -- pnpm exec vite build -l silent
+
+tsc -b && dotenvx run -f --quiet ../.env.production -- pnpm vite build .
+
 echo "${F_BOLD}Done!${NO_FORMAT}"
 
 echo "\n${C_GREY46}Build Service - http${NO_FORMAT}\n"
+
 cd ../http 
 
+rm ./cmd/main
+
 gofmt -w ./cmd/* ./internal/
-cd cmd/api-server && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+cd cmd && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
 echo "${F_BOLD}Done!${NO_FORMAT}"
 
-cd ../../../
+cd ../../
 
 echo "\n${F_BOLD}Packages ready!${NO_FORMAT}\n"
 

@@ -3,7 +3,7 @@
 // }
 
 function Splash() {
-  return <div className="flex flex-col">Welcome!</div>;
+  return <div className="flex flex-col">Hello!</div>;
 }
 
 export default Splash;

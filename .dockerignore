@@ -1,4 +1,6 @@
 !.env.*
 .env.keys
 !frontend/dist
+!frontend/src
+!frontend/node_modules
 node_modules

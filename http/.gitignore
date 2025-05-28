@@ -1,2 +1,3 @@
-http/cmd/api-server/api-server
-http/cmd/api-server/main
+cmd/api-server
+cmd/main
+build-errors.log
