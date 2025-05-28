@@ -14,7 +14,7 @@ tsc
 echo "${F_BOLD}Done!${NO_FORMAT}\n"
 
 echo "${C_GREY46}Test - http${NO_FORMAT}\n"
-cd ../http/cmd/api-server
+cd ../http/cmd
 go build 
 echo "${F_BOLD}Done!${NO_FORMAT}\n"
 
