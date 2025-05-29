@@ -15,7 +15,6 @@ info:
 
 reset:
 	sh scripts/deploy/reset.sh
-	cd terraform && terraform init && terraform plan && terraform apply -auto-approve
 
 clear:
 	sh scripts/deploy/clear.sh
@@ -31,9 +30,6 @@ apply:
 
 deploy:
 	sh scripts/deploy/docker.sh
-
-vercel:
-	sh scripts/deploy/vercel.sh
 
 env-decrypt:
 	sh scripts/env/decrypt.sh
