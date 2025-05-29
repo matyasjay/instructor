@@ -28,7 +28,7 @@
 - [Prettier](https://prettier.io/docs/)
 - [ESLint](https://eslint.org/docs/latest/use/getting-started)
 
-## Structure
+## Workflow
 
 ```
 .
@@ -69,8 +69,6 @@
 └── terraform/           # Infrastructure code
 ```
 
-## Workflow
-
 Top level helpers are available to automate most workflows while developing or publishing the project. The scripts are exposed by `Makefile` and could be run with `make <script>` command from the root directory.
 
 ### Environment Setup
@@ -83,7 +81,7 @@ postgres_key   = "<envrionment-variable-key>"    # Environment variable name
 postgres_value = "<environment-variable-secret>" # Local postgres password
 ```
 
-Make sure that you local `instructor-local` cluster is up and running (_run `make reset` to recreate_), then create the certificates for running the Terraform script.
+Make sure that you local `instructor-local` cluster is up and running (_run_ `make reset` _to recreate_), then create the certificates for running the Terraform script.
 
 ```sh
 make decode
@@ -98,3 +96,14 @@ make apply
 ```
 
 By default, the local cluster API is accessible through `https://127.0.0.1:6443` and the frontend service is exposed on `http://localhost:3000`.
+
+### Development
+
+The development environment consists of the out-of-the-box Vite development server and Air to trigger rebuilds on file changes (Go). Both processes are containerised and run by `docker-compose` under the hood.
+
+```sh
+make dev
+```
+
+The development servers are available on `http://localhost:3001` for the frontend and `http://localhost:3333` for the backend respectively.
+
