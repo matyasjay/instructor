@@ -23,7 +23,10 @@
 - [pnpm v10](https://pnpm.io/installation)
 - [kubectl](https://kubernetes.io/docs/reference/kubectl)
 - [yq](https://github.com/mikefarah/yq)
-- [typescript](https://www.typescriptlang.org/download)
+- [TypeScript (tsc)](https://www.typescriptlang.org/download/)
+- [Vite](https://vite.dev/guide/cli.html)
+- [Prettier](https://prettier.io/docs/)
+- [ESLint](https://eslint.org/docs/latest/use/getting-started)
 
 ## Structure
 
