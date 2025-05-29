@@ -14,7 +14,7 @@ FROM alpine:latest
 
 WORKDIR /usr/src/app
 
-COPY --from=builder /app/bin/main .
+COPY --from=builder /usr/src/app/bin/main .
 
 EXPOSE 3333
 

@@ -2,6 +2,8 @@
 
 !.env.*
 .env.keys
+*.pem
+kind-kubeconfig.yaml
 
 node_modules
 pnpm-debug.log*

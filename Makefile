@@ -15,15 +15,19 @@ info:
 
 reset:
 	sh scripts/deploy/reset.sh
+	cd terraform && terraform init && terraform plan && terraform apply -auto-approve
+
+clear:
+	sh scripts/deploy/clear.sh
 
 build:
 	sh scripts/package/build.sh
 
 plan:
-	cd terraform && terraform plan
+	cd terraform && terraform init && terraform plan
 
 apply:
-	cd terraform && terraform apply
+	cd terraform && terraform init && terraform plan && terraform apply -auto-approve
 
 deploy:
 	sh scripts/deploy/docker.sh

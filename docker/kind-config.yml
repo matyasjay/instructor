@@ -6,3 +6,6 @@ nodes:
       - containerPort: 30000
         hostPort: 3000
         protocol: TCP
+networking:
+  apiServerAddress: 127.0.0.1
+  apiServerPort: 6443
