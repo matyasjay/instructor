@@ -2,19 +2,7 @@ FROM golang:1.23 as builder
 
 WORKDIR /usr/src/app
 
-COPY go.mod go.sum ./
-
-RUN go mod download
-
-COPY . .
-
-RUN CGO_ENABLED=0 GOOS=linux go build -C cmd -a -installsuffix cgo -o ../bin/main .
-
-FROM alpine:latest
-
-WORKDIR /usr/src/app
-
-COPY --from=builder /usr/src/app/bin/main .
+COPY ./bin/main ./
 
 EXPOSE 3333
 

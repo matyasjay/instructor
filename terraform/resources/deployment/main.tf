@@ -1,3 +1,19 @@
+locals {
+  volumes = [
+    for m in var.mounts : {
+      name      = m.name
+      empty_dir = {}
+    }
+  ]
+
+  mounts = [
+    for m in var.mounts : {
+      name       = m.name
+      mount_path = m.path
+    }
+  ]
+}
+
 resource "kubernetes_deployment" "main" {
   metadata {
     name      = var.name
@@ -26,8 +42,8 @@ resource "kubernetes_deployment" "main" {
 
       spec {
         container {
-          name              = var.name
-          image             = var.image
+          name = var.name
+          image = var.image
           image_pull_policy = var.pull
 
           port {
@@ -38,11 +54,11 @@ resource "kubernetes_deployment" "main" {
             for_each = var.env
 
             content {
-              name = env.value.name
+              name = env.value.key
 
               value_from {
                 secret_key_ref {
-                  name = env.value.secret
+                  name = env.value.name
                   key  = env.value.key
                 }
               }
@@ -50,25 +66,19 @@ resource "kubernetes_deployment" "main" {
           }
 
           dynamic "volume_mount" {
-            for_each = var.mounts
-
+            for_each = local.mounts
             content {
               name       = volume_mount.value.name
-              mount_path = volume_mount.value.path
+              mount_path = volume_mount.value.mount_path
             }
           }
         }
 
         dynamic "volume" {
-          for_each = var.volumes != null ? var.volumes : []
-
+          for_each = local.volumes
           content {
             name = volume.value.name
-
-            dynamic "empty_dir" {
-              for_each = volume.value.dir != null ? [1] : []
-              content {}
-            }
+            empty_dir {}
           }
         }
       }

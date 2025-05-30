@@ -44,7 +44,6 @@ variable "env" {
   type = list(object({
     name   = string
     key    = string
-    secret = string
   }))
   default = []
 }
@@ -57,13 +56,3 @@ variable "mounts" {
   }))
   default = []
 }
-
-variable "volumes" {
-  description = "List of volumes to attach to the pod"
-  type = list(object({
-    name = string
-    dir  = any
-  }))
-  default = []
-}
-

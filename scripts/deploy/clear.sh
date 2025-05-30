@@ -8,8 +8,8 @@ C_GREY62="\033[38;5;247m"
 
 echo "\n${F_BOLD}Clear Deployments${NO_FORMAT}\n"
 
-kubectl delete deployment instructor-backend --namespace instructor-namespace
-kubectl delete deployment instructor-frontend --namespace instructor-namespace
-kubectl delete deployment instructor-database --namespace instructor-namespace
+kubectl delete deployment instructor-backend --namespace instructor-app
+kubectl delete deployment instructor-frontend --namespace instructor-app
+kubectl delete deployment instructor-database --namespace instructor-db
 
 echo "\n${F_BOLD}Done!${NO_FORMAT}\n"

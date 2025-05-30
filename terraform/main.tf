@@ -5,17 +5,18 @@ provider "kubernetes" {
   cluster_ca_certificate = file("./cluster_cert.pem")
 }
 
-resource "kubernetes_namespace" "main" {
-  metadata {
-    name = local.namespace
-  }
+module "namespace" {
+  for_each = local.namespaces
+
+  source = "./resources/namespace"
+  name   = each.value
 }
 
 module "deployment" {
   for_each = local.deployments
 
   source    = "./resources/deployment"
-  namespace = local.namespace
+  namespace = each.value.namespace
   name      = each.value.name
   port      = each.value.port
   type      = each.value.type
@@ -24,14 +25,13 @@ module "deployment" {
   node_port = try(each.value.node_port, null)
   env       = try(each.value.env, null)
   mounts    = try(each.value.mounts, null)
-  volumes   = try(each.value.volumes, null)
 }
 
 module "secret" {
   for_each = local.secrets
 
   source    = "./resources/secret"
-  namespace = local.namespace
+  namespace = each.value.namespace
   name      = each.value.name
   data      = each.value.data
 }

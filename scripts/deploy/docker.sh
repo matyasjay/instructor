@@ -12,11 +12,11 @@ make build
 
 echo "${F_BOLD}Build Docker Images${NO_FORMAT}\n"
 
-docker build --no-cache --build-arg DOTENV_PRIVATE_KEY_PRODUCTION=$DOTENV_PRIVATE_KEY_PRODUCTION -t instructor-frontend:local -f docker/Dockerfile.frontend frontend
+docker build --build-arg DOTENV_PRIVATE_KEY_PRODUCTION=$DOTENV_PRIVATE_KEY_PRODUCTION -t instructor-frontend:local -f docker/Dockerfile.frontend frontend
 
 echo "\n"
 
-docker build --no-cache --build-arg DOTENV_PRIVATE_KEY_PRODUCTION=$DOTENV_PRIVATE_KEY_PRODUCTION -t instructor-backend:local -f docker/Dockerfile.backend http
+docker build --build-arg DOTENV_PRIVATE_KEY_PRODUCTION=$DOTENV_PRIVATE_KEY_PRODUCTION -t instructor-backend:local -f docker/Dockerfile.backend http
 
 echo "\n${F_BOLD}Done!${NO_FORMAT}\n"
 

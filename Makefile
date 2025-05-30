@@ -19,6 +19,9 @@ reset:
 clear:
 	sh scripts/deploy/clear.sh
 
+decode:
+	sh scripts/deploy/decode.sh
+
 build:
 	sh scripts/package/build.sh
 

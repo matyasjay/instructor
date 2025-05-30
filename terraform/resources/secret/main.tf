@@ -2,10 +2,6 @@ resource "kubernetes_secret" "main" {
   metadata {
     name      = var.name
     namespace = var.namespace
-
-    labels = {
-      app = var.name
-    }
   }
 
   data = {

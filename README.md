@@ -106,4 +106,3 @@ make dev
 ```
 
 The development servers are available on `http://localhost:3001` for the frontend and `http://localhost:3333` for the backend respectively.
-

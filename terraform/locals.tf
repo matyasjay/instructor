@@ -1,6 +1,10 @@
 locals {
   name = "instructor"
-  namespace = "${local.name}-namespace"
+
+  namespaces = {
+    app = "${local.name}-app"
+    db  = "${local.name}-database"
+  }
 
   port = {
     frontend = 3000
@@ -21,7 +25,8 @@ locals {
   }
 
   pull = {
-    never = "Never"
+    never          = "Never"
+    if_not_present = "IfNotPresent"
   }
 
   services = {
@@ -33,9 +38,7 @@ locals {
   secrets = {
     database_password = {
       name      = "database-password"
-      mount     = "/var/lib/postgresql/data"
-      key       = var.postgres_key
-      value     = var.postgres_value
+      namespace = local.namespaces.db
       data = {
         (var.postgres_key) = var.postgres_value
       }
@@ -45,48 +48,46 @@ locals {
   deployments = {
     frontend = {
       name      = local.services.frontend
+      namespace = local.namespaces.app
       port      = local.port.frontend
       node_port = local.port.node
       type      = local.type.node_port
       image     = local.image.frontend
+      pull      = local.pull.if_not_present
       env       = []
       mounts    = []
       volumes   = []
     },
     backend = {
       name      = local.services.backend
+      namespace = local.namespaces.app
       port      = local.port.backend
       type      = local.type.cluster_ip
       image     = local.image.backend
+      pull      = local.pull.if_not_present
       env       = []
       mounts    = []
       volumes   = []
     }
     database = {
       name      = local.services.database
+      namespace = local.namespaces.db
       port      = local.port.database
       type      = local.type.cluster_ip
       image     = local.image.database
+      pull      = local.pull.if_not_present
 
       env = [
         {
-          name   = local.secrets.database_password.key
-          key    = local.secrets.database_password.value
-          secret = local.secrets.database_password.name
+          name   = local.secrets.database_password.name
+          key    = var.postgres_key
         }
       ]
 
       mounts = [
         {
-          name = local.secrets.database_password.name
-          path = local.secrets.database_password.mount
-        }
-      ]
-
-      volumes = [
-        {
-          name = local.secrets.database_password.name
-          dir  = {}
+          name = "${local.secrets.database_password.name}-storage"
+          path = "/var/lib/postgresql/data"
         }
       ]
     }
