@@ -19,8 +19,8 @@ locals {
   }
 
   image = {
-    frontend = "${local.name}-frontend:latest"
-    backend  = "${local.name}-backend:latest"
+    frontend = "${local.name}-frontend:local"
+    backend  = "${local.name}-backend:local"
     database = "postgres:15"
   }
 
