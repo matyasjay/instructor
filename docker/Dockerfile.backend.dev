@@ -8,6 +8,7 @@ RUN go mod download
 COPY . .
 
 RUN go install github.com/air-verse/air@latest
+RUN go install github.com/99designs/gqlgen@latest
 
 RUN mv ./bin/air ./air
 

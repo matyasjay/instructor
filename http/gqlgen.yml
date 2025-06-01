@@ -1,0 +1,42 @@
+schema:
+  - ../postgres/schema.graphql
+
+exec:
+  package: postgres
+  layout: single-file
+  filename: ../internal/generated.go
+
+model:
+  package: postgres
+  filename: ../internal/models_gen.go
+
+resolver:
+  package: postgres
+  layout: follow-schema
+  dir: internal
+  filename_template: "resolver.go"
+
+call_argument_directives_with_null: true
+
+autobind:
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.ID
+      - github.com/99designs/gqlgen/graphql.Int
+      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/99designs/gqlgen/graphql.Int32
+  JSON:
+    model:
+      - github.com/99designs/gqlgen/graphql.JSON
+  UUID:
+    model:
+      - github.com/99designs/gqlgen/graphql.UUID
+
+  Int:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int32
+  Int64:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int
+      - github.com/99designs/gqlgen/graphql.Int64

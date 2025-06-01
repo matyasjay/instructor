@@ -24,6 +24,8 @@ echo "\n${C_GREY46}Build Service - http${NO_FORMAT}\n"
 
 cd ../http 
 
+go install github.com/99designs/gqlgen@latest
+
 gofmt -w ./cmd/* ./internal/
 
 CGO_ENABLED=0 GOOS=linux go build -C cmd -a -installsuffix cgo -o ../bin/main .
