@@ -1,5 +1,5 @@
 make sign
-sh ./reset.sh
-sh ./decode.sh
+sh ./scripts/deploy/reset.sh
+sh ./scripts//deploy/decode.sh
 make apply
 make sign
