@@ -14,7 +14,7 @@ info:
 	sh scripts/package/info.sh
 
 reset:
-	sh scripts/deploy/reset.sh
+	sh scripts/deploy/deploy.sh
 
 clear:
 	sh scripts/deploy/clear.sh
