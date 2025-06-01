@@ -1,0 +1,50 @@
+type PromptTemplate {
+  id: ID!
+  name: String!
+  description: String
+  template: String!
+  variables: [PromptVariable!]!
+}
+
+type PromptVariable {
+  name: String!
+  type: String!
+  required: Boolean!
+  description: String
+}
+
+type PromptResult {
+  id: ID!
+  input: JSON!
+  output: String!
+  createdAt: String!
+}
+
+input PromptTemplateInput {
+  name: String!
+  description: String
+  template: String!
+  variables: [PromptVariableInput!]!
+}
+
+input PromptVariableInput {
+  name: String!
+  type: String!
+  required: Boolean!
+  description: String
+}
+
+input PromptInput {
+  templateId: ID!
+  values: JSON!
+}
+
+type Query {
+  getTemplate(id: ID!): PromptTemplate
+  listTemplates: [PromptTemplate!]!
+}
+
+type Mutation {
+  createTemplate(input: PromptTemplateInput!): PromptTemplate!
+  submitPrompt(input: PromptInput!): PromptResult!
+}

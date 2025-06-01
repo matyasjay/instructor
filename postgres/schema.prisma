@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PSQL_URL")
+}
+
+model PromptTemplate {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  description String
+  template    String
+  variables   Json
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  PromptInput PromptInput[]
+}
+
+model PromptInput {
+  id         String         @id @default(uuid())
+  templateId PromptTemplate @relation(fields: [id], references: [id], onDelete: Cascade)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
