@@ -8,7 +8,7 @@ C_GREY62="\033[38;5;247m"
 
 clear
 
-echo "\n${F_BOLD}${C_INDIANRED1}--- Hit ENTER to confirm COMMIT and PUSH task ---${NO_FORMAT}"
+echo "\n\n\n\n${F_BOLD}${C_INDIANRED1}--- Hit ENTER to confirm COMMIT and PUSH task ---${NO_FORMAT}"
 
 read -r input
 
