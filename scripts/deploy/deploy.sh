@@ -1,5 +1,5 @@
 make sign
-make reset
-make decode
+sh ./reset.sh
+sh ./decode.sh
 make apply
 make sign
