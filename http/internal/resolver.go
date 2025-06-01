@@ -1,3 +1,5 @@
+package instructor
+
 func (r *mutationResolver) CreateTemplate(ctx context.Context, input model.PromptTemplateInput) (*model.PromptTemplate, error) {
     id := uuid.NewString()
     tmpl := &model.PromptTemplate{

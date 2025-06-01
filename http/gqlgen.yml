@@ -4,11 +4,11 @@ schema:
 exec:
   package: postgres
   layout: single-file
-  filename: ../internal/generated.go
+  filename: ./internal/generated.go
 
 model:
   package: postgres
-  filename: ../internal/models_gen.go
+  filename: ./internal/models_gen.go
 
 resolver:
   package: postgres
@@ -26,9 +26,6 @@ models:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
       - github.com/99designs/gqlgen/graphql.Int32
-  JSON:
-    model:
-      - github.com/99designs/gqlgen/graphql.JSON
   UUID:
     model:
       - github.com/99designs/gqlgen/graphql.UUID
