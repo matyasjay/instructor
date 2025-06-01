@@ -13,8 +13,11 @@ push:
 info:
 	sh scripts/package/info.sh
 
-reset:
+deploy:
 	sh scripts/deploy/deploy.sh
+
+reset:
+	sh scripts/deploy/reset.sh
 
 clear:
 	sh scripts/deploy/clear.sh
@@ -30,9 +33,6 @@ plan:
 
 apply:
 	cd terraform && terraform init && terraform plan && terraform apply -auto-approve
-
-deploy:
-	sh scripts/deploy/docker.sh
 
 env-decrypt:
 	sh scripts/env/decrypt.sh

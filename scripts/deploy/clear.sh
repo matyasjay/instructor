@@ -8,6 +8,8 @@ C_GREY62="\033[38;5;247m"
 
 echo "\n${F_BOLD}Clear Deployments${NO_FORMAT}\n"
 
+make info
+
 kubectl delete deployment instructor-backend --namespace instructor-app
 kubectl delete deployment instructor-frontend --namespace instructor-app
 kubectl delete deployment instructor-database --namespace instructor-db

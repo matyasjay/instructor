@@ -1,5 +1,8 @@
 make sign
-sh ./scripts/deploy/reset.sh
-sh ./scripts//deploy/decode.sh
-make apply
+sh ./scripts/deploy/docker.sh
+make info
+cd terraform
+terraform apply -auto-approve
+cd ../
 make sign
+make info
