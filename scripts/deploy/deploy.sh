@@ -1,4 +1,5 @@
 make sign
+make clear
 sh ./scripts/deploy/docker.sh
 make info
 cd terraform
