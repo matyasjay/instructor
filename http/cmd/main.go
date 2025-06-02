@@ -3,9 +3,9 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"net/http"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"net/http"
 	"os"
 
 	_ "github.com/lib/pq"
@@ -17,12 +17,12 @@ type User struct {
 }
 
 type PromptTemplate struct {
-		template_id   string
-		template_name string
-		template_description string
-		template_content string
-		input_id string
-		input_content string
+	template_id          string
+	template_name        string
+	template_description string
+	template_content     string
+	input_id             string
+	input_content        string
 }
 
 func getConnection(c echo.Context) *sql.DB {
@@ -40,62 +40,58 @@ func getConnection(c echo.Context) *sql.DB {
 	db, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {
-			fmt.Println("Error connecting:",err)
-			return  nil
+		fmt.Println("Error connecting:", err)
+		return nil
 	}
 
 	return db
 }
 
-
-
 func getOptions(c echo.Context) error {
 	return c.NoContent(http.StatusOK)
 }
 
-
 func getUsers(c echo.Context) error {
-	  db := getConnection(c)
+	db := getConnection(c)
 
-    rows, err := db.Query(`
+	rows, err := db.Query(`
 				SELECT *
 				FROM instructor."User" 
 		`)
 
-    if err != nil {
-		 		fmt.Println("Error query rows:",err)
-        return  err
-    }
+	if err != nil {
+		fmt.Println("Error query rows:", err)
+		return err
+	}
 
-    var users []User
+	var users []User
 
-    for rows.Next() {
-        var user User
-        if err := rows.Scan(&user.ID, &user.Name); err != nil {
-					fmt.Println("Error scanning row:",err)
-					return err
-        }
-        users = append(users, user)
-    }
-
-    if err := rows.Err(); err != nil {
-		 		fmt.Println("Error reading rows:",err)
-        return err
-    }
-
-		if err := db.Close(); err != nil {
-				fmt.Println("Error closing database:", err)
-				return err
+	for rows.Next() {
+		var user User
+		if err := rows.Scan(&user.ID, &user.Name); err != nil {
+			fmt.Println("Error scanning row:", err)
+			return err
 		}
+		users = append(users, user)
+	}
 
-   return c.JSON(http.StatusOK, users) 
+	if err := rows.Err(); err != nil {
+		fmt.Println("Error reading rows:", err)
+		return err
+	}
+
+	if err := db.Close(); err != nil {
+		fmt.Println("Error closing database:", err)
+		return err
+	}
+
+	return c.JSON(http.StatusOK, users)
 }
 
-
 func getTemplates(c echo.Context) error {
-	  db := getConnection(c)
+	db := getConnection(c)
 
-    rows, err := db.Query(`
+	rows, err := db.Query(`
 				SELECT 
 					"PromptTemplate"."id"        AS "template_id", 
 					"PromptTemplate"."name"      AS "template_name", 
@@ -108,38 +104,38 @@ func getTemplates(c echo.Context) error {
 				ON "PromptTemplate".id = "PromptInput"."templateId"
 		`)
 
-    if err != nil {
-		 		fmt.Println("Error query rows:",err)
-        return  err
-    }
+	if err != nil {
+		fmt.Println("Error query rows:", err)
+		return err
+	}
 
-    var templates []PromptTemplate
+	var templates []PromptTemplate
 
-    for rows.Next() {
-        var template PromptTemplate
-        if err := rows.Scan(&template.template_id,
-					&template.template_name,
-					&template.template_description, 
-					&template.template_content,
-					&template.input_id,
-					&template.input_content); err != nil {
-					fmt.Println("Error scanning row:",err)
-					return err
-        }
-        templates = append(templates, template)
-    }
-
-    if err := rows.Err(); err != nil {
-		 		fmt.Println("Error reading rows:",err)
-        return err
-    }
-
-		if err := db.Close(); err != nil {
-				fmt.Println("Error closing database:", err)
-				return err
+	for rows.Next() {
+		var template PromptTemplate
+		if err := rows.Scan(&template.template_id,
+			&template.template_name,
+			&template.template_description,
+			&template.template_content,
+			&template.input_id,
+			&template.input_content); err != nil {
+			fmt.Println("Error scanning row:", err)
+			return err
 		}
+		templates = append(templates, template)
+	}
 
-   return c.JSON(http.StatusOK, templates) 
+	if err := rows.Err(); err != nil {
+		fmt.Println("Error reading rows:", err)
+		return err
+	}
+
+	if err := db.Close(); err != nil {
+		fmt.Println("Error closing database:", err)
+		return err
+	}
+
+	return c.JSON(http.StatusOK, templates)
 }
 
 func main() {
