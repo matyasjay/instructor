@@ -1,3 +1,5 @@
+source "$(dirname "${BASH_SOURCE[0]}")/../environment.sh"
+
 set -e
 
 KUBECONFIG_PATH="${KUBECONFIG:-$HOME/.kube/config}"

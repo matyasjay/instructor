@@ -1,26 +1,16 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"net/http"
 	"os"
 
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "password"
-	dbname   = "postgres"
-)
-
 func main() {
 	e := echo.New()
+
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -28,67 +18,28 @@ func main() {
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 	}))
 
-	e.OPTIONS("/*", func(c echo.Context) error {
-		return c.NoContent(http.StatusOK)
-	})
+	e.File("/", "static/swagger/index.html")
+	e.Static("/", "static/swagger")
 
-	e.GET("/", func(c echo.Context) error {
-		psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-			"password=%s dbname=%s sslmode=disable",
-			host, port, user, password, dbname)
+	e.OPTIONS("/*", getOptions)
 
-		db, err := sql.Open("postgres", psqlInfo)
+	e.GET("/users", getAllUsers)
+	e.POST("/users", createUser)
+	e.GET("/users/:id", getUser)
+	e.PUT("/users/:id", updateUser)
+	e.DELETE("/users/:id", deleteUser)
 
-		if err != nil {
-			return c.String(http.StatusServiceUnavailable, "Database connection error!")
-		}
+	e.GET("/templates", getTemplates)
+	e.POST("/templates", createUser)
+	e.GET("/templates/:id", getUser)
+	e.PUT("/templates/:id", updateUser)
+	e.DELETE("/templates/:id", deleteUser)
 
-		rows, err := db.Query("SELECT id, name FROM users")
+	var http_port = os.Getenv("HTTP_PORT")
 
-		if err != nil {
-			return c.String(http.StatusInternalServerError, "Database query error!")
-		}
-
-		defer func() {
-			if cerr := rows.Close(); cerr != nil {
-				fmt.Printf("Error closing DB: %v\n", cerr)
-			}
-		}()
-
-		defer func() {
-			if cerr := db.Close(); cerr != nil {
-				fmt.Printf("Error closing DB: %v\n", cerr)
-			}
-		}()
-
-		return c.JSON(http.StatusOK, rows)
-	})
-
-	e.GET("/manifest", func(c echo.Context) error {
-		return c.String(http.StatusOK, "ok")
-	})
-
-	port := os.Getenv("HTTP_PORT")
-
-	if port == "" {
-		port = "3333"
+	if http_port == "" {
+		http_port = "3333"
 	}
 
-	e.Logger.Fatal(e.Start(":" + port))
-}
-
-func listTemplates(w http.ResponseWriter, r *http.Request) {
-	// TODO: Return all templates
-}
-
-func getTemplate(w http.ResponseWriter, r *http.Request) {
-	// TODO: Return template by ID
-}
-
-func createTemplate(w http.ResponseWriter, r *http.Request) {
-	// TODO: Parse request body and return new template
-}
-
-func submitPrompt(w http.ResponseWriter, r *http.Request) {
-	// TODO: Handle LLM call with submitted prompt values
+	e.Logger.Fatal(e.Start(":" + http_port))
 }

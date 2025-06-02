@@ -1,3 +1,5 @@
+source "$(dirname "${BASH_SOURCE[0]}")/../environment.sh"
+
 make sign
 make clear
 sh ./scripts/deploy/docker.sh

@@ -1,14 +1,8 @@
-NO_FORMAT="\033[0m"
-F_BOLD="\033[1m"
-F_DIM="\033[2m"
-C_INDIANRED1="\033[38;5;203m"
-C_SEAGREEN2="\033[38;5;83m"
-C_GREY46="\033[38;5;243m"
-C_GREY62="\033[38;5;247m"
+source "$(dirname "${BASH_SOURCE[0]}")/../environment.sh"
 
 clear
 
-echo "\n\n\n\n${F_BOLD}${C_INDIANRED1}--- Hit ENTER to confirm COMMIT and PUSH task ---${NO_FORMAT}"
+echo "\n\n\n\n\n\n${F_BOLD}${C_INDIANRED1}--- Hit [ENTER] to confirm COMMIT, BUMP, TAG, and PUSH changes ---${NO_FORMAT}\n\n\n\n\n"
 
 read -r input
 

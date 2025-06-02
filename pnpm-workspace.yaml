@@ -9,4 +9,4 @@ catalog:
   "husky": ^9.1.7
   "prisma": ^6.8.2
   "semver": ^7.7.2
-  "vercel": ^42.1.1
+  "typescript": "~5.6.3"

@@ -1,5 +1,5 @@
 dev:
-	./bin/air
+	dotenvx run -f ../.env.local -- ./bin/air
 
 build:
 	cd cmd && go build 
@@ -11,5 +11,5 @@ test:
 	cd cmd && go build 
 
 run:
-	dotenvx run -f ../.env.production -- go run cmd/main.go
+	dotenvx run -f ../.env.local -- go run cmd/main.go
 

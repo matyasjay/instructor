@@ -9,6 +9,7 @@ COPY . .
 
 RUN go install github.com/air-verse/air@latest
 RUN go install github.com/99designs/gqlgen@latest
+RUN go get github.com/steebchen/prisma-client-go
 
 RUN mv ./bin/air ./air
 
