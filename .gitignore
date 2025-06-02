@@ -13,6 +13,7 @@ pnpm-debug.log*
 .vercel/.env*
 dist
 dist-ssr
+frontend/src/lib/prisma/generated
 
 #Editor
 
