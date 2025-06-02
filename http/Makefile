@@ -5,7 +5,7 @@ build:
 	cd cmd && go build 
 
 fmt:
-	gofmt -w ./cmd/* ./internal/
+	gofmt -w ./cmd/*
 
 test:
 	cd cmd && go build 

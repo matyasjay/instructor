@@ -25,6 +25,23 @@ var (
 	lock  = sync.Mutex{}
 )
 
+func getConnection(c echo.Context) (*sql.DB, error) {
+	var host = os.Getenv("DATABASE_HOST")
+	var port = os.Getenv("DATABASE_PORT")
+	var user = os.Getenv("DATABASE_USER")
+	var password = os.Getenv("DATABASE_PASSWORD")
+	var dbname = "postgres"
+
+	psqlInfo := fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname,
+	)
+
+	db, err := sql.Open("postgres", psqlInfo)
+
+	return db, err
+}
+
 func createUser(c echo.Context) error {
 	lock.Lock()
 	defer lock.Unlock()
@@ -73,30 +90,27 @@ func getAllUsers(c echo.Context) error {
 }
 
 func getTemplates(c echo.Context) error {
-	var host = os.Getenv("DATABASE_HOST")
-	var port = os.Getenv("DATABASE_PORT")
-	var user = os.Getenv("DATABASE_USER")
-	var password = os.Getenv("DATABASE_PASSWORD")
-	var dbname = os.Getenv("DATABASE_NAME")
+	db, conn_err := getConnection(c)
 
-	psqlInfo := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname,
-	)
+	if conn_err != nil {
+		return c.String(http.StatusOK, "Error")
+	}
 
-	db, err := sql.Open("postgres", psqlInfo)
+	row, err := db.Query("SELECT" + "\"PromptTemplate\".\"id\" AS \"template_id\"," + "\"PromptTemplate\".\"name\" AS \"template_name\"," + "\"PromptTemplate\".description AS \"template_description\"," + "\"PromptTemplate\".\"template\" AS \"template_content\"," + "\"PromptInput\".id AS \"input_id\"," + "\"PromptInput\".\"input\" AS \"input_content\"" + "FROM instructor.\"PromptInput\" JOIN instructor.\"PromptTemplate\" ON \"PromptTemplate\".id = \"PromptInput\".\"templateId\"")
 
 	if err != nil {
-		return c.String(http.StatusServiceUnavailable, "Database connection error!")
+		if err == sql.ErrNoRows {
+			fmt.Println("No result found.")
+		}
 	}
 
 	defer func() {
-		if cerr := db.Close(); cerr != nil {
-			fmt.Printf("Error closing DB: %v\n", cerr)
+		if err := db.Close(); err != nil {
+			fmt.Printf("Error closing DB: %v\n", err)
 		}
 	}()
 
-	return c.JSON(http.StatusOK, db)
+	return c.JSON(http.StatusOK, row)
 }
 
 func getOptions(c echo.Context) error {
