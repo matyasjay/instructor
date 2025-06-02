@@ -1771,3 +1771,12 @@
     background-color: #b6b6b6;
   }
 }
+
+.swagger-ui #operations-tag-default {
+  display: none;
+  visibility: hidden;
+}
+
+.swagger-ui .topbar-wrapper {
+  opacity: 0;
+}
