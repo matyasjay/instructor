@@ -8,22 +8,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id            String          @id @default(uuid())
+  name          String          @unique
+}
+
 model PromptTemplate {
-  id          String        @id @default(uuid())
-  name        String        @unique
-  description String
-  template    String
-  variables   Json
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  PromptInput PromptInput[]
+  id            String          @id @default(uuid())
+  name          String          @unique
+  description   String
+  template      String
+  variables     Json
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  PromptInput   PromptInput[]
 }
 
 model PromptInput {
-  id         String         @id @default(uuid())
-  template   PromptTemplate @relation(fields: [templateId], references: [id])
-  templateId String
-  input      Json           @default("{}")
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  id            String          @id @default(uuid())
+  template      PromptTemplate  @relation(fields: [templateId], references: [id])
+  templateId    String
+  input         Json            @default("{}")
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 }
