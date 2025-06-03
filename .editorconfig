@@ -1,0 +1,45 @@
+root = true
+
+# Global defaults
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Use 2 spaces for TypeScript and JSON
+[*.{ts,tsx,js,jsx,json}]
+indent_style = space
+indent_size = 2
+
+# YAML files (e.g., GitHub Actions, configs )
+[*.yml]
+indent_style = space
+indent_size = 2
+
+# Go files use tabs per standard Go style
+[*.go]
+indent_style = tab
+indent_size = 4
+trim_trailing_whitespace = true
+
+# Terraform files use 2 spaces by convention
+[*.tf]
+indent_style = space
+indent_size = 2
+
+# Markdown files: preserve trailing whitespace (for line breaks )
+[*.md]
+trim_trailing_whitespace = false
+insert_final_newline = true
+
+# Shell scripts
+[*.sh]
+indent_style = space
+indent_size = 2
+
+# TOML, HCL, etc.
+[*.{toml,hcl}]
+indent_style = space
+indent_size = 2
+
