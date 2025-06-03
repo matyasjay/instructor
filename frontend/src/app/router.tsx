@@ -5,6 +5,7 @@ import { ErrorDisplay } from "./error";
 import Dashboard from "./dashboard";
 import Signup from "./signup";
 import Landing from "./landing";
+import { ProtectedRoute } from "./protected";
 
 const router: IndexRouteObject[] = [
   {
@@ -28,7 +29,11 @@ const router: IndexRouteObject[] = [
   {
     index: true,
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorDisplay />,
   },
   {

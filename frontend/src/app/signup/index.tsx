@@ -6,9 +6,11 @@ import { Separator } from "@/components/ui/separator";
 import React, { FormEventHandler, useState } from "react";
 import { client } from "@/lib/http";
 import { useMutation } from "@tanstack/react-query";
-import { normalizeObjectKeys } from "@/lib/utils";
-import { AxiosError } from "axios";
+import { normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
 import { z } from "zod/v4";
+import { PAGES } from "@/config/pages";
+import { ENDPOINTS } from "@/components/endpoints";
+import { MUTATION_KEYS } from "@/config/query";
 
 const UserPayload = z.object({
   name: z.string(),
@@ -34,8 +36,8 @@ function submitUserData(user: User) {
       throw new Error("Passwords must match!");
     }
     UserPayload.parse(user);
-    const result = await client.post("/users/create", user);
-    return normalizeObjectKeys(result);
+    const result = await client.post<User>(ENDPOINTS.SIGNUP, user);
+    return normalizeObjectKeys<User>(result.data);
   };
 }
 
@@ -46,18 +48,12 @@ function Signup() {
 
   const mutaion = useMutation({
     mutationFn: submitUserData(user),
-    mutationKey: ["submit-user-create"],
+    mutationKey: [MUTATION_KEYS.SIGNUP],
     onSuccess: () => {
-      navigate("/dashboard");
+      navigate(PAGES.PRIVATE.DASHBOARD);
     },
     onError: (e) => {
-      if (e instanceof z.ZodError) {
-        setError(e.issues[0].message);
-      } else if (e instanceof AxiosError) {
-        setError(e.response?.data.error);
-      } else {
-        setError(JSON.stringify(e));
-      }
+      setError(parseErrorObject(e));
     },
   });
 

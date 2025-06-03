@@ -78,6 +78,7 @@ func GetUserByEmail(c echo.Context) error {
 	password := input.Password
 
 	var user User
+	var passwordHash string
 
 	row := db.QueryRow(`
 			SELECT id, name, email, password
@@ -85,13 +86,13 @@ func GetUserByEmail(c echo.Context) error {
 			WHERE email=$1`,
 		email)
 
-	err := row.Scan(&user.ID, &user.Name, &user.Email, &user.PasswordHash)
+	err := row.Scan(&user.ID, &user.Name, &user.Email, &passwordHash)
 
 	if err != nil {
 		return err
 	}
 
-	if err != nil || !utils.CheckPasswordHash(password, user.PasswordHash) {
+	if err != nil || !utils.CheckPasswordHash(password, passwordHash) {
 		return echo.NewHTTPError(http.StatusUnauthorized, "Invalid credentials")
 	}
 
@@ -100,4 +101,35 @@ func GetUserByEmail(c echo.Context) error {
 		User:  user,
 		Token: token,
 	})
+}
+
+type GetUserByIdInput struct {
+	ID string `json:"id"`
+}
+
+func GetUserById(c echo.Context) error {
+	db := connection.GetDB()
+
+	var input GetUserByIdInput
+	if err := c.Bind(&input); err != nil {
+		return err
+	}
+
+	id := input.ID
+
+	var user User
+
+	row := db.QueryRow(`
+			SELECT id, name, email
+			FROM instructor."User"
+			WHERE id=$1`,
+		id)
+
+	err := row.Scan(&user.ID, &user.Name, &user.Email)
+
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, user)
 }

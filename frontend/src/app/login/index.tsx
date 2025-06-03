@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
+import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -7,20 +8,23 @@ import { Separator } from "@/components/ui/separator";
 import React, { FormEventHandler, useState } from "react";
 import { client } from "@/lib/http";
 import { useMutation } from "@tanstack/react-query";
-import { normalizeObjectKeys } from "@/lib/utils";
-import { AxiosError } from "axios";
+import { normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
 import { z } from "zod/v4";
+import { COOKIES, STORAGE } from "@/config/cookies";
+import { ENDPOINTS } from "@/components/endpoints";
+import { PAGES } from "@/config/pages";
+import { MUTATION_KEYS } from "@/config/query";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 const UserPayload = z.object({
   email: z.email(),
   password: z.string(),
+  name: z.string(),
 });
 
-type User = {
+type User = z.infer<typeof UserPayload> & {
   id: string;
-  name: string;
-  email: string;
-  password: string;
+  token: string;
 };
 
 const defaultUser = {
@@ -28,14 +32,21 @@ const defaultUser = {
   name: "",
   email: "",
   password: "",
+  token: "",
 };
 
 function submitUserData(user: User) {
   return async function (e: React.FormEvent<HTMLFormElement>): Promise<User> {
     e.preventDefault();
     UserPayload.parse(user);
-    const result = await client.post("/users", user);
-    return normalizeObjectKeys(result);
+    const response = await client.post<User>(ENDPOINTS.USER, user);
+    const result = normalizeObjectKeys<User>(response.data);
+    window.localStorage.setItem(
+      STORAGE.USER,
+      JSON.stringify(Object(result).user)
+    );
+    Cookies.set(COOKIES.JWT, result.token);
+    return result;
   };
 }
 
@@ -43,21 +54,16 @@ function Login() {
   const [user, setUser] = useState<User>(defaultUser);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+  const { data: authData, isPending } = useAuth();
 
   const mutaion = useMutation({
     mutationFn: submitUserData(user),
-    mutationKey: ["submit-user"],
+    mutationKey: [MUTATION_KEYS.LOGIN],
     onSuccess: () => {
-      navigate("/dashboard");
+      navigate(PAGES.PRIVATE.DASHBOARD);
     },
     onError: (e) => {
-      if (e instanceof z.ZodError) {
-        setError(e.issues[0].message);
-      } else if (e instanceof AxiosError) {
-        setError(e.response?.data.error);
-      } else {
-        setError(JSON.stringify(e));
-      }
+      setError(parseErrorObject(e));
     },
   });
 
@@ -70,6 +76,10 @@ function Login() {
     };
 
   const handleSubmit = mutaion.mutate as unknown as FormEventHandler;
+
+  if (!authData?.error && !isPending) {
+    return <Navigate to={PAGES.PRIVATE.DASHBOARD} />;
+  }
 
   return (
     <form
@@ -98,9 +108,7 @@ function Login() {
         <Label className="text-gray-200"> Remember me</Label>
       </div>
       <Separator />
-      <Button className="cursor-pointer" type="submit">
-        Submit
-      </Button>
+      <Button type="submit">Submit</Button>
       {error && <h4>{error}</h4>}
     </form>
   );
