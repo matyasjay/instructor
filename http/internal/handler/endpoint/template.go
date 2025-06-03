@@ -20,18 +20,18 @@ type PromptTemplate struct {
 }
 
 func GetTemplates(c echo.Context) error {
-	db := connection.GetConnection(c)
+	db := connection.GetDB()
 
 	rows, err := db.Query(`
-				SELECT 
-					"PromptTemplate"."id"        AS "template_id", 
-					"PromptTemplate"."name"      AS "template_name", 
-					"PromptTemplate".description AS "template_description", 
-					"PromptTemplate"."template"  AS "template_content", 
+				SELECT
+					"PromptTemplate"."id"        AS "template_id",
+					"PromptTemplate"."name"      AS "template_name",
+					"PromptTemplate".description AS "template_description",
+					"PromptTemplate"."template"  AS "template_content",
 					"PromptInput".id             AS "input_id",
 					"PromptInput"."input"        AS "input_content"
-				FROM instructor."PromptInput" 
-				JOIN instructor."PromptTemplate" 
+				FROM instructor."PromptInput"
+				JOIN instructor."PromptTemplate"
 				ON "PromptTemplate".id = "PromptInput"."templateId"
 		`)
 

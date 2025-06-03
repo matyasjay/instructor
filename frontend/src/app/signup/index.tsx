@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -12,41 +11,42 @@ import { AxiosError } from "axios";
 import { z } from "zod/v4";
 
 const UserPayload = z.object({
+  name: z.string(),
   email: z.email(),
   password: z.string(),
+  password_confirm: z.string(),
 });
 
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-};
+type User = z.infer<typeof UserPayload> & { id: string };
 
-const defaultUser = {
+const defaultUser: User = {
   id: "",
   name: "",
   email: "",
   password: "",
+  password_confirm: "",
 };
 
 function submitUserData(user: User) {
   return async function (e: React.FormEvent<HTMLFormElement>): Promise<User> {
     e.preventDefault();
+    if (user.password !== user.password_confirm) {
+      throw new Error("Passwords must match!");
+    }
     UserPayload.parse(user);
-    const result = await client.post("/users", user);
+    const result = await client.post("/users/create", user);
     return normalizeObjectKeys(result);
   };
 }
 
-function Login() {
+function Signup() {
   const [user, setUser] = useState<User>(defaultUser);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
   const mutaion = useMutation({
     mutationFn: submitUserData(user),
-    mutationKey: ["submit-user"],
+    mutationKey: ["submit-user-create"],
     onSuccess: () => {
       navigate("/dashboard");
     },
@@ -78,9 +78,15 @@ function Login() {
     >
       <img src="public/backdrop.gif" />
       <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance mb-9">
-        Login
+        Signup
       </h1>
       <Separator />
+      <Label>Full name</Label>
+      <Input
+        type="text"
+        defaultValue={user.name}
+        onChange={handleChange("name")}
+      />
       <Label>E-mail address</Label>
       <Input
         type="email"
@@ -93,10 +99,12 @@ function Login() {
         defaultValue={user.password}
         onChange={handleChange("password")}
       />
-      <div className="flex flex-row gap-3 align-middle justify-start">
-        <Checkbox />
-        <Label className="text-gray-200"> Remember me</Label>
-      </div>
+      <Label>Confirm password</Label>
+      <Input
+        type="password"
+        defaultValue={user.password_confirm}
+        onChange={handleChange("password_confirm")}
+      />
       <Separator />
       <Button className="cursor-pointer" type="submit">
         Submit
@@ -106,4 +114,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;

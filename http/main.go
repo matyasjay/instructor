@@ -1,9 +1,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"os"
 
 	"http/internal/handler"
 )
@@ -14,6 +15,7 @@ func main() {
 	if http_port == "" {
 		http_port = "3333"
 	}
+
 
 	e := echo.New()
 
@@ -26,6 +28,7 @@ func main() {
 			AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 			AllowCredentials: true,
 		}))
+
 
 	handler.RegisterRoutes(e)
 

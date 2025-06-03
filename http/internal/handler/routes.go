@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"http/internal/handler/connection"
 	"http/internal/handler/endpoint"
 
@@ -11,6 +12,11 @@ import (
 func RegisterRoutes(e *echo.Echo) {
 	connection.HandleHTTPError(e)
 
+	_, err := connection.InitDB()
+	if err != nil {
+		fmt.Println("Failed to setup database connection!")
+	}
+
 	e.File("/", "static/swagger/index.html")
 
 	e.Static("/", "static/swagger")
@@ -19,7 +25,7 @@ func RegisterRoutes(e *echo.Echo) {
 
 	e.GET("/templates", endpoint.GetTemplates)
 
-	e.GET("/users", endpoint.GetUsers)
-
 	e.POST("/users", endpoint.GetUserByEmail)
+
+	e.POST("/users/create", endpoint.CreateUser)
 }
