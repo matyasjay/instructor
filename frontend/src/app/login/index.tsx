@@ -33,7 +33,8 @@ function queryUser(setUser: React.Dispatch<React.SetStateAction<User>>) {
 }
 
 async function submitUserData(user: User) {
-  console.log(user);
+  const result = await client.post("/users", user);
+  return result;
 }
 
 function Login() {
@@ -62,7 +63,7 @@ function Login() {
     };
 
   return (
-    <form className="flex flex-col max-w-100 gap-3.5 mx-auto justify-center align-middle min-h-10/12">
+    <div className="flex flex-col max-w-100 gap-3.5 mx-auto justify-center align-middle min-h-10/12">
       <img src="public/backdrop.gif" />
       <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance mb-9">
         Instructor
@@ -88,7 +89,7 @@ function Login() {
       <Button className="cursor-pointer" type="submit" onClick={handleSubmit}>
         Submit
       </Button>
-    </form>
+    </div>
   );
 }
 
