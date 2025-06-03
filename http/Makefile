@@ -2,14 +2,14 @@ dev:
 	dotenvx run -f ../.env.local -- ./bin/air
 
 build:
-	cd cmd && go build 
+	go build 
 
 fmt:
-	gofmt -w ./cmd/*
+	gofmt -w ./internal/*
 
 test:
-	cd cmd && go build 
+	go build 
 
 run:
-	dotenvx run -f ../.env.local -- go run cmd/main.go
+	dotenvx run -f ../.env.local -- go run main.go
 

@@ -18,16 +18,12 @@ echo "\n${C_GREY46}Build Service - http${NO_FORMAT}\n"
 
 cd ../http 
 
-go install github.com/99designs/gqlgen@latest
+gofmt -w ./internal/*
 
-gofmt -w ./cmd/*
-
-CGO_ENABLED=0 GOOS=linux go build -C cmd -a -installsuffix cgo -o ../bin/main .
+CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/main .
 
 echo "${F_BOLD}Done!${NO_FORMAT}"
 
-cd ../../
+cd ../
 
 echo "\n${F_BOLD}Packages ready!${NO_FORMAT}\n"
-
-exit 0

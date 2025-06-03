@@ -12,6 +12,7 @@ import router from "./router";
 import Layout from "./layout";
 import "../global.css";
 import { ErrorBoundary } from "./error";
+import { ThemeProvider } from "./provider";
 
 const root = document.getElementById("root");
 
@@ -30,9 +31,11 @@ const App = () => {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         {import.meta.env.DEV && <ReactQueryDevtools />}
-        <Layout>
-          <RouterProvider router={memoRouter} />
-        </Layout>
+        <ThemeProvider>
+          <Layout>
+            <RouterProvider router={memoRouter} />
+          </Layout>
+        </ThemeProvider>
       </QueryClientProvider>
     </ErrorBoundary>
   );

@@ -1,5 +1,5 @@
-import Product from "@/app/product";
-import Splash from "@/app/splash";
+import Login from "@/app/login";
+import NotFound from "@/app/login";
 import { IndexRouteObject } from "react-router";
 import { ErrorDisplay } from "./error";
 
@@ -7,13 +7,19 @@ const router: IndexRouteObject[] = [
   {
     index: true,
     path: "/",
-    element: <Splash />,
+    element: <Login />,
     errorElement: <ErrorDisplay />,
   },
   {
     index: true,
-    path: "/product",
-    element: <Product />,
+    path: "/login",
+    element: <Login />,
+    errorElement: <ErrorDisplay />,
+  },
+  {
+    index: true,
+    path: "/*",
+    element: <NotFound />,
     errorElement: <ErrorDisplay />,
   },
 ];

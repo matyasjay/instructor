@@ -29,55 +29,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/PromptTemplate"
-    post:
-      summary: Create a new prompt template
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PromptTemplateInput"
-      responses:
-        "201":
-          description: Template created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PromptTemplate"
-
-  /templates/{id}:
-    get:
-      summary: Get a prompt template by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: The requested template
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PromptTemplate"
-
-  /prompt:
-    post:
-      summary: Submit values to a prompt template
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PromptInput"
-      responses:
-        "200":
-          description: LLM-generated result
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PromptResult"
 
 components:
   schemas:

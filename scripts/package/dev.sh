@@ -10,7 +10,7 @@ tsc -b && pnpm vite build . --log-level silent
 
 cd ../
 
-go build -C http/cmd -o ../bin/main .
+go build -C http -o bin/main .
 
 echo "${NO_FORMAT}${F_BOLD}Done!${NO_FORMAT}${C_GREY46}\n"
 

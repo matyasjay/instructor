@@ -10,8 +10,8 @@ export default function Layout({ children }: LayoutProps) {
       >
         &nbsp;
       </div>
-      <div className="mt-2 flex w-full flex-1 gap-2 rounded-2xl">
-        <main className="h-fit w-full rounded-2xl bg-white-3 dark:bg-dark-2">
+      <div className="mt-2 flex w-full h-dvh flex-1 gap-2 rounded-2xl">
+        <main className="h-180 w-full rounded-2xl bg-white-3 dark:bg-dark-2 p-0">
           {children}
         </main>
       </div>
