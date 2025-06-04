@@ -8,5 +8,6 @@ export const PAGES = {
   PRIVATE: {
     DASHBOARD: "/app/dashboard",
     SERVICES: "/app/my-services",
+    PROJECT: "/app/project",
   },
 } as const;

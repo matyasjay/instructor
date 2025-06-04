@@ -18,13 +18,11 @@ export function ErrorDisplay({
       <div className="flex flex-col w-full gap-3.5 mx-auto min-h-10/12 px-9">
         <div className="w-full pt-4">
           <h1 className="flex scroll-m-20 text-lg font-semibold tracking-tight mb-4">
-Error
+            Error
           </h1>
           <Alert variant="destructive">
             <AlertCircleIcon />
-            <AlertTitle>
-            {message}
-            </AlertTitle>
+            <AlertTitle>{message}</AlertTitle>
             <AlertDescription>
               <ul className="list-disc list-inside text-m">
                 <li>The page may have moved or been deleted</li>

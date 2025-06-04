@@ -1,17 +1,18 @@
 import Login from "@/app/login";
 import NotFound from "@/app/login";
 import { SkeletonPage } from "@/components/ui/skeleton";
+import { getUserIsAuthenticated } from "@/lib/hooks/useAuth";
+import { PAGES } from "@/config/pages";
 import { IndexRouteObject, Navigate, NonIndexRouteObject } from "react-router";
 import { ErrorDisplay } from "./error";
 import Dashboard from "./dashboard";
 import Signup from "./signup";
 import Landing from "./landing";
 import { ProtectedRoute } from "./protected";
-import { PAGES } from "@/config/pages";
 import Layout from "./layout";
-import { getUserIsAuthenticated } from "@/lib/hooks/useAuth";
 import Explore from "./explore";
 import MyServices from "./my-services";
+import Project from "./project";
 
 const router: (IndexRouteObject | NonIndexRouteObject)[] = [
   {
@@ -75,6 +76,15 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
       {
         path: "/app/*",
         element: <Navigate to={PAGES.PRIVATE.DASHBOARD} />,
+      },
+      {
+        path: "/app/project",
+        element: <Project />,
+        hydrateFallbackElement: <SkeletonPage />,
+        loader: async () => {
+          const auth = await getUserIsAuthenticated();
+          return { authenticated: !!auth.user_id };
+        },
       },
       {
         path: "/app/dashboard",
