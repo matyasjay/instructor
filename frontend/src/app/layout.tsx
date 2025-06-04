@@ -60,7 +60,7 @@ export default function Layout({
               onClick={navigate(
                 isAuthenticated
                   ? PAGES.PRIVATE.DASHBOARD
-                  : PAGES.PUBLIC.SERVICES,
+                  : PAGES.PUBLIC.SERVICES
               )}
             >
               Instructor

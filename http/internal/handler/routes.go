@@ -2,11 +2,11 @@ package handler
 
 import (
 	"fmt"
-	"os"
 	"github.com/golang-jwt/jwt/v5"
 	"http/internal/handler/connection"
 	"http/internal/handler/endpoint"
 	"net/http"
+	"os"
 
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -31,8 +31,7 @@ func RegisterRoutes(e *echo.Echo) {
 	e.POST("/user", endpoint.GetUserByEmail)
 	e.POST("/user/create", endpoint.CreateUser)
 
-
-    var secret = os.Getenv("JWT_SECRET")
+	var secret = os.Getenv("JWT_SECRET")
 
 	jwtConfig := echojwt.Config{
 		SigningKey: []byte(secret),

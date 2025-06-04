@@ -40,7 +40,7 @@ async function submitUserData(user: User) {
   const result = normalizeObjectKeys<User>(response.data);
   window.localStorage.setItem(
     STORAGE.USER,
-    JSON.stringify(Object(result).user),
+    JSON.stringify(Object(result).user)
   );
   Cookies.set(COOKIES.JWT, result.token);
   return result;

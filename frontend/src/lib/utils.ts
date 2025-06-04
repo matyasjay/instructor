@@ -20,7 +20,7 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
       [key.toLowerCase()]:
         typeof value === "object" ? normalizeObjectKeys(value) : value,
     }),
-    Object.create(null),
+    Object.create(null)
   );
 }
 
@@ -52,7 +52,7 @@ export async function authGet(endpoint: Endpoint) {
 
 export async function authPost<T = Record<string, unknown>>(
   endpoint: Endpoint,
-  data: T,
+  data: T
 ) {
   try {
     const jwt = Cookies.get(COOKIES.JWT);
