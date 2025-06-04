@@ -9,28 +9,44 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(uuid())
-  name          String          @unique
-  email         String          @unique
-  password      String
+  id       String            @id @default(uuid())
+  name     String            @unique
+  email    String            @unique
+  password String
+  services ServicesOnUsers[]
+}
+
+model Service {
+  id    String            @id @default(uuid())
+  name  String            @unique
+  users ServicesOnUsers[]
+}
+
+model ServicesOnUsers {
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId String
+
+  @@id([userId, serviceId])
 }
 
 model PromptTemplate {
-  id            String          @id @default(uuid())
-  name          String          @unique
-  description   String
-  template      String
-  variables     Json
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  PromptInput   PromptInput[]
+  id          String        @id @default(uuid())
+  name        String        @unique
+  description String
+  template    String
+  variables   Json
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  PromptInput PromptInput[]
 }
 
 model PromptInput {
-  id            String          @id @default(uuid())
-  template      PromptTemplate  @relation(fields: [templateId], references: [id])
-  templateId    String
-  input         Json            @default("{}")
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  id         String         @id @default(uuid())
+  template   PromptTemplate @relation(fields: [templateId], references: [id])
+  templateId String
+  input      Json           @default("{}")
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
 }
