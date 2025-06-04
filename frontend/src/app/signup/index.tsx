@@ -86,7 +86,7 @@ function Signup() {
   return !isReady ? null : (
     <form className="min-h-10/12 px-9 max-w-[1400px]" onSubmit={handleSubmit}>
       <h1 className="flex scroll-m-20 text-lg font-semibold tracking-tight mb-4 pt-4">
-        Signup
+        Register A New Account
       </h1>
       <div className="flex flex-col max-w-[400px] gap-3.5 mx-auto align-middle min-h-10/12">
         <Label>Full name</Label>

@@ -47,5 +47,8 @@ func RegisterRoutes(e *echo.Echo) {
 		return c.JSON(http.StatusOK, echo.Map{"user_id": claims["user_id"]})
 	})
 
-	r.POST("/current-user", endpoint.GetUserById)
+	r.POST("/user/current", endpoint.GetUserById)
+
+	r.POST("/service/create", endpoint.CreateService)
+	r.POST("/service/all", endpoint.GetServicesByUser)
 }

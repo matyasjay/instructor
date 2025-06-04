@@ -1,7 +1,6 @@
 import { Navigate, useLoaderData, useNavigate } from "react-router";
 import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -96,7 +95,7 @@ function Login() {
   return !ready ? null : (
     <form className="min-h-10/12 px-9 max-w-[1400px]" onSubmit={handleSubmit}>
       <h1 className="flex scroll-m-20 text-lg font-semibold tracking-tight mb-4 pt-4">
-        Login
+        Login To Your Account
       </h1>
       <div className="flex flex-col max-w-[400px] gap-3.5 mx-auto align-middle min-h-10/12">
         <Label>E-mail address</Label>
@@ -111,10 +110,6 @@ function Login() {
           value={user.password}
           onChange={handleChange("password")}
         />
-        <div className="flex flex-row gap-3 align-middle justify-start">
-          <Checkbox />
-          <Label className="text-gray-200"> Remember me</Label>
-        </div>
         <Separator />
         <Button type="submit">Submit</Button>
         <Button type="button" variant="outline" onClick={handleSignUp}>

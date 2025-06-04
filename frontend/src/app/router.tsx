@@ -10,9 +10,9 @@ import Signup from "./signup";
 import Landing from "./landing";
 import { ProtectedRoute } from "./protected";
 import Layout from "./layout";
-import Explore from "./explore";
-import MyServices from "./my-services";
-import Project from "./project";
+import ServiceAll from "./service-all";
+import ServiceOwn from "./service-own";
+import ServiceNew from "./service-new";
 
 const router: (IndexRouteObject | NonIndexRouteObject)[] = [
   {
@@ -38,10 +38,6 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
       {
         path: "/landing",
         element: <Landing />,
-      },
-      {
-        path: "/explore",
-        element: <Explore />,
       },
       {
         path: "/login",
@@ -78,15 +74,6 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
         element: <Navigate to={PAGES.PRIVATE.DASHBOARD} />,
       },
       {
-        path: "/app/project",
-        element: <Project />,
-        hydrateFallbackElement: <SkeletonPage />,
-        loader: async () => {
-          const auth = await getUserIsAuthenticated();
-          return { authenticated: !!auth.user_id };
-        },
-      },
-      {
         path: "/app/dashboard",
         element: <Dashboard />,
         hydrateFallbackElement: <SkeletonPage />,
@@ -96,8 +83,26 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
         },
       },
       {
-        path: "/app/my-services",
-        element: <MyServices />,
+        path: "/app/service/own",
+        element: <ServiceOwn />,
+        hydrateFallbackElement: <SkeletonPage />,
+        loader: async () => {
+          const auth = await getUserIsAuthenticated();
+          return { authenticated: !!auth.user_id };
+        },
+      },
+      {
+        path: "/app/service/all",
+        element: <ServiceAll />,
+        hydrateFallbackElement: <SkeletonPage />,
+        loader: async () => {
+          const auth = await getUserIsAuthenticated();
+          return { authenticated: !!auth.user_id };
+        },
+      },
+      {
+        path: "/app/service/new",
+        element: <ServiceNew />,
         hydrateFallbackElement: <SkeletonPage />,
         loader: async () => {
           const auth = await getUserIsAuthenticated();

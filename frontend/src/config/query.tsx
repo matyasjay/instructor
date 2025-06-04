@@ -17,4 +17,6 @@ export const QUERY_KEYS = {
 export const MUTATION_KEYS = {
   SIGNUP: "instructor-user-signup",
   LOGIN: "instructor-user-login",
+  CREATE_SERVICE: "instructor-service-create",
+  GET_SERVICES: "instructor-services-get",
 };

@@ -14,11 +14,7 @@ import { COOKIES, STORAGE } from "@/config/cookies";
 import { PAGES } from "@/config/pages";
 import Cookies from "js-cookie";
 import { Fragment } from "react";
-import { Outlet, useLoaderData } from "react-router";
-
-type PrivatePages = (typeof PAGES)["PRIVATE"][keyof (typeof PAGES)["PRIVATE"]];
-type PublicPages = (typeof PAGES)["PUBLIC"][keyof (typeof PAGES)["PUBLIC"]];
-type Page = PublicPages | PrivatePages;
+import { Outlet, useLoaderData, useNavigate } from "react-router";
 
 export default function Layout({
   authenticated: inheritedAuth,
@@ -29,19 +25,12 @@ export default function Layout({
 }) {
   const { authenticated } = useLoaderData() ?? {};
   const isAuthenticated = authenticated ?? inheritedAuth ?? false;
-
-  const hideUserActions = (
-    [PAGES.PUBLIC.LOGIN, PAGES.PUBLIC.SIGNUP] as string[]
-  ).includes(window.location.pathname);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     Cookies.remove(COOKIES.JWT);
     window.localStorage.removeItem(STORAGE.USER);
     window.location.pathname = PAGES.PUBLIC.LANDING;
-  };
-
-  const navigate = (url: Page) => () => {
-    window.location.pathname = url;
   };
 
   return (
@@ -57,7 +46,7 @@ export default function Layout({
             <Button
               className="text-lg hover:no-underline text-white"
               variant="link"
-              onClick={navigate(PAGES.PUBLIC.LANDING)}
+              onClick={() => navigate(PAGES.PUBLIC.LANDING)}
             >
               Instructor
             </Button>
@@ -66,21 +55,27 @@ export default function Layout({
                 <Button
                   variant="default"
                   className="ml-auto"
-                  onClick={navigate(PAGES.PRIVATE.PROJECT)}
+                  onClick={() => navigate(PAGES.PRIVATE.SERVICE_NEW)}
                 >
-                  New Project
+                  New Service
                 </Button>
                 <Button
                   variant="secondary"
-                  onClick={navigate(PAGES.PRIVATE.DASHBOARD)}
+                  onClick={() => navigate(PAGES.PRIVATE.DASHBOARD)}
                 >
                   Dashboard
                 </Button>
                 <Button
                   variant="secondary"
-                  onClick={navigate(PAGES.PRIVATE.SERVICES)}
+                  onClick={() => navigate(PAGES.PRIVATE.SERVICE_OWN)}
                 >
-                  My Services
+                  Own Services
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => navigate(PAGES.PRIVATE.SERVICE_ALL)}
+                >
+                  All Services
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
@@ -111,28 +106,18 @@ export default function Layout({
             ) : (
               <Fragment>
                 <Button
-                  variant="secondary"
+                  variant="default"
+                  onClick={() => navigate(PAGES.PUBLIC.LOGIN)}
                   className="ml-auto"
-                  onClick={navigate(PAGES.PUBLIC.SERVICES)}
                 >
-                  Explore
+                  Sign In
                 </Button>
-                {!hideUserActions && (
-                  <Fragment>
-                    <Button
-                      variant="default"
-                      onClick={navigate(PAGES.PUBLIC.LOGIN)}
-                    >
-                      Sign In
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={navigate(PAGES.PUBLIC.SIGNUP)}
-                    >
-                      Sign Up
-                    </Button>
-                  </Fragment>
-                )}
+                <Button
+                  variant="outline"
+                  onClick={() => navigate(PAGES.PUBLIC.SIGNUP)}
+                >
+                  Sign Up
+                </Button>
               </Fragment>
             )}
           </div>

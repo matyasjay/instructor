@@ -7,7 +7,8 @@ export const PAGES = {
   },
   PRIVATE: {
     DASHBOARD: "/app/dashboard",
-    SERVICES: "/app/my-services",
-    PROJECT: "/app/project",
+    SERVICE_OWN: "/app/service/own",
+    SERVICE_ALL: "/app/service/all",
+    SERVICE_NEW: "/app/service/new",
   },
 } as const;

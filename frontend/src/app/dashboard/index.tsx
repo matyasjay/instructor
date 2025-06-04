@@ -1,4 +1,4 @@
-import { PlusCircleIcon, WrenchIcon } from "lucide-react";
+import { PlusCircleIcon, CpuIcon, WrenchIcon } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -13,8 +13,12 @@ import { PAGES } from "@/config/pages";
 import { useLoaderData, useNavigate } from "react-router";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useServices } from "@/lib/hooks/useServices";
+import { Separator } from "@/components/ui/separator";
 
 function Dashboard() {
+  const services = useServices();
+
   const { data, isPending } = useQuery({
     queryFn: fetchUser,
     queryKey: [QUERY_KEYS.USER],
@@ -37,12 +41,13 @@ function Dashboard() {
         </h1>
       </div>
       <div className="flex flex-col w-full items-top">
-        <Accordion type="multiple" className="w-full justify-start">
-          <AccordionItem
-            value="account_details"
-            className="border-x-1 border-y-0 mb-3"
-          >
-            <AccordionTrigger className="cursor-pointer hover:no-underline bg-sidebar px-7 font-bold">
+        <Accordion
+          type="multiple"
+          className="w-full justify-start"
+          value={["account_details", "account_services"]}
+        >
+          <AccordionItem value="account_details" className="border-1 mb-3">
+            <AccordionTrigger className="hover:no-underline bg-sidebar px-7 font-bold [&>svg]:hidden">
               User Details
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4 text-balance bg-sidebar px-7 py-3">
@@ -62,65 +67,59 @@ function Dashboard() {
               </Button>
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem
-            value="account_services"
-            className="border-x-1 border-y-0 mb-3"
-          >
-            <AccordionTrigger className="cursor-pointer hover:no-underline bg-sidebar px-7 font-bold">
+          <AccordionItem value="account_services" className="border-1 mb-3">
+            <AccordionTrigger className="hover:no-underline bg-sidebar px-7 font-bold [&>svg]:hidden">
               Service Information
             </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-4 text-balance bg-sidebar px-7 py-3">
-              <table>
-                <tbody>
-                  {Object.entries({
-                    "service-1": {
-                      name: "Service 1",
-                    },
-                    "service-2": {
-                      name: "Service 2",
-                    },
-                  }).map(([serviceName, service]) => (
-                    <tr key={serviceName + ""} className="h-10">
-                      <td>
-                        <Accordion
-                          type="multiple"
-                          className="w-full justify-start mb-2"
+            <AccordionContent className="flex flex-col gap-4 text-balance bg-sidebar px-7 py-3 w-full border-b-1">
+              <Accordion
+                type="single"
+                className="mb-2"
+                defaultValue={services[0]?.name}
+              >
+                {services.map((service) => (
+                  <AccordionItem value={service.name}>
+                    <AccordionTrigger className="cursor-pointer hover:no-underline bg-accent px-7 font-bold [&[data-state=open]]:bg-primary ">
+                      {capitalizeFirstLetter(service.name)}
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col gap-4 text-balance bg-sidebar border-t-1 px-7 py-3 border-x-1 border-b-1">
+                      <table>
+                        <tbody>
+                          {Object.entries(service).map(([key, value]) => (
+                            <tr className="h-10" key={key}>
+                              <td>{capitalizeFirstLetter(key)}</td>
+                              <td>{value}</td>
+                              <td></td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <Separator />
+                      <div className="flex gap-3">
+                        <Button
+                          variant="default"
+                          className="flex w-[50%] ml-auto"
                         >
-                          <AccordionItem value={serviceName}>
-                            <AccordionTrigger className="cursor-pointer hover:no-underline bg-accent px-7 font-bold">
-                              {capitalizeFirstLetter(serviceName)}
-                            </AccordionTrigger>
-                            <AccordionContent className="flex flex-col gap-4 text-balance bg-sidebar border-t-1 px-7 py-3 border-x-1 border-b-1">
-                              <table>
-                                <tbody>
-                                  {Object.values(service).map(
-                                    ([key, value]) => (
-                                      <tr className="h-10" key={key}>
-                                        <td>{capitalizeFirstLetter(key)}</td>
-                                        <td>{value}</td>
-                                        <td>
-                                          <Button
-                                            variant="outline"
-                                            className="flex ml-auto"
-                                          >
-                                            <WrenchIcon />
-                                            Configure
-                                          </Button>
-                                        </td>
-                                      </tr>
-                                    )
-                                  )}
-                                </tbody>
-                              </table>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Accordion>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <Button variant="outline" className="flex w-full mx-auto">
+                          <CpuIcon />
+                          Start Service
+                        </Button>
+                        <Button
+                          variant="secondary"
+                          className="flex w-[50%] ml-auto"
+                        >
+                          <WrenchIcon />
+                          Configure Service
+                        </Button>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+              <Button
+                variant="outline"
+                className="flex w-full mx-auto"
+                onClick={() => navigate(PAGES.PRIVATE.SERVICE_NEW)}
+              >
                 <PlusCircleIcon />
                 Add New Service
               </Button>

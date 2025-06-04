@@ -52,7 +52,8 @@ export async function authGet(endpoint: Endpoint) {
 
 export async function authPost<T = Record<string, unknown>>(
   endpoint: Endpoint,
-  data: T
+  data: T,
+  options?: { skipNormalize?: boolean }
 ) {
   try {
     const jwt = Cookies.get(COOKIES.JWT);
@@ -61,7 +62,9 @@ export async function authPost<T = Record<string, unknown>>(
         Authorization: `Bearer ${jwt}`,
       },
     });
-    return normalizeObjectKeys(response.data ?? {});
+    return options?.skipNormalize
+      ? response.data
+      : normalizeObjectKeys(response.data ?? {});
   } catch (e) {
     return {
       error: parseErrorObject(e),
