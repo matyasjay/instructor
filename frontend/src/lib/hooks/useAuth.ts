@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { ENDPOINTS } from "@/components/endpoints";
 import { QUERY_KEYS } from "@/config/query";
-import { authFetch, parseErrorObject } from "../utils";
+import { authGet, parseErrorObject } from "../utils";
 
-async function authUser() {
+export async function getUserIsAuthenticated() {
   try {
-    return await authFetch(ENDPOINTS.ME);
+    return await authGet(ENDPOINTS.ME);
   } catch (e) {
     return {
       error: parseErrorObject(e),
@@ -13,10 +13,10 @@ async function authUser() {
   }
 }
 
-export const useAuth = () => {
+export function useAuth() {
   return useQuery({
     queryKey: [QUERY_KEYS.ME],
-    queryFn: authUser,
+    queryFn: getUserIsAuthenticated,
     retry: false,
   });
-};
+}

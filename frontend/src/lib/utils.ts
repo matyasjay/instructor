@@ -20,7 +20,7 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
       [key.toLowerCase()]:
         typeof value === "object" ? normalizeObjectKeys(value) : value,
     }),
-    Object.create(null)
+    Object.create(null),
   );
 }
 
@@ -34,7 +34,7 @@ export function parseErrorObject<T = unknown>(error: T) {
   }
 }
 
-export async function authFetch(endpoint: Endpoint) {
+export async function authGet(endpoint: Endpoint) {
   try {
     const jwt = Cookies.get(COOKIES.JWT);
     const response = await client.get(endpoint, {
@@ -52,7 +52,7 @@ export async function authFetch(endpoint: Endpoint) {
 
 export async function authPost<T = Record<string, unknown>>(
   endpoint: Endpoint,
-  data: T
+  data: T,
 ) {
   try {
     const jwt = Cookies.get(COOKIES.JWT);

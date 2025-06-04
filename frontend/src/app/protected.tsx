@@ -1,15 +1,13 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "@/lib/hooks/useAuth";
+import { Navigate, useLoaderData } from "react-router-dom";
 import { PAGES } from "@/config/pages";
+import Layout from "./layout";
 
-export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { data, isPending } = useAuth();
+export const ProtectedRoute = () => {
+  const { authenticated } = useLoaderData();
 
-  if (isPending) return null;
-
-  if (data?.error) {
+  if (!authenticated) {
     return <Navigate to={PAGES.PUBLIC.LOGIN} />;
   }
 
-  return children;
+  return <Layout authenticated={authenticated} />;
 };

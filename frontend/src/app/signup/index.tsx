@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router";
+import { Navigate, useLoaderData, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import React, { FormEventHandler, useState } from "react";
+import React, { FormEventHandler, useEffect, useState } from "react";
 import { client } from "@/lib/http";
 import { useMutation } from "@tanstack/react-query";
 import { normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
@@ -44,7 +44,9 @@ function submitUserData(user: User) {
 function Signup() {
   const [user, setUser] = useState<User>(defaultUser);
   const [error, setError] = useState<string>("");
+  const [isReady, setIsReady] = useState(false);
   const navigate = useNavigate();
+  const { authenticated } = useLoaderData();
 
   const mutaion = useMutation({
     mutationFn: submitUserData(user),
@@ -67,7 +69,21 @@ function Signup() {
 
   const handleSubmit = mutaion.mutate as unknown as FormEventHandler;
 
-  return (
+  const handleLogin = () => {
+    navigate(PAGES.PUBLIC.LOGIN);
+  };
+
+  useEffect(() => {
+    if (authenticated === false) {
+      setIsReady(true);
+    }
+  }, [authenticated]);
+
+  if (authenticated) {
+    return <Navigate to={PAGES.PRIVATE.DASHBOARD} />;
+  }
+
+  return !isReady ? null : (
     <form
       className="flex flex-col max-w-100 gap-3.5 mx-auto justify-center align-middle min-h-10/12"
       onSubmit={handleSubmit}
@@ -104,6 +120,9 @@ function Signup() {
       <Separator />
       <Button className="cursor-pointer" type="submit">
         Submit
+      </Button>
+      <Button type="button" variant="outline" onClick={handleLogin}>
+        Sign In
       </Button>
       {error && <h4>{error}</h4>}
     </form>

@@ -3,8 +3,10 @@ export const PAGES = {
     LANDING: "/landing",
     SIGNUP: "/signup",
     LOGIN: "/login",
+    SERVICES: "/services",
   },
   PRIVATE: {
-    DASHBOARD: "/dashboard",
+    DASHBOARD: "/app/dashboard",
+    SERVICES: "/app/services",
   },
 } as const;

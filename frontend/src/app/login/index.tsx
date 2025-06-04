@@ -1,11 +1,11 @@
-import { Navigate, useNavigate } from "react-router";
+import { Navigate, useLoaderData, useNavigate } from "react-router";
 import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import React, { FormEventHandler, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { client } from "@/lib/http";
 import { useMutation } from "@tanstack/react-query";
 import { normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
@@ -14,7 +14,6 @@ import { COOKIES, STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/components/endpoints";
 import { PAGES } from "@/config/pages";
 import { MUTATION_KEYS } from "@/config/query";
-import { useAuth } from "@/lib/hooks/useAuth";
 
 const UserPayload = z.object({
   email: z.email(),
@@ -35,29 +34,28 @@ const defaultUser = {
   token: "",
 };
 
-function submitUserData(user: User) {
-  return async function (e: React.FormEvent<HTMLFormElement>): Promise<User> {
-    e.preventDefault();
-    UserPayload.parse(user);
-    const response = await client.post<User>(ENDPOINTS.USER, user);
-    const result = normalizeObjectKeys<User>(response.data);
-    window.localStorage.setItem(
-      STORAGE.USER,
-      JSON.stringify(Object(result).user)
-    );
-    Cookies.set(COOKIES.JWT, result.token);
-    return result;
-  };
+async function submitUserData(user: User) {
+  UserPayload.parse(user);
+  const response = await client.post<User>(ENDPOINTS.USER, user);
+  const result = normalizeObjectKeys<User>(response.data);
+  window.localStorage.setItem(
+    STORAGE.USER,
+    JSON.stringify(Object(result).user),
+  );
+  Cookies.set(COOKIES.JWT, result.token);
+  return result;
 }
 
 function Login() {
   const [user, setUser] = useState<User>(defaultUser);
   const [error, setError] = useState<string>("");
+  const [ready, setReady] = useState(false);
+  const { authenticated } = useLoaderData();
+
   const navigate = useNavigate();
-  const { data: authData, isPending } = useAuth();
 
   const mutaion = useMutation({
-    mutationFn: submitUserData(user),
+    mutationFn: submitUserData,
     mutationKey: [MUTATION_KEYS.LOGIN],
     onSuccess: () => {
       navigate(PAGES.PRIVATE.DASHBOARD);
@@ -75,13 +73,27 @@ function Login() {
       }));
     };
 
-  const handleSubmit = mutaion.mutate as unknown as FormEventHandler;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setReady(false);
+    mutaion.mutate(user);
+  };
 
-  if (!authData?.error && !isPending) {
+  const handleSignUp = () => {
+    navigate(PAGES.PUBLIC.SIGNUP);
+  };
+
+  useEffect(() => {
+    if (authenticated === false) {
+      setReady(true);
+    }
+  }, [authenticated]);
+
+  if (authenticated) {
     return <Navigate to={PAGES.PRIVATE.DASHBOARD} />;
   }
 
-  return (
+  return !ready ? null : (
     <form
       className="flex flex-col max-w-100 gap-3.5 mx-auto justify-center align-middle min-h-10/12"
       onSubmit={handleSubmit}
@@ -92,15 +104,11 @@ function Login() {
       </h1>
       <Separator />
       <Label>E-mail address</Label>
-      <Input
-        type="email"
-        defaultValue={user.email}
-        onChange={handleChange("email")}
-      />
+      <Input type="email" value={user.email} onChange={handleChange("email")} />
       <Label>Password</Label>
       <Input
         type="password"
-        defaultValue={user.password}
+        value={user.password}
         onChange={handleChange("password")}
       />
       <div className="flex flex-row gap-3 align-middle justify-start">
@@ -109,6 +117,9 @@ function Login() {
       </div>
       <Separator />
       <Button type="submit">Submit</Button>
+      <Button type="button" variant="outline" onClick={handleSignUp}>
+        Sign Up
+      </Button>
       {error && <h4>{error}</h4>}
     </form>
   );
