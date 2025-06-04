@@ -22,7 +22,7 @@ function ServiceAll() {
         </h1>
       </div>
       {services.map(({ name, id }) => (
-        <div>
+        <div key={name}>
           {id} - {name}
         </div>
       ))}

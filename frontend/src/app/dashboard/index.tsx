@@ -78,7 +78,7 @@ function Dashboard() {
                 defaultValue={services[0]?.name}
               >
                 {services.map((service) => (
-                  <AccordionItem value={service.name}>
+                  <AccordionItem value={service.name} key={service.name}>
                     <AccordionTrigger className="cursor-pointer hover:no-underline bg-accent px-7 font-bold [&[data-state=open]]:bg-primary ">
                       {capitalizeFirstLetter(service.name)}
                     </AccordionTrigger>
