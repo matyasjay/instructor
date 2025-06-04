@@ -8,9 +8,10 @@ import Signup from "./signup";
 import Landing from "./landing";
 import { ProtectedRoute } from "./protected";
 import { PAGES } from "@/config/pages";
-import Services from "./services";
 import Layout from "./layout";
 import { getUserIsAuthenticated } from "@/lib/hooks/useAuth";
+import Explore from "./explore";
+import MyServices from "./my-services";
 
 const router: (IndexRouteObject | NonIndexRouteObject)[] = [
   {
@@ -38,8 +39,8 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
         element: <Landing />,
       },
       {
-        path: "/services",
-        element: <Services />,
+        path: "/explore",
+        element: <Explore />,
       },
       {
         path: "/login",
@@ -85,8 +86,8 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
         },
       },
       {
-        path: "/app/services",
-        element: <Services />,
+        path: "/app/my-services",
+        element: <MyServices />,
         hydrateFallbackElement: <SkeletonPage />,
         loader: async () => {
           const auth = await getUserIsAuthenticated();

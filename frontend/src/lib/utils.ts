@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { client } from "@/lib/http";
-import { ENDPOINTS } from "@/components/endpoints";
+import { ENDPOINTS } from "@/config/endpoints";
 import { COOKIES } from "@/config/cookies";
 import { AxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";

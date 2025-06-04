@@ -1,12 +1,16 @@
 package utils
 
 import (
+	"os"
+	"time"
+
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
-	"time"
 )
 
-var jwtSecret = []byte("your-secret")
+var secret = os.Getenv("JWT_SECRET")
+
+var jwtSecret = []byte(secret)
 
 func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)

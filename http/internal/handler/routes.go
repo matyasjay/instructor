@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"os"
 	"github.com/golang-jwt/jwt/v5"
 	"http/internal/handler/connection"
 	"http/internal/handler/endpoint"
@@ -30,8 +31,11 @@ func RegisterRoutes(e *echo.Echo) {
 	e.POST("/user", endpoint.GetUserByEmail)
 	e.POST("/user/create", endpoint.CreateUser)
 
+
+    var secret = os.Getenv("JWT_SECRET")
+
 	jwtConfig := echojwt.Config{
-		SigningKey: []byte("your-secret"),
+		SigningKey: []byte(secret),
 	}
 
 	r := e.Group("/private")

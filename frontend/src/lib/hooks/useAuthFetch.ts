@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import { client } from "../http";
-import { ENDPOINTS } from "@/components/endpoints";
+import { ENDPOINTS } from "@/config/endpoints";
 import { normalizeObjectKeys, parseErrorObject } from "../utils";
 import { COOKIES } from "@/config/cookies";
 

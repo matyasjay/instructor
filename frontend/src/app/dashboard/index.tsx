@@ -4,7 +4,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Separator } from "@/components/ui/separator";
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/config/query";
 import { fetchUser } from "@/lib/hooks/useUser";
@@ -28,12 +27,11 @@ function Dashboard() {
   }, [authenticated]);
 
   return isPending ? null : (
-    <div className="flex flex-col w-full gap-3.5 mx-auto justify-top items-start min-h-10/12 px-15">
-      <div className="w-full top-15 justify-center pb-4 mt-10">
+    <div className="flex flex-col w-full gap-3.5 mx-auto justify-top items-start min-h-10/12 px-9">
+      <div className="w-full justify-center pt-4">
         <h1 className="flex scroll-m-20 text-lg font-semibold tracking-tight mb-4">
-          Dahsboard
+          Dashboard
         </h1>
-        <Separator />
       </div>
       <div className="flex flex-col w-full items-top">
         <Accordion
@@ -43,10 +41,10 @@ function Dashboard() {
           defaultValue="account_details"
         >
           <AccordionItem value="account_details">
-            <AccordionTrigger className="cursor-pointer hover:no-underline bg-secondary p-5">
+            <AccordionTrigger className="cursor-pointer hover:no-underline bg-primary px-7">
               Account Details
             </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-4 text-balance p-5 bg-secondary border-t-1">
+            <AccordionContent className="flex flex-col gap-4 text-balance bg-sidebar border-t-1 px-7 py-3 border-x-1 border-b-1">
               <table>
                 <tbody>
                   {Object.entries(data).map(([key, value]) => (

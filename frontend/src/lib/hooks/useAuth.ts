@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ENDPOINTS } from "@/components/endpoints";
+import { ENDPOINTS } from "@/config/endpoints";
 import { QUERY_KEYS } from "@/config/query";
 import { authGet, parseErrorObject } from "../utils";
 

@@ -1,6 +1,6 @@
-import { AxiosError } from "axios";
+import { parseErrorObject } from "@/lib/utils";
 import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
-import { isRouteErrorResponse } from "react-router";
+import Layout from "./layout";
 
 export function ErrorDisplay({
   error = Error("Unknown"),
@@ -8,41 +8,19 @@ export function ErrorDisplay({
   error?: Error;
   resetErrorBoundary?: () => void;
 }) {
-  if (isRouteErrorResponse(error)) {
-    return (
-      <div>
-        <h1>
-          {error.status} {error.statusText}
-        </h1>
-        <p>{error.data}</p>
-      </div>
-    );
-  }
-
-  if (error instanceof AxiosError) {
-    return (
-      <div>
-        <p>Something went wrong:</p>
-        <pre>{error?.response?.data}</pre>
-      </div>
-    );
-  }
-
-  if (error instanceof Error) {
-    return (
-      <div>
-        <h1>Error</h1>
-        <p>{error.message}</p>
-        <pre>{error.stack}</pre>
-      </div>
-    );
-  }
+  const parsedError = parseErrorObject(error);
+  const message = parsedError.message ?? "Page Not Found";
 
   return (
-    <div>
-      <h1>Error</h1>
-      <p>Unknown Error!</p>
-    </div>
+    <Layout>
+      <div>
+        <div role="alert">
+          <div className="border border-x-0 border-t-0 border-red-400 bg-red-100 px-4 py-3 text-red-700">
+            <p>{message}</p>
+          </div>
+        </div>
+      </div>
+    </Layout>
   );
 }
 
