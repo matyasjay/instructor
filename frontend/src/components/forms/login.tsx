@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { z, ZodError } from "zod";
+import { useAuth } from "@/app/context";
 import { COOKIES, STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
+import { PAGES } from "@/config/pages";
 import { MUTATION_KEYS } from "@/config/query";
-import { authPost, normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
+import { authPost, normalizeObjectKeys } from "@/lib/utils";
 import createFormPopupLayout, { FormField } from "./layout/popup";
 
 const formSchema = z.object({
@@ -39,7 +42,7 @@ async function loginUser(input: LoginInput) {
 
   window.localStorage.setItem(
     STORAGE.USER,
-    JSON.stringify(Object(result).user)
+    JSON.stringify(Object(result).user),
   );
 
   Cookies.set(COOKIES.JWT, result.token);
@@ -52,6 +55,8 @@ const FormLayoutPopup = createFormPopupLayout<LoginInput>();
 export default function LoginForm() {
   const [user, setUser] = useState(defaultUser);
   const [error, setError] = useState<string>("");
+  const { setAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const form = useForm<LoginInput>({
     resolver: zodResolver(formSchema),
@@ -62,12 +67,15 @@ export default function LoginForm() {
     mutationFn: loginUser,
     mutationKey: [MUTATION_KEYS.LOGIN],
     onError: (e) => {
-      setError(parseErrorObject(e));
+      throw e;
     },
     onSuccess: (data) => {
       if (data.error) {
-        setError(parseErrorObject(data.error));
+        throw data.error;
       }
+      setAuthenticated(true);
+      setUser(defaultUser);
+      navigate(PAGES.PRIVATE.DASHBOARD);
     },
   });
 
@@ -84,7 +92,6 @@ export default function LoginForm() {
     e.preventDefault();
     setError("");
     mutation.mutate(user);
-    setUser(defaultUser);
   };
 
   const formFields: FormField[] = [

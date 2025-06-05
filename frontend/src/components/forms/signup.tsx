@@ -3,7 +3,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { z, ZodError } from "zod";
+import { COOKIES, STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
 import { PAGES } from "@/config/pages";
 import { MUTATION_KEYS } from "@/config/query";
@@ -40,8 +42,16 @@ async function signupUser(input: SignupInput) {
   if (response.error) {
     throw response;
   }
+  const result = normalizeObjectKeys(response);
 
-  return normalizeObjectKeys(response);
+  window.localStorage.setItem(
+    STORAGE.USER,
+    JSON.stringify(Object(result).user),
+  );
+
+  Cookies.set(COOKIES.JWT, result.token);
+
+  return result;
 }
 
 export default function SignupForm() {

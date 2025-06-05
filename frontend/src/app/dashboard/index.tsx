@@ -5,6 +5,7 @@ import {
   ThumbsUp,
   ThumbsDown,
 } from "lucide-react";
+import ButtonWithPopup from "@/components/features/button-with-popup";
 import NewServiceForm from "@/components/forms/new-service";
 import {
   Accordion,
@@ -12,24 +13,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { STORAGE } from "@/config/cookies";
 import { useServices } from "@/lib/hooks/useServices";
 import { capitalizeFirstLetter } from "@/lib/utils";
+import { useAuth } from "../context";
 
 function Dashboard() {
+  const { authenticated } = useAuth();
   const services = useServices();
   const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}");
+
+  console.log(authenticated);
 
   delete user.id;
   delete user.password;
@@ -110,7 +106,7 @@ function Dashboard() {
                                   )}
                                 </td>
                               </tr>
-                            ) : null
+                            ) : null,
                           )}
                         </tbody>
                       </table>
@@ -136,8 +132,9 @@ function Dashboard() {
                 ))}
               </Accordion>
             </AccordionContent>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
+            <ButtonWithPopup
+              title="Create New Service"
+              trigger={
                 <Button
                   variant="outline"
                   className="flex w-full mx-auto cursor-pointer"
@@ -145,21 +142,11 @@ function Dashboard() {
                   <PlusCircleIcon />
                   Add New Service
                 </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="flex justify-between w-full items-center">
-                    Create New Service
-                    <AlertDialogCancel className="cursor-pointer">
-                      Cancel
-                    </AlertDialogCancel>
-                  </AlertDialogTitle>
-                  <Separator />
-                </AlertDialogHeader>
-                <NewServiceForm />
-                <AlertDialogFooter></AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+              }
+              content={<NewServiceForm />}
+              className="ml-auto"
+              description="Fill in the details below then submit to create a new service."
+            />
           </AccordionItem>
         </Accordion>
       </div>

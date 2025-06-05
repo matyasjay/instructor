@@ -28,13 +28,13 @@ export async function fetchServices() {
   const allServicesPromise = authPost(
     ENDPOINTS.GET_SERVICES_ALL,
     { id: user.id },
-    { skipNormalize: true }
+    { skipNormalize: true },
   );
 
   const userServicesPromise = authPost(
     ENDPOINTS.GET_SERVICES_USER,
     { id: user.id },
-    { skipNormalize: true }
+    { skipNormalize: true },
   );
 
   const [allServices, userServices] = await Promise.all([
@@ -61,13 +61,13 @@ export function useServices(): Services {
 
   useEffect(() => {
     mutation.mutate();
-  }, [mutation]);
+  }, []); // eslint-disable-line
 
   return Object.entries(services).reduce(
     (acc, [name, service]) => ({
       ...acc,
       [name]: service?.map(normalizeObjectKeys) ?? [],
     }),
-    Object.create(null)
+    Object.create(null),
   );
 }

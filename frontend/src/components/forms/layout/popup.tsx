@@ -1,4 +1,5 @@
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
+import { CheckedState } from "@radix-ui/react-checkbox";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -15,7 +16,7 @@ export type FormField = {
   name: string;
   label: string;
   type: "text" | "email" | "password" | "checkbox";
-  value: string;
+  value: string | number | boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -50,7 +51,7 @@ function InputField<T extends FieldValues>({ field, form }: FormFieldProps<T>) {
           <FormControl className="w-full">
             <Input
               type={field.type}
-              value={field.value}
+              value={field.value + ""}
               onChange={field.handleChange}
             />
           </FormControl>
@@ -68,14 +69,20 @@ function CheckboxField<T extends FieldValues>({
     <FormField
       control={form.control}
       name={field.name as Path<T>}
-      render={({ field }) => (
-        <FormItem key={field.name} className="flex flex-row items-center gap-2">
+      render={({ field: formField }) => (
+        <FormItem
+          key={formField.name}
+          className="flex flex-row items-center gap-2 ml-[120px]"
+        >
           <FormControl>
-            <Checkbox checked={!field.value} onCheckedChange={field.onChange} />
+            <Checkbox
+              checked={!field.value}
+              onCheckedChange={
+                field.handleChange as unknown as (e: CheckedState) => void
+              }
+            />
           </FormControl>
-          <FormLabel className="text-sm font-normal">
-            Check to create a discoverable public service.
-          </FormLabel>
+          <FormLabel className="text-sm font-normal">{field.label}</FormLabel>
         </FormItem>
       )}
     />

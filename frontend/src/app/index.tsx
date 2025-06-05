@@ -8,7 +8,8 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { defaultOptions } from "@/config/query";
-import { ErrorBoundary } from "./error";
+import { AuthProvider } from "./context";
+import ErrorBoundary from "./error";
 import router from "./router";
 import { ThemeProvider } from "./theme";
 import "../global.css";
@@ -29,7 +30,9 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         {import.meta.env.DEV && <ReactQueryDevtools />}
         <ThemeProvider>
-          <RouterProvider router={memoRouter} />
+          <AuthProvider>
+            <RouterProvider router={memoRouter} />
+          </AuthProvider>
         </ThemeProvider>
       </QueryClientProvider>
     </ErrorBoundary>

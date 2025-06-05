@@ -16,7 +16,7 @@ type PopupProps = {
   title: string;
   content: React.ReactNode;
   trigger: React.ReactNode;
-  description?: string;
+  description: string;
   cancel?: React.ReactNode;
   variant?: React.ComponentProps<typeof Button>["variant"];
 };
@@ -34,9 +34,13 @@ export default function ButtonWithPopup({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild id={id} className={className}>
-        <Button variant={variant} className="cursor-pointer">
-          {trigger}
-        </Button>
+        {typeof trigger !== "object" ? (
+          <Button variant={variant} className="cursor-pointer">
+            {trigger}
+          </Button>
+        ) : (
+          trigger
+        )}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -46,7 +50,7 @@ export default function ButtonWithPopup({
               {cancel}
             </AlertDialogCancel>
           </AlertDialogTitle>
-          <AlertDialogDescription>{description ?? ""}</AlertDialogDescription>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
           <Separator />
         </AlertDialogHeader>
         {content}

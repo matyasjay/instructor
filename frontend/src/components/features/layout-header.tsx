@@ -1,24 +1,29 @@
 import { Fragment } from "react";
 import { useNavigate } from "react-router";
+import { AlertDialogAction } from "@radix-ui/react-alert-dialog";
 import Cookies from "js-cookie";
+import { useAuth } from "@/app/context";
 import ButtonWithPopup from "@/components/features/button-with-popup";
 import LoginForm from "@/components/forms/login";
 import SignupForm from "@/components/forms/signup";
-import { AlertDialogAction } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { COOKIES, STORAGE } from "@/config/cookies";
 import { PAGES } from "@/config/pages";
-import { useAuth } from "@/lib/hooks/useAuth";
 import NewServiceForm from "../forms/new-service";
+
+function performLogout() {
+  Cookies.remove(COOKIES.JWT);
+  window.localStorage.removeItem(STORAGE.USER);
+}
 
 export default function LayoutHeader() {
   const navigate = useNavigate();
-  const authenticated = useAuth();
+  const { authenticated, setAuthenticated } = useAuth();
 
   const handleLogout = () => {
-    Cookies.remove(COOKIES.JWT);
-    window.localStorage.removeItem(STORAGE.USER);
-    window.location.pathname = PAGES.PUBLIC.LANDING;
+    performLogout();
+    setAuthenticated(false);
+    navigate(PAGES.PUBLIC.LANDING);
   };
 
   return (
@@ -37,6 +42,7 @@ export default function LayoutHeader() {
             trigger="New Service"
             content={<NewServiceForm />}
             className="ml-auto"
+            description="Fill in the details below then submit to create a new service."
           />
           <Button
             variant="ghost"
@@ -66,8 +72,8 @@ export default function LayoutHeader() {
             variant="outline"
             content={
               <AlertDialogAction
-                onClick={handleLogout}
                 className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 cursor-pointer"
+                onClick={handleLogout}
               >
                 Confirm
               </AlertDialogAction>
@@ -80,12 +86,14 @@ export default function LayoutHeader() {
             title="Sign In"
             trigger="Sign In"
             content={<LoginForm />}
+            description="Fill in your credentials to log in to your account."
             className="ml-auto"
           />
           <ButtonWithPopup
             variant="outline"
             title="Sign Up"
             trigger="Sign Up"
+            description="Fill in your details below to create a new account."
             content={<SignupForm />}
           />
         </Fragment>

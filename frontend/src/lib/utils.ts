@@ -1,3 +1,4 @@
+import { isRouteErrorResponse } from "react-router";
 import { AxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";
 import Cookies from "js-cookie";
@@ -20,7 +21,7 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
       [key.toLowerCase()]:
         typeof value === "object" ? normalizeObjectKeys(value) : value,
     }),
-    Object.create(null)
+    Object.create(null),
   );
 }
 
@@ -33,10 +34,14 @@ export function parseErrorObject<T = unknown>(error: T) {
     return (_e as ZodError).issues[0].message;
   } else if (_e instanceof AxiosError) {
     return _e.response?.data.error;
+  } else if (isRouteErrorResponse(error)) {
+    return error.statusText;
   } else if (_e.error) {
     return _e.error;
   } else {
-    return JSON.stringify(_e);
+    return typeof _e === "object"
+      ? JSON.stringify(_e)
+      : Object(_e).message + "";
   }
 }
 
@@ -59,7 +64,7 @@ export async function authGet(endpoint: Endpoint) {
 export async function authPost<T = Record<string, unknown>>(
   endpoint: Endpoint,
   data: T,
-  options?: { skipNormalize?: boolean }
+  options?: { skipNormalize?: boolean },
 ) {
   try {
     const jwt = Cookies.get(COOKIES.JWT);

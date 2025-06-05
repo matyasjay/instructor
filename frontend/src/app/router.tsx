@@ -4,7 +4,6 @@ import {
   Navigate,
   NonIndexRouteObject,
 } from "react-router";
-import { SkeletonPage } from "@/components/ui/skeleton";
 import { PAGES } from "@/config/pages";
 import { getUserIsAuthenticated } from "@/lib/hooks/useAuth";
 import Dashboard from "./dashboard";
@@ -15,17 +14,26 @@ import ProtectedLayout from "./protected";
 import ServiceAll from "./service-all";
 import ServiceOwn from "./service-own";
 
+const PageNotFoundError = Error("Page Not Found");
+
+const NotFound = (
+  <ErrorDisplay
+    error={PageNotFoundError}
+    resetErrorBoundary={() => null}
+    hideLayout
+  />
+);
+
 async function requireAuth(_: LoaderFunctionArgs) {
-  const authenticated = await getUserIsAuthenticated();
-  return { authenticated };
+  const result = await getUserIsAuthenticated();
+  return { authenticated: !!result.user_id };
 }
 
 const router: (IndexRouteObject | NonIndexRouteObject)[] = [
   {
     path: "/",
     element: <Layout />,
-    errorElement: <ErrorDisplay />,
-    hydrateFallbackElement: <SkeletonPage />,
+    loader: requireAuth,
     children: [
       {
         path: "/",
@@ -33,7 +41,7 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
       },
       {
         path: "/*",
-        element: <Navigate to={PAGES.PUBLIC.LANDING} />,
+        element: NotFound,
       },
       {
         path: "/landing",
@@ -42,11 +50,10 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
       {
         path: "/app",
         element: <ProtectedLayout />,
-        loader: requireAuth,
         children: [
           {
             path: "/app/*",
-            element: <Navigate to={PAGES.PUBLIC.LANDING} />,
+            element: NotFound,
           },
           {
             path: "/app/dashboard",
