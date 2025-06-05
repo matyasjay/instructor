@@ -54,7 +54,7 @@ export default [
             },
             {
               // eslint-disable-next-line
-              pattern: "react-dom\/client",
+              pattern: "react-dom/client",
               group: "builtin",
               position: "before",
             },

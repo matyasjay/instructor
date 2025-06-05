@@ -31,7 +31,7 @@ export type FormLayoutPopupProps<T extends FieldValues> = {
 
 type FormFieldProps<T extends FieldValues> = {
   field: FormField;
-  form: Form<T>
+  form: Form<T>;
 };
 
 function InputField<T extends FieldValues>({ field, form }: FormFieldProps<T>) {

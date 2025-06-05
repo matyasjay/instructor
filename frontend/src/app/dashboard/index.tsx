@@ -110,7 +110,7 @@ function Dashboard() {
                                   )}
                                 </td>
                               </tr>
-                            ) : null,
+                            ) : null
                           )}
                         </tbody>
                       </table>
