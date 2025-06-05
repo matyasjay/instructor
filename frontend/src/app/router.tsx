@@ -1,19 +1,19 @@
-import { SkeletonPage } from "@/components/ui/skeleton";
-import { getUserIsAuthenticated } from "@/lib/hooks/useAuth";
-import { PAGES } from "@/config/pages";
 import {
   IndexRouteObject,
   LoaderFunctionArgs,
   Navigate,
   NonIndexRouteObject,
 } from "react-router";
-import { ErrorDisplay } from "./error";
 import Dashboard from "./dashboard";
+import { ErrorDisplay } from "./error";
 import Landing from "./landing";
-import ProtectedLayout from "./protected";
 import Layout from "./layout";
+import ProtectedLayout from "./protected";
 import ServiceAll from "./service-all";
 import ServiceOwn from "./service-own";
+import { SkeletonPage } from "@/components/ui/skeleton";
+import { PAGES } from "@/config/pages";
+import { getUserIsAuthenticated } from "@/lib/hooks/useAuth";
 
 async function requireAuth(_: LoaderFunctionArgs) {
   const authenticated = await getUserIsAuthenticated();

@@ -3,6 +3,7 @@ import { PrismaClient } from "./generated/prisma";
 const singleton = () => new PrismaClient();
 
 declare global {
+  // eslint-disable-next-line
   var prisma: undefined | ReturnType<typeof singleton>;
 }
 

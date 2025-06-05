@@ -1,7 +1,7 @@
 import { AlertCircleIcon } from "lucide-react";
+import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { parseErrorObject } from "@/lib/utils";
-import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
 
 export function ErrorDisplay({
   error = Error("Unknown"),

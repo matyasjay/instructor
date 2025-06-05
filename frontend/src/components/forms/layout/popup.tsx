@@ -1,7 +1,6 @@
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -9,7 +8,8 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 export type FormField = {
   name: string;
@@ -19,8 +19,10 @@ export type FormField = {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+type Form<T extends FieldValues> = UseFormReturn<T, object, T>;
+
 export type FormLayoutPopupProps<T extends FieldValues> = {
-  form: UseFormReturn<T, any, T>;
+  form: Form<T>;
   fields: FormField[];
   handleSubmit: (e: React.FormEvent) => void;
   submit?: string;
@@ -29,7 +31,7 @@ export type FormLayoutPopupProps<T extends FieldValues> = {
 
 type FormFieldProps<T extends FieldValues> = {
   field: FormField;
-  form: UseFormReturn<T, any, T>;
+  form: Form<T>
 };
 
 function InputField<T extends FieldValues>({ field, form }: FormFieldProps<T>) {
@@ -80,13 +82,13 @@ function CheckboxField<T extends FieldValues>({
   );
 }
 
-function renderFormFields<T extends FieldValues>(
-  form: UseFormReturn<T, any, T>,
-) {
+function renderFormFields<T extends FieldValues>(form: Form<T>) {
   return function (field: FormField) {
     return (
       {
-        ["checkbox"]: <CheckboxField key={field.name} field={field} form={form}/>,
+        ["checkbox"]: (
+          <CheckboxField key={field.name} field={field} form={form} />
+        ),
       }[field.type + ""] ?? (
         <InputField key={field.name} field={field} form={form} />
       )

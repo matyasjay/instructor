@@ -1,9 +1,9 @@
-import { STORAGE } from "@/config/cookies";
-import { authPost, normalizeObjectKeys } from "../utils";
-import { ENDPOINTS } from "@/config/endpoints";
 import { useMutation } from "@tanstack/react-query";
-import { MUTATION_KEYS } from "@/config/query";
 import { useEffect, useState } from "react";
+import { authPost, normalizeObjectKeys } from "../utils";
+import { STORAGE } from "@/config/cookies";
+import { ENDPOINTS } from "@/config/endpoints";
+import { MUTATION_KEYS } from "@/config/query";
 
 type Service = {
   id: string;
@@ -61,7 +61,7 @@ export function useServices(): Services {
 
   useEffect(() => {
     mutation.mutate();
-  }, []);
+  }, [mutation]);
 
   return Object.entries(services).reduce(
     (acc, [name, service]) => ({

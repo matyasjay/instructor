@@ -1,3 +1,5 @@
+import { AlertDialogTriggerProps } from "@radix-ui/react-alert-dialog";
+import { Separator } from "../ui/separator";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -9,8 +11,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Separator } from "../ui/separator";
-import { AlertDialogTriggerProps } from "@radix-ui/react-alert-dialog";
 
 type PopupProps = {
   title: string;

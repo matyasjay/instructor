@@ -1,11 +1,11 @@
-import Cookies from "js-cookie";
-import { client } from "@/lib/http";
-import { ENDPOINTS } from "@/config/endpoints";
-import { COOKIES } from "@/config/cookies";
 import { AxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";
+import Cookies from "js-cookie";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
+import { COOKIES } from "@/config/cookies";
+import { ENDPOINTS } from "@/config/endpoints";
+import { client } from "@/lib/http";
 
 type Endpoint = (typeof ENDPOINTS)[keyof typeof ENDPOINTS];
 

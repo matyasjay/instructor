@@ -1,5 +1,5 @@
-import { STORAGE } from "@/config/cookies";
 import { authPost } from "../utils";
+import { STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
 
 export async function fetchUser() {

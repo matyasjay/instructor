@@ -1,4 +1,18 @@
 import {
+  PlusCircleIcon,
+  CpuIcon,
+  WrenchIcon,
+  ThumbsUp,
+  ThumbsDown,
+} from "lucide-react";
+import NewServiceForm from "@/components/forms/new-service";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   AlertDialog,
   AlertDialogCancel,
   AlertDialogContent,
@@ -7,25 +21,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {
-  PlusCircleIcon,
-  CpuIcon,
-  WrenchIcon,
-  ThumbsUp,
-  ThumbsDown,
-} from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { capitalizeFirstLetter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useServices } from "@/lib/hooks/useServices";
 import { Separator } from "@/components/ui/separator";
-import NewServiceForm from "@/components/forms/new-service";
 import { STORAGE } from "@/config/cookies";
+import { useServices } from "@/lib/hooks/useServices";
+import { capitalizeFirstLetter } from "@/lib/utils";
 
 function Dashboard() {
   const services = useServices();
