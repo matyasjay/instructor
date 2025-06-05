@@ -71,11 +71,10 @@ export default function LayoutHeader() {
             description="This action will sign you out from our systems and prevent accessing your data from our servers."
             variant="outline"
             content={
-              <AlertDialogAction
-                className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 cursor-pointer"
-                onClick={handleLogout}
-              >
-                Confirm
+              <AlertDialogAction onClick={handleLogout}>
+                <Button variant="destructive" className="w-[300px] cursor-pointer">
+                  Confirm
+                </Button>
               </AlertDialogAction>
             }
           />

@@ -18,14 +18,10 @@ import { Separator } from "@/components/ui/separator";
 import { STORAGE } from "@/config/cookies";
 import { useServices } from "@/lib/hooks/useServices";
 import { capitalizeFirstLetter } from "@/lib/utils";
-import { useAuth } from "../context";
 
 function Dashboard() {
-  const { authenticated } = useAuth();
   const services = useServices();
   const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}");
-
-  console.log(authenticated);
 
   delete user.id;
   delete user.password;
