@@ -20,24 +20,22 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEYS } from "@/config/query";
-import { fetchUser } from "@/lib/hooks/useUser";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useServices } from "@/lib/hooks/useServices";
 import { Separator } from "@/components/ui/separator";
 import NewServiceForm from "@/components/forms/new-service";
+import { STORAGE } from "@/config/cookies";
 
 function Dashboard() {
   const services = useServices();
+  const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}");
 
-  const { data, isPending } = useQuery({
-    queryFn: fetchUser,
-    queryKey: [QUERY_KEYS.USER],
-  });
+  delete user.id;
+  delete user.password;
+  delete user.passwordhash;
 
-  return isPending ? null : (
+  return (
     <div className="flex flex-col w-full gap-3.5 mx-auto justify-top items-start min-h-10/12 px-9">
       <div className="w-full justify-center pt-4">
         <h1 className="flex scroll-m-20 text-lg font-semibold tracking-tight mb-4">
@@ -57,7 +55,7 @@ function Dashboard() {
             <AccordionContent className="flex flex-col gap-4 text-balance bg-sidebar px-7 py-3">
               <table>
                 <tbody>
-                  {Object.entries(data).map(([key, value]) => (
+                  {Object.entries(user).map(([key, value]) => (
                     <tr key={key + ""} className="h-10">
                       <td>{capitalizeFirstLetter(key + "")}</td>
                       <td>{value + ""}</td>
