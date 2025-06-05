@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
-import { client } from "../http";
-import { normalizeObjectKeys, parseErrorObject } from "../utils";
 import { COOKIES } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
+import { client } from "../http";
+import { normalizeObjectKeys, parseErrorObject } from "../utils";
 
 type Endpoint = (typeof ENDPOINTS)[keyof typeof ENDPOINTS];
 

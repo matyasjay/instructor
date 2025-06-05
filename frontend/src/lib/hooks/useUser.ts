@@ -1,6 +1,6 @@
-import { authPost } from "../utils";
 import { STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
+import { authPost } from "../utils";
 
 export async function fetchUser() {
   const user = window.localStorage.getItem(STORAGE.USER) ?? "{}";

@@ -48,16 +48,27 @@ export default [
         {
           pathGroups: [
             {
-              pattern: "react*",
+              pattern: "react**",
               group: "builtin",
               position: "before",
             },
             {
-              pattern: "next*",
+              // eslint-disable-next-line
+              pattern: "react-dom\/client",
               group: "builtin",
               position: "before",
             },
+            {
+              pattern: "react-router**",
+              group: "builtin",
+              position: "after",
+            },
+            {
+              pattern: "@/**",
+              group: "internal",
+            },
           ],
+          pathGroupsExcludedImportTypes: ["react"],
           "newlines-between": "never",
           groups: [
             "builtin",

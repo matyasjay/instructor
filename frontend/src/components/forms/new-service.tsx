@@ -1,16 +1,16 @@
+import { Fragment, useState } from "react";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { CheckCircle2Icon } from "lucide-react";
-import { Fragment, useState } from "react";
-import { useForm } from "react-hook-form";
 import { z, ZodError } from "zod";
-import createFormPopupLayout, { FormField } from "./layout/popup";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
 import { MUTATION_KEYS } from "@/config/query";
 import { authPost, normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
+import createFormPopupLayout, { FormField } from "./layout/popup";
 
 const formSchema = z.object({
   service: z.string(),

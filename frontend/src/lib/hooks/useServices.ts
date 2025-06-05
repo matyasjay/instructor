@@ -1,9 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { authPost, normalizeObjectKeys } from "../utils";
+import { useMutation } from "@tanstack/react-query";
 import { STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
 import { MUTATION_KEYS } from "@/config/query";
+import { authPost, normalizeObjectKeys } from "../utils";
 
 type Service = {
   id: string;

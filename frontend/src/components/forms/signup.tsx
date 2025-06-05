@@ -1,14 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { z, ZodError } from "zod";
-import createFormPopupLayout, { FormField } from "./layout/popup";
 import { ENDPOINTS } from "@/config/endpoints";
 import { PAGES } from "@/config/pages";
 import { MUTATION_KEYS } from "@/config/query";
 import { authPost, normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
+import createFormPopupLayout, { FormField } from "./layout/popup";
 
 const formSchema = z.object({
   email: z.string().email(),

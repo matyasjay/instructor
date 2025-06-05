@@ -1,5 +1,5 @@
-import { AlertCircleIcon } from "lucide-react";
 import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
+import { AlertCircleIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { parseErrorObject } from "@/lib/utils";
 
