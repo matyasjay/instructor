@@ -12,8 +12,10 @@ import (
 )
 
 type Service struct {
-	ID   string
-	Name string
+	ID          string
+	Name        string
+	Description string
+	Private     bool
 }
 
 type ServiceOnUser struct {
@@ -37,7 +39,7 @@ func GetServicesByUser(c echo.Context) error {
 	id := input.ID
 
 	rows, err := db.Query(`
-		SELECT s.id, s.name
+		SELECT s.id, s.name, s.description, s.private
 		FROM instructor."Service" s
 		JOIN instructor."ServicesOnUsers" su ON s.id = su."serviceId"
 		WHERE su."userId" = $1`, id)
@@ -50,7 +52,43 @@ func GetServicesByUser(c echo.Context) error {
 
 	for rows.Next() {
 		var service Service
-		if err := rows.Scan(&service.ID, &service.Name); err != nil {
+		if err := rows.Scan(&service.ID, &service.Name, &service.Description, &service.Private); err != nil {
+			return err
+		}
+		services = append(services, service)
+	}
+
+	return c.JSON(http.StatusOK, services)
+}
+
+func GetAllServices(c echo.Context) error {
+
+	db := connection.GetDB()
+
+	var input GetServicesByUserInput
+	if err := c.Bind(&input); err != nil {
+		return err
+	}
+
+	id := input.ID
+
+	rows, err := db.Query(`
+		SELECT s.id, s.name, s.description, s.private
+		FROM instructor."Service" s
+		JOIN instructor."ServicesOnUsers" su ON s.id = su."serviceId"
+		WHERE su."userId" != $1
+		AND s."private" != true
+		`, id)
+
+	if err != nil {
+		return err
+	}
+
+	var services []Service
+
+	for rows.Next() {
+		var service Service
+		if err := rows.Scan(&service.ID, &service.Name, &service.Description, &service.Private); err != nil {
 			return err
 		}
 		services = append(services, service)
@@ -60,8 +98,10 @@ func GetServicesByUser(c echo.Context) error {
 }
 
 type CreateServiceInput struct {
-	User string `json:"user"`
-	Name string `json:"name"`
+	User        string `json:"user"`
+	Name        string `json:"name"`
+	Private     bool   `json:"private"`
+	Description string `json:"description"`
 }
 
 func CreateService(c echo.Context) error {
@@ -91,12 +131,12 @@ func CreateService(c echo.Context) error {
 	var service Service
 
 	serviceRow := db.QueryRow(`
-		INSERT INTO instructor."Service" (id, name)
-		VALUES ($1, $2)
-		RETURNING id, name`,
-		uuid.New(), input.Name)
+		INSERT INTO instructor."Service" (id, name, private, description)
+		VALUES ($1, $2, $3, $4)
+		RETURNING id, name, description, private`,
+		uuid.New(), input.Name, input.Private, input.Description)
 
-	serviceErr := serviceRow.Scan(&service.ID, &service.Name)
+	serviceErr := serviceRow.Scan(&service.ID, &service.Name, &service.Description, &service.Private)
 	if serviceErr != nil {
 		return serviceErr
 	}

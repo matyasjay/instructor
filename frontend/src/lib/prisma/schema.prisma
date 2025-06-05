@@ -17,9 +17,11 @@ model User {
 }
 
 model Service {
-  id    String            @id @default(uuid())
-  name  String            @unique
-  users ServicesOnUsers[]
+  id          String            @id @default(uuid())
+  name        String            @unique
+  users       ServicesOnUsers[]
+  private     Boolean           @default(false)
+  description String            @default("")
 }
 
 model ServicesOnUsers {

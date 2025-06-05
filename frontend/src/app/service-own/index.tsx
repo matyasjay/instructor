@@ -21,9 +21,11 @@ function ServiceOwn() {
           Own Services
         </h1>
       </div>
-      {services.map(({ name, id }) => (
+      {services.user.map(({ name, id, description, private: isPrivate }) => (
         <div key={name}>
           {id} - {name}
+          {description ? ` - ${description}` : ""}
+          {isPrivate ? ` Private` : ""}
         </div>
       ))}
     </div>

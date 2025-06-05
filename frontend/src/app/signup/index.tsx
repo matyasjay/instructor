@@ -117,7 +117,12 @@ function Signup() {
         <Button className="cursor-pointer" type="submit">
           Submit
         </Button>
-        <Button type="button" variant="outline" onClick={handleLogin}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleLogin}
+          className="cursor-pointer"
+        >
           Sign In
         </Button>
         {error && <h4>{error}</h4>}

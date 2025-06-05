@@ -1,4 +1,19 @@
-import { PlusCircleIcon, CpuIcon, WrenchIcon } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
+  PlusCircleIcon,
+  CpuIcon,
+  WrenchIcon,
+  ThumbsUp,
+  ThumbsDown,
+} from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -15,6 +30,7 @@ import { capitalizeFirstLetter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useServices } from "@/lib/hooks/useServices";
 import { Separator } from "@/components/ui/separator";
+import ServiceNewForm from "../service-new/form";
 
 function Dashboard() {
   const services = useServices();
@@ -61,7 +77,10 @@ function Dashboard() {
                   ))}
                 </tbody>
               </table>
-              <Button variant="outline" className="flex ml-auto w-full">
+              <Button
+                variant="outline"
+                className="flex ml-auto w-full cursor-pointer"
+              >
                 <WrenchIcon />
                 Change User Details
               </Button>
@@ -75,37 +94,52 @@ function Dashboard() {
               <Accordion
                 type="single"
                 className="mb-2"
-                defaultValue={services[0]?.name}
+                defaultValue={services.user[0]?.name}
               >
-                {services.map((service) => (
+                {services.user.map((service) => (
                   <AccordionItem value={service.name} key={service.name}>
-                    <AccordionTrigger className="cursor-pointer hover:no-underline bg-accent px-7 font-bold [&[data-state=open]]:bg-primary ">
+                    <AccordionTrigger className="cursor-pointer hover:no-underline bg-secondary px-7 font-bold [&[data-state=open]]:bg-primary ">
                       {capitalizeFirstLetter(service.name)}
                     </AccordionTrigger>
                     <AccordionContent className="flex flex-col gap-4 text-balance bg-sidebar border-t-1 px-7 py-3 border-x-1 border-b-1">
                       <table>
                         <tbody>
-                          {Object.entries(service).map(([key, value]) => (
-                            <tr className="h-10" key={key}>
-                              <td>{capitalizeFirstLetter(key)}</td>
-                              <td>{value}</td>
-                              <td></td>
-                            </tr>
-                          ))}
+                          {Object.entries(service).map(([key, value]) =>
+                            key !== "id" ? (
+                              <tr className="h-10" key={key}>
+                                <td className="w-[170px]">
+                                  {capitalizeFirstLetter(key)}
+                                </td>
+                                <td>
+                                  {typeof value === "boolean" ? (
+                                    value === true ? (
+                                      <ThumbsUp />
+                                    ) : (
+                                      <ThumbsDown />
+                                    )
+                                  ) : value === "" ? (
+                                    <em>No value</em>
+                                  ) : (
+                                    value
+                                  )}
+                                </td>
+                              </tr>
+                            ) : null
+                          )}
                         </tbody>
                       </table>
                       <Separator />
-                      <div className="flex gap-3">
+                      <div className="flex gap-3 pb-[16px]">
                         <Button
                           variant="default"
-                          className="flex w-[50%] ml-auto"
+                          className="flex w-[300px] cursor-pointer"
                         >
                           <CpuIcon />
                           Start Service
                         </Button>
                         <Button
-                          variant="secondary"
-                          className="flex w-[50%] ml-auto"
+                          variant="ghost"
+                          className="flex w-[300px] cursor-pointer"
                         >
                           <WrenchIcon />
                           Configure Service
@@ -115,15 +149,31 @@ function Dashboard() {
                   </AccordionItem>
                 ))}
               </Accordion>
-              <Button
-                variant="outline"
-                className="flex w-full mx-auto"
-                onClick={() => navigate(PAGES.PRIVATE.SERVICE_NEW)}
-              >
-                <PlusCircleIcon />
-                Add New Service
-              </Button>
             </AccordionContent>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="flex w-full mx-auto cursor-pointer"
+                >
+                  <PlusCircleIcon />
+                  Add New Service
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="flex justify-between w-full items-center">
+                    Create New Service
+                    <AlertDialogCancel className="cursor-pointer">
+                      Cancel
+                    </AlertDialogCancel>
+                  </AlertDialogTitle>
+                  <Separator />
+                </AlertDialogHeader>
+                <ServiceNewForm />
+                <AlertDialogFooter></AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </AccordionItem>
         </Accordion>
       </div>

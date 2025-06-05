@@ -5,5 +5,6 @@ export const ENDPOINTS = {
   SIGNUP: "/user/create",
   TEMPLATE: "/template",
   CREATE_SERVICE: "/private/service/create",
-  GET_SERVICES: "/private/service/all",
+  GET_SERVICES_ALL: "/private/service/all",
+  GET_SERVICES_USER: "/private/service/user",
 } as const;

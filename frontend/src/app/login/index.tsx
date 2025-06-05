@@ -111,8 +111,15 @@ function Login() {
           onChange={handleChange("password")}
         />
         <Separator />
-        <Button type="submit">Submit</Button>
-        <Button type="button" variant="outline" onClick={handleSignUp}>
+        <Button type="submit" className="cursor-pointer">
+          Submit
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleSignUp}
+          className="cursor-pointer"
+        >
           Sign Up
         </Button>
         {error && <h4>{error}</h4>}

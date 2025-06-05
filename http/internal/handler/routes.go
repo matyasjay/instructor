@@ -50,5 +50,6 @@ func RegisterRoutes(e *echo.Echo) {
 	r.POST("/user/current", endpoint.GetUserById)
 
 	r.POST("/service/create", endpoint.CreateService)
-	r.POST("/service/all", endpoint.GetServicesByUser)
+	r.POST("/service/user", endpoint.GetServicesByUser)
+	r.POST("/service/all", endpoint.GetAllServices)
 }

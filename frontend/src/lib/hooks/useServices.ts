@@ -8,20 +8,48 @@ import { useEffect, useState } from "react";
 type Service = {
   id: string;
   name: string;
+  description?: string;
+  private: boolean;
+};
+
+type Services = {
+  all: Service[];
+  user: Service[];
+};
+
+const defaultServicesState = {
+  all: [],
+  user: [],
 };
 
 export async function fetchServices() {
   const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}");
-  const result = await authPost(
-    ENDPOINTS.GET_SERVICES,
+
+  const allServicesPromise = authPost(
+    ENDPOINTS.GET_SERVICES_ALL,
     { id: user.id },
     { skipNormalize: true }
   );
-  return result;
+
+  const userServicesPromise = authPost(
+    ENDPOINTS.GET_SERVICES_USER,
+    { id: user.id },
+    { skipNormalize: true }
+  );
+
+  const [allServices, userServices] = await Promise.all([
+    allServicesPromise,
+    userServicesPromise,
+  ]);
+
+  return {
+    all: allServices,
+    user: userServices,
+  };
 }
 
-export function useServices() {
-  const [services, setServices] = useState<Service[]>([]);
+export function useServices(): Services {
+  const [services, setServices] = useState<Services>(defaultServicesState);
 
   const mutation = useMutation({
     mutationFn: fetchServices,
@@ -35,5 +63,11 @@ export function useServices() {
     mutation.mutate();
   }, []);
 
-  return services.map(normalizeObjectKeys);
+  return Object.entries(services).reduce(
+    (acc, [name, service]) => ({
+      ...acc,
+      [name]: service?.map(normalizeObjectKeys) ?? [],
+    }),
+    Object.create(null)
+  );
 }

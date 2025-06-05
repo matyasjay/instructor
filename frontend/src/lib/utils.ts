@@ -5,7 +5,7 @@ import { COOKIES } from "@/config/cookies";
 import { AxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import z from "zod/v4";
+import { ZodError } from "zod";
 
 type Endpoint = (typeof ENDPOINTS)[keyof typeof ENDPOINTS];
 
@@ -25,12 +25,18 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
 }
 
 export function parseErrorObject<T = unknown>(error: T) {
-  if (error instanceof z.ZodError) {
-    return error.issues[0].message;
-  } else if (error instanceof AxiosError) {
-    return error.response?.data.error;
+  const _e = error as (T | ZodError) & {
+    zod: boolean;
+    error: string;
+  };
+  if (_e.zod) {
+    return (_e as ZodError).issues[0].message;
+  } else if (_e instanceof AxiosError) {
+    return _e.response?.data.error;
+  } else if (_e.error) {
+    return _e.error;
   } else {
-    return JSON.stringify(error);
+    return JSON.stringify(_e);
   }
 }
 

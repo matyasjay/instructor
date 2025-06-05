@@ -21,9 +21,11 @@ function ServiceAll() {
           All Services
         </h1>
       </div>
-      {services.map(({ name, id }) => (
+      {services.all.map(({ name, id, description, private: isPrivate }) => (
         <div key={name}>
           {id} - {name}
+          {description ? ` - ${description}` : ""}
+          {isPrivate ? ` Private` : ""}
         </div>
       ))}
     </div>

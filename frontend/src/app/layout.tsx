@@ -10,11 +10,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { COOKIES, STORAGE } from "@/config/cookies";
 import { PAGES } from "@/config/pages";
 import Cookies from "js-cookie";
 import { Fragment } from "react";
 import { Outlet, useLoaderData, useNavigate } from "react-router";
+import ServiceNewForm from "./service-new/form";
 
 export default function Layout({
   authenticated: inheritedAuth,
@@ -42,9 +44,9 @@ export default function Layout({
       </div>
       <div className="mt-2 flex w-full h-dvh flex-1 gap-2 rounded-2xl">
         <main className="w-full rounded-2xl bg-white-3 dark:bg-dark-2 p-0 mx-auto">
-          <div className="h-[70px] fixed top-0 left-0 right-0 bg-sidebar flex items-center px-5 py-3 gap-3 max-w-[1400px] mx-auto border-x-1">
+          <div className="h-[70px] fixed top-0 left-0 right-0 bg-sidebar flex items-center px-5 py-3 gap-3 max-w-[1400px] mx-auto border-x-1 shadow-md z-50">
             <Button
-              className="text-lg hover:no-underline text-white"
+              className="text-lg hover:no-underline text-white cursor-pointer"
               variant="link"
               onClick={() => navigate(PAGES.PUBLIC.LANDING)}
             >
@@ -52,34 +54,55 @@ export default function Layout({
             </Button>
             {isAuthenticated ? (
               <Fragment>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="default"
+                      className="ml-auto cursor-pointer"
+                    >
+                      New Service
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="flex justify-between w-full items-center">
+                        Create New Service
+                        <AlertDialogCancel className="cursor-pointer">
+                          Cancel
+                        </AlertDialogCancel>
+                      </AlertDialogTitle>
+                      <Separator />
+                    </AlertDialogHeader>
+                    <ServiceNewForm />
+                    <AlertDialogFooter></AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
                 <Button
-                  variant="default"
-                  className="ml-auto"
-                  onClick={() => navigate(PAGES.PRIVATE.SERVICE_NEW)}
-                >
-                  New Service
-                </Button>
-                <Button
-                  variant="secondary"
-                  onClick={() => navigate(PAGES.PRIVATE.DASHBOARD)}
-                >
-                  Dashboard
-                </Button>
-                <Button
-                  variant="secondary"
+                  variant="ghost"
+                  className="cursor-pointer"
                   onClick={() => navigate(PAGES.PRIVATE.SERVICE_OWN)}
                 >
                   Own Services
                 </Button>
                 <Button
-                  variant="secondary"
+                  variant="ghost"
+                  className="cursor-pointer"
                   onClick={() => navigate(PAGES.PRIVATE.SERVICE_ALL)}
                 >
                   All Services
                 </Button>
+                <Button
+                  variant="ghost"
+                  className="cursor-pointer"
+                  onClick={() => navigate(PAGES.PRIVATE.DASHBOARD)}
+                >
+                  Dashboard
+                </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="outline">Log out</Button>
+                    <Button variant="outline" className="cursor-pointer">
+                      Log out
+                    </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -92,10 +115,12 @@ export default function Layout({
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel className="cursor-pointer">
+                        Cancel
+                      </AlertDialogCancel>
                       <AlertDialogAction
                         onClick={handleLogout}
-                        className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60"
+                        className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 cursor-pointer"
                       >
                         Confirm
                       </AlertDialogAction>
@@ -108,12 +133,13 @@ export default function Layout({
                 <Button
                   variant="default"
                   onClick={() => navigate(PAGES.PUBLIC.LOGIN)}
-                  className="ml-auto"
+                  className="ml-auto cursor-pointer"
                 >
                   Sign In
                 </Button>
                 <Button
                   variant="outline"
+                  className="cursor-pointer"
                   onClick={() => navigate(PAGES.PUBLIC.SIGNUP)}
                 >
                   Sign Up
@@ -123,13 +149,13 @@ export default function Layout({
           </div>
           <div className="max-w-[1400px] bg-accent mx-auto border-x-1 overflow-y-auto fixed top-[70px] left-0 right-0 bottom-0">
             <div className="flex flex-col gap-3.5 mx-auto align-middle min-h-full bg-gray-900">
-              <div className="relative isolate px-6 lg:px-8">
+              <div className="relative left-0 right-0 top-[70px] bottom-0 isolate px-6 lg:px-8">
                 <div
                   className="absolute inset-x-0 -top-0 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-20"
                   aria-hidden="true"
                 >
                   <div
-                    className="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75"
+                    className="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-[#3b82f6] to-[#ffffff] opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75"
                     style={{
                       clipPath:
                         "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
@@ -141,7 +167,7 @@ export default function Layout({
                   aria-hidden="true"
                 >
                   <div
-                    className="relative left-[calc(50%+3rem)] aspect-1155/678 w-144.5 -translate-x-1/2 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-288.75"
+                    className="relative left-[calc(50%+3rem)] aspect-1155/678 w-144.5 -translate-x-1/2 bg-linear-to-tr from-[#3b82f6] to-[#ffffff] opacity-30 sm:left-[calc(50%+36rem)] sm:w-288.75"
                     style={{
                       clipPath:
                         "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
@@ -149,7 +175,12 @@ export default function Layout({
                   ></div>
                 </div>
               </div>
-              <div className="relative">{children ?? <Outlet />}</div>
+              <div
+                className="fixed top-[70px] left-[50%] translate-x-[-50%] right-0 bottom-0 overflow-auto w-full max-w-[1400px] pb-[30px]"
+                id="main_content"
+              >
+                {children ?? <Outlet />}
+              </div>
             </div>
           </div>
         </main>
