@@ -21,14 +21,14 @@ func RegisterRoutes(e *echo.Echo) {
 		fmt.Println("Failed to setup database connection!")
 	}
 
+	e.OPTIONS("/*", endpoint.GetOptions)
+
 	e.File("/", "static/swagger/index.html")
 	e.Static("/", "static/swagger")
 
-	e.OPTIONS("/*", endpoint.GetOptions)
-
 	e.GET("/templates", endpoint.GetTemplates)
 
-	e.POST("/user", endpoint.GetUserByEmail)
+	e.POST("/user/login", endpoint.LoginUser)
 	e.POST("/user/create", endpoint.CreateUser)
 
 	var secret = os.Getenv("JWT_SECRET")
@@ -37,7 +37,7 @@ func RegisterRoutes(e *echo.Echo) {
 		SigningKey: []byte(secret),
 	}
 
-	r := e.Group("/private")
+	r := e.Group("/auth")
 
 	r.Use(echojwt.WithConfig(jwtConfig))
 
@@ -50,6 +50,6 @@ func RegisterRoutes(e *echo.Echo) {
 	r.POST("/user/current", endpoint.GetUserById)
 
 	r.POST("/service/create", endpoint.CreateService)
-	r.POST("/service/user", endpoint.GetServicesByUser)
+	r.POST("/service/user", endpoint.GetUserServices)
 	r.POST("/service/all", endpoint.GetAllServices)
 }

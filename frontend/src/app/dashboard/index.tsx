@@ -23,14 +23,11 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/config/query";
 import { fetchUser } from "@/lib/hooks/useUser";
-import { useEffect } from "react";
-import { PAGES } from "@/config/pages";
-import { useLoaderData, useNavigate } from "react-router";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useServices } from "@/lib/hooks/useServices";
 import { Separator } from "@/components/ui/separator";
-import ServiceNewForm from "../service-new/form";
+import NewServiceForm from "@/components/forms/new-service";
 
 function Dashboard() {
   const services = useServices();
@@ -39,15 +36,6 @@ function Dashboard() {
     queryFn: fetchUser,
     queryKey: [QUERY_KEYS.USER],
   });
-
-  const navigate = useNavigate();
-  const { authenticated } = useLoaderData();
-
-  useEffect(() => {
-    if (authenticated === false) {
-      navigate(PAGES.PUBLIC.LOGIN);
-    }
-  }, [authenticated]);
 
   return isPending ? null : (
     <div className="flex flex-col w-full gap-3.5 mx-auto justify-top items-start min-h-10/12 px-9">
@@ -124,7 +112,7 @@ function Dashboard() {
                                   )}
                                 </td>
                               </tr>
-                            ) : null
+                            ) : null,
                           )}
                         </tbody>
                       </table>
@@ -170,7 +158,7 @@ function Dashboard() {
                   </AlertDialogTitle>
                   <Separator />
                 </AlertDialogHeader>
-                <ServiceNewForm />
+                <NewServiceForm />
                 <AlertDialogFooter></AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

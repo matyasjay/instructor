@@ -1,10 +1,12 @@
 export const ENDPOINTS = {
-  ME: "/private/me",
-  USER: "/user",
-  CURRENT_USER: "/private/user/current",
-  SIGNUP: "/user/create",
   TEMPLATE: "/template",
-  CREATE_SERVICE: "/private/service/create",
-  GET_SERVICES_ALL: "/private/service/all",
-  GET_SERVICES_USER: "/private/service/user",
+
+  LOGIN: "/user/login",
+  SIGNUP: "/user/create",
+
+  ME: "/auth/me",
+  CURRENT_USER: "/auth/user/current",
+  CREATE_SERVICE: "/auth/service/create",
+  GET_SERVICES_ALL: "/auth/service/all",
+  GET_SERVICES_USER: "/auth/service/user",
 } as const;

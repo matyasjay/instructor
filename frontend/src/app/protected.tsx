@@ -1,13 +1,17 @@
-import { Navigate, useLoaderData } from "react-router-dom";
+import { Navigate, Outlet, useLoaderData } from "react-router";
+import { AuthContext } from "./context";
 import { PAGES } from "@/config/pages";
-import Layout from "./layout";
 
-export const ProtectedRoute = () => {
-  const { authenticated } = useLoaderData();
+export default function ProtectedLayout() {
+  const { authenticated } = useLoaderData() as { authenticated: boolean };
 
   if (!authenticated) {
-    return <Navigate to={PAGES.PUBLIC.LOGIN} />;
+    return <Navigate to={PAGES.PUBLIC.LANDING} />;
   }
 
-  return <Layout authenticated={authenticated} />;
-};
+  return (
+    <AuthContext.Provider value={{ authenticated }}>
+      <Outlet />
+    </AuthContext.Provider>
+  );
+}

@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { defaultOptions } from "@/config/query";
 import router from "./router";
 import { ErrorBoundary } from "./error";
-import { ThemeProvider } from "./provider";
+import { ThemeProvider } from "./theme";
 import "../global.css";
 
 const root = document.getElementById("root");
@@ -22,9 +22,10 @@ if (!root) {
 const App = () => {
   const queryClient = useQueryClient(new QueryClient(defaultOptions));
 
-  const memoRouter = useMemo(() => {
-    return createBrowserRouter(router, {});
-  }, [queryClient]);
+  const memoRouter = useMemo(
+    () => createBrowserRouter(router, {}),
+    [queryClient],
+  );
 
   return (
     <ErrorBoundary>

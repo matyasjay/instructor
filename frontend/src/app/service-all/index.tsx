@@ -1,18 +1,7 @@
-import { PAGES } from "@/config/pages";
 import { useServices } from "@/lib/hooks/useServices";
-import { useEffect } from "react";
-import { useLoaderData, useNavigate } from "react-router";
 
 function ServiceAll() {
   const services = useServices();
-  const { authenticated } = useLoaderData();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (authenticated === false) {
-      navigate(PAGES.PUBLIC.LOGIN);
-    }
-  }, [authenticated]);
 
   return (
     <div className="flex flex-col w-full gap-3.5 mx-auto min-h-10/12 px-9">

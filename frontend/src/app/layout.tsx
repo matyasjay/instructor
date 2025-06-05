@@ -1,40 +1,7 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { COOKIES, STORAGE } from "@/config/cookies";
-import { PAGES } from "@/config/pages";
-import Cookies from "js-cookie";
-import { Fragment } from "react";
-import { Outlet, useLoaderData, useNavigate } from "react-router";
-import ServiceNewForm from "./service-new/form";
+import LayoutHeader from "@/components/features/layout-header";
+import { Outlet } from "react-router";
 
-export default function Layout({
-  authenticated: inheritedAuth,
-  children,
-}: {
-  authenticated?: boolean;
-  children?: React.ReactNode;
-}) {
-  const { authenticated } = useLoaderData() ?? {};
-  const isAuthenticated = authenticated ?? inheritedAuth ?? false;
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    Cookies.remove(COOKIES.JWT);
-    window.localStorage.removeItem(STORAGE.USER);
-    window.location.pathname = PAGES.PUBLIC.LANDING;
-  };
-
+export default function Layout({ children }: { children?: React.ReactNode }) {
   return (
     <div className="mx-auto flex min-h-screen w-screen max-w-screen-2xl flex-col p-2 font-family-[Gotham]">
       <div
@@ -42,111 +9,9 @@ export default function Layout({
       >
         &nbsp;
       </div>
+      <LayoutHeader />
       <div className="mt-2 flex w-full h-dvh flex-1 gap-2 rounded-2xl">
         <main className="w-full rounded-2xl bg-white-3 dark:bg-dark-2 p-0 mx-auto">
-          <div className="h-[70px] fixed top-0 left-0 right-0 bg-sidebar flex items-center px-5 py-3 gap-3 max-w-[1400px] mx-auto border-x-1 shadow-md z-50">
-            <Button
-              className="text-lg hover:no-underline text-white cursor-pointer"
-              variant="link"
-              onClick={() => navigate(PAGES.PUBLIC.LANDING)}
-            >
-              Instructor
-            </Button>
-            {isAuthenticated ? (
-              <Fragment>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button
-                      variant="default"
-                      className="ml-auto cursor-pointer"
-                    >
-                      New Service
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle className="flex justify-between w-full items-center">
-                        Create New Service
-                        <AlertDialogCancel className="cursor-pointer">
-                          Cancel
-                        </AlertDialogCancel>
-                      </AlertDialogTitle>
-                      <Separator />
-                    </AlertDialogHeader>
-                    <ServiceNewForm />
-                    <AlertDialogFooter></AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-                <Button
-                  variant="ghost"
-                  className="cursor-pointer"
-                  onClick={() => navigate(PAGES.PRIVATE.SERVICE_OWN)}
-                >
-                  Own Services
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="cursor-pointer"
-                  onClick={() => navigate(PAGES.PRIVATE.SERVICE_ALL)}
-                >
-                  All Services
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="cursor-pointer"
-                  onClick={() => navigate(PAGES.PRIVATE.DASHBOARD)}
-                >
-                  Dashboard
-                </Button>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="outline" className="cursor-pointer">
-                      Log out
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Do you wish to sign out?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action will sign you out from our systems and
-                        prevent accessing your data from our servers.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel className="cursor-pointer">
-                        Cancel
-                      </AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={handleLogout}
-                        className="bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 cursor-pointer"
-                      >
-                        Confirm
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <Button
-                  variant="default"
-                  onClick={() => navigate(PAGES.PUBLIC.LOGIN)}
-                  className="ml-auto cursor-pointer"
-                >
-                  Sign In
-                </Button>
-                <Button
-                  variant="outline"
-                  className="cursor-pointer"
-                  onClick={() => navigate(PAGES.PUBLIC.SIGNUP)}
-                >
-                  Sign Up
-                </Button>
-              </Fragment>
-            )}
-          </div>
           <div className="max-w-[1400px] bg-accent mx-auto border-x-1 overflow-y-auto fixed top-[70px] left-0 right-0 bottom-0">
             <div className="flex flex-col gap-3.5 mx-auto align-middle min-h-full bg-gray-900">
               <div className="relative left-0 right-0 top-[70px] bottom-0 isolate px-6 lg:px-8">

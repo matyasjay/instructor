@@ -27,7 +27,7 @@ type GetServicesByUserInput struct {
 	ID string `json:"id"`
 }
 
-func GetServicesByUser(c echo.Context) error {
+func GetUserServices(c echo.Context) error {
 
 	db := connection.GetDB()
 

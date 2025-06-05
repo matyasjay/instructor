@@ -66,7 +66,7 @@ type GetUserByEmailInput struct {
 	Password string `json:"password"`
 }
 
-func GetUserByEmail(c echo.Context) error {
+func LoginUser(c echo.Context) error {
 	db := connection.GetDB()
 
 	var input GetUserByEmailInput
