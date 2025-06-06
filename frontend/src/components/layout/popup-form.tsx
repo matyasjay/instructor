@@ -125,7 +125,7 @@ function FormLayoutPopupComponent<T extends FieldValues>({
                 <p>Please check your inputs and try again.</p>
                 <ul className="list-inside list-disc text-sm">
                   {error.split("\n").map((e) => (
-                    <li className="text-rose-400">{e}</li>
+                    <li key={e} className="text-rose-400">{e}</li>
                   ))}
                 </ul>
               </AlertDescription>
