@@ -53,7 +53,6 @@ export default [
               position: "before",
             },
             {
-               
               pattern: "react-dom/client",
               group: "builtin",
               position: "before",

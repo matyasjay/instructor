@@ -10,9 +10,9 @@ const defaultUser: User = {
 export default function useUser() {
   const [user, setUser] = useState<User>(defaultUser);
 
-  useEffect(()=>{
+  useEffect(() => {
     setUser(JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}"));
-  },[])
+  }, []);
 
   return user;
 }

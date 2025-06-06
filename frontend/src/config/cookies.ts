@@ -1,6 +1,6 @@
 export const COOKIES = {
   JWT: "instructor-token",
-} as const
+} as const;
 
 export const STORAGE = {
   USER: "instructor-user",

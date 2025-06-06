@@ -12,12 +12,12 @@ export const AuthContext = createContext<{
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authenticated, setAuthenticated] = useState(
-    !!Cookies.get(COOKIES.JWT),
+    !!Cookies.get(COOKIES.JWT)
   );
 
   const value = useMemo(
     () => ({ authenticated, setAuthenticated }),
-    [authenticated],
+    [authenticated]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

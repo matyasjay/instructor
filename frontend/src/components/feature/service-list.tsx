@@ -40,7 +40,7 @@ function mapServices(services: Service[]) {
                     )}
                   </td>
                 </tr>
-              ) : null,
+              ) : null
             )}
           </tbody>
         </table>
