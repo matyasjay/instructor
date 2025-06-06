@@ -12,11 +12,11 @@ export const defaultOptions = {
 export const QUERY_KEYS = {
   ME: "instructor-me-get",
   USER: "instructor-user-get",
-};
+} as const;
 
 export const MUTATION_KEYS = {
   SIGNUP: "instructor-user-signup",
   LOGIN: "instructor-user-login",
   CREATE_SERVICE: "instructor-service-create",
   GET_SERVICES: "instructor-services-get",
-};
+} as const;

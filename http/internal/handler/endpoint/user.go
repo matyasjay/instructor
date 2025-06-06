@@ -58,7 +58,10 @@ func CreateUser(c echo.Context) error {
 	}
 
 	token, _ := utils.GenerateJWT(user.ID)
-	return c.JSON(http.StatusCreated, echo.Map{"token": token})
+	return c.JSON(http.StatusCreated, Response{
+		User:  user,
+		Token: token,
+	})
 }
 
 type GetUserByEmailInput struct {

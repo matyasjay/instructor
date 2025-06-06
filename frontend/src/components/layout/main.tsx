@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
-import LayoutHeader from "@/components/features/layout-header";
-import ErrorBoundary from "./error";
+import ErrorBoundary from "@/components/context/error";
+import LayoutHeader from "@/components/feature/layout-header";
 
 export default function Layout({ children }: { children?: React.ReactNode }) {
   return (
@@ -43,7 +43,7 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
                   </div>
                 </div>
                 <div
-                  className="fixed top-[70px] left-[50%] translate-x-[-50%] right-0 bottom-0 overflow-auto w-full max-w-[1400px] pb-[30px]"
+                  className="fixed top-[70px] left-[50%] translate-x-[-50%] right-0 bottom-0 overflow-auto w-full max-w-[1400px] p-[30px]"
                   id="main_content"
                 >
                   {children ?? <Outlet />}

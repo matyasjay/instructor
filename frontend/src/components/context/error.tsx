@@ -4,6 +4,7 @@ import {
   ErrorBoundary as ReactErrorBoundary,
 } from "react-error-boundary";
 import { AlertCircleIcon } from "lucide-react";
+import Layout from "@/components/layout/main";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -16,7 +17,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { PAGES } from "@/config/pages";
 import { parseErrorObject } from "@/lib/utils";
-import Layout from "./layout";
 
 export function ErrorDisplay({
   error = Error("Unknown"),

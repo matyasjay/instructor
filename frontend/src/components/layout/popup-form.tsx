@@ -1,5 +1,7 @@
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import { AlertCircleIcon } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -12,17 +14,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-export type FormField = {
-  name: string;
-  label: string;
-  type: "text" | "email" | "password" | "checkbox";
-  value: string | number | boolean;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
-
 type Form<T extends FieldValues> = UseFormReturn<T, object, T>;
 
-export type FormLayoutPopupProps<T extends FieldValues> = {
+type FormLayoutPopupProps<T extends FieldValues> = {
   form: Form<T>;
   fields: FormField[];
   handleSubmit: (e: React.FormEvent) => void;
@@ -114,7 +108,7 @@ function FormLayoutPopupComponent<T extends FieldValues>({
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit} className="bg-sidebar w-full">
-        <div className="flex flex-col gap-3.5 mx-auto align-middle min-h-10/12 w-full">
+        <div className="flex flex-col gap-3.5 mx-auto align-middle w-full">
           {fields.map(fieldMapper)}
           <Separator />
           <Button
@@ -123,7 +117,20 @@ function FormLayoutPopupComponent<T extends FieldValues>({
           >
             {submit}
           </Button>
-          {error && <h4>{error}</h4>}
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircleIcon />
+              <AlertTitle>Failed to submit form!</AlertTitle>
+              <AlertDescription>
+                <p>Please check your inputs and try again.</p>
+                <ul className="list-inside list-disc text-sm">
+                  {error.split("\n").map((e) => (
+                    <li className="text-rose-400">{e}</li>
+                  ))}
+                </ul>
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
       </form>
     </Form>

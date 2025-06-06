@@ -2,7 +2,6 @@ import chalk from "chalk";
 
 const REQUIRED_CLIENT_ENVIRONMENT = [];
 
-// prettier-ignore
 const REQUIRED_SERVER_ENVIRONMENT = [
   "ENVIRONMENT",
   "FRONTEND_PORT",
@@ -14,13 +13,9 @@ const REQUIRED_SERVER_ENVIRONMENT = [
   "DATABASE_PASSWORD",
   "DATABASE_SCHEMA",
   "DATABASE_PORT",
-  "DATABASE_URL"
+  "DATABASE_URL",
+  "JWT_SECRET",
 ];
-
-// if (process.env.ENVIRONMENT !== "test") {
-//   REQUIRED_CLIENT_ENVIRONMENT.push("NEXT_PUBLIC_SENTRY_DSN");
-//   REQUIRED_SERVER_ENVIRONMENT.push("SENTRY_TOKEN");
-// }
 
 const getInvalids = (envs) =>
   envs.reduce(

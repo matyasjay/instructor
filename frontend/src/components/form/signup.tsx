@@ -5,39 +5,44 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { z, ZodError } from "zod";
-import { useAuth } from "@/app/context";
+import { useAuth } from "@/components/context/auth";
+import createFormPopupLayout from "@/components/layout/popup-form";
 import { COOKIES, STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
 import { PAGES } from "@/config/pages";
 import { MUTATION_KEYS } from "@/config/query";
-import { authPost, normalizeObjectKeys } from "@/lib/utils";
-import createFormPopupLayout, { FormField } from "./layout/popup";
+import { authPost, normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  name: z.string().min(5).max(30),
+  password: z.string().min(8),
+  password_confirm: z.string().min(8),
 });
 
-type LoginInput = z.infer<typeof formSchema>;
+type SignupInput = z.infer<typeof formSchema>;
 
-const defaultUser: LoginInput = {
+const defaultUser: SignupInput = {
   email: "",
+  name: "",
   password: "",
+  password_confirm: "",
 };
 
-async function loginUser(input: LoginInput) {
+const FormLayoutPopup = createFormPopupLayout<SignupInput>();
+
+async function signupUser(input: SignupInput) {
   const schema = formSchema.safeParse(input);
 
   if (schema.error) {
     throw { ...schema.error, zod: schema.error instanceof ZodError };
   }
 
-  const response = await authPost<LoginInput>(ENDPOINTS.LOGIN, schema.data);
+  const response = await authPost<SignupInput>(ENDPOINTS.SIGNUP, schema.data);
 
   if (response.error) {
     throw response;
   }
-
   const result = normalizeObjectKeys(response);
 
   window.localStorage.setItem(
@@ -50,37 +55,32 @@ async function loginUser(input: LoginInput) {
   return result;
 }
 
-const FormLayoutPopup = createFormPopupLayout<LoginInput>();
-
-export default function LoginForm() {
+export default function SignupForm() {
   const [user, setUser] = useState(defaultUser);
   const [error, setError] = useState<string>("");
   const { setAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const form = useForm<LoginInput>({
+  const mutation = useMutation({
+    mutationFn: signupUser,
+    mutationKey: [MUTATION_KEYS.SIGNUP],
+    onSuccess: () => {
+      setAuthenticated(true);
+      setUser(defaultUser);
+      navigate(PAGES.PRIVATE.ACCOUNT);
+    },
+    onError: (e) => {
+      setError(parseErrorObject(e));
+    },
+  });
+
+  const form = useForm<SignupInput>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultUser,
   });
 
-  const mutation = useMutation({
-    mutationFn: loginUser,
-    mutationKey: [MUTATION_KEYS.LOGIN],
-    onError: (e) => {
-      throw e;
-    },
-    onSuccess: (data) => {
-      if (data.error) {
-        throw data.error;
-      }
-      setAuthenticated(true);
-      setUser(defaultUser);
-      navigate(PAGES.PRIVATE.DASHBOARD);
-    },
-  });
-
   const handleChange =
-    (field: keyof LoginInput) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    (field: keyof SignupInput) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setError("");
       setUser((prev) => ({
         ...prev,
@@ -103,19 +103,33 @@ export default function LoginForm() {
       label: "E-mail",
     },
     {
+      type: "text",
+      name: "name",
+      value: user.name,
+      handleChange: handleChange("name"),
+      label: "Full Name",
+    },
+    {
       type: "password",
       name: "password",
       value: user.password,
       handleChange: handleChange("password"),
       label: "Password",
     },
+    {
+      type: "password",
+      name: "password_confirm",
+      value: user.password_confirm,
+      handleChange: handleChange("password_confirm"),
+      label: "Confirm Password",
+    },
   ];
 
   return (
     <FormLayoutPopup
       form={form}
-      handleSubmit={handleSubmit}
       fields={formFields}
+      handleSubmit={handleSubmit}
       error={error}
     />
   );

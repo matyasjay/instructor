@@ -12,6 +12,7 @@ declare global {
       DATABASE_SCHEMA: string;
       DATABASE_PORT: number;
       DATABASE_URL: string;
+      JWT_SECRET: string
     }
   }
 }

@@ -1,39 +1,21 @@
-import {
-  IndexRouteObject,
-  LoaderFunctionArgs,
-  Navigate,
-  NonIndexRouteObject,
-} from "react-router";
+import { IndexRouteObject, Navigate, NonIndexRouteObject } from "react-router";
+import Account from "@/app/account";
+import Landing from "@/app/landing";
+import ServiceAll from "@/app/service/all";
+import ServiceOwn from "@/app/service/own";
+import Layout from "@/components/layout/main";
+import ProtectedLayout from "@/components/layout/protected";
+import { SkeletonPage } from "@/components/ui/skeleton";
 import { PAGES } from "@/config/pages";
-import { getUserIsAuthenticated } from "@/lib/hooks/useAuth";
-import Dashboard from "./dashboard";
-import { ErrorDisplay } from "./error";
-import Landing from "./landing";
-import Layout from "./layout";
-import ProtectedLayout from "./protected";
-import ServiceAll from "./service-all";
-import ServiceOwn from "./service-own";
-
-const PageNotFoundError = Error("Page Not Found");
-
-const NotFound = (
-  <ErrorDisplay
-    error={PageNotFoundError}
-    resetErrorBoundary={() => null}
-    hideLayout
-  />
-);
-
-async function requireAuth(_: LoaderFunctionArgs) {
-  const result = await getUserIsAuthenticated();
-  return { authenticated: !!result.user_id };
-}
+import { NotFound } from "@/lib/errors";
+import { requireAuth } from "@/lib/utils";
 
 const router: (IndexRouteObject | NonIndexRouteObject)[] = [
   {
     path: "/",
     element: <Layout />,
     loader: requireAuth,
+    hydrateFallbackElement: <SkeletonPage />,
     children: [
       {
         path: "/",
@@ -56,8 +38,8 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
             element: NotFound,
           },
           {
-            path: "/app/dashboard",
-            element: <Dashboard />,
+            path: "/app/account",
+            element: <Account />,
           },
           {
             path: "/app/service/own",

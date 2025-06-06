@@ -5,12 +5,12 @@ import { CheckedState } from "@radix-ui/react-checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { CheckCircle2Icon } from "lucide-react";
 import { z, ZodError } from "zod";
+import createFormPopupLayout from "@/components/layout/popup-form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
 import { MUTATION_KEYS } from "@/config/query";
 import { authPost, normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
-import createFormPopupLayout, { FormField } from "./layout/popup";
 
 const formSchema = z.object({
   service: z.string(),

@@ -5,43 +5,39 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { z, ZodError } from "zod";
+import { useAuth } from "@/components/context/auth";
+import createFormPopupLayout from "@/components/layout/popup-form";
 import { COOKIES, STORAGE } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
 import { PAGES } from "@/config/pages";
 import { MUTATION_KEYS } from "@/config/query";
 import { authPost, normalizeObjectKeys, parseErrorObject } from "@/lib/utils";
-import createFormPopupLayout, { FormField } from "./layout/popup";
 
 const formSchema = z.object({
   email: z.string().email(),
-  name: z.string().min(5).max(30),
   password: z.string().min(8),
-  password_confirm: z.string().min(8),
 });
 
-type SignupInput = z.infer<typeof formSchema>;
+type LoginInput = z.infer<typeof formSchema>;
 
-const defaultUser: SignupInput = {
+const defaultUser: LoginInput = {
   email: "",
-  name: "",
   password: "",
-  password_confirm: "",
 };
 
-const FormLayoutPopup = createFormPopupLayout<SignupInput>();
-
-async function signupUser(input: SignupInput) {
+async function loginUser(input: LoginInput) {
   const schema = formSchema.safeParse(input);
 
   if (schema.error) {
     throw { ...schema.error, zod: schema.error instanceof ZodError };
   }
 
-  const response = await authPost<SignupInput>(ENDPOINTS.SIGNUP, schema.data);
+  const response = await authPost<LoginInput>(ENDPOINTS.LOGIN, schema.data);
 
   if (response.error) {
     throw response;
   }
+
   const result = normalizeObjectKeys(response);
 
   window.localStorage.setItem(
@@ -54,29 +50,37 @@ async function signupUser(input: SignupInput) {
   return result;
 }
 
-export default function SignupForm() {
+const FormLayoutPopup = createFormPopupLayout<LoginInput>();
+
+export default function LoginForm() {
   const [user, setUser] = useState(defaultUser);
   const [error, setError] = useState<string>("");
+  const { setAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const mutation = useMutation({
-    mutationFn: signupUser,
-    mutationKey: [MUTATION_KEYS.SIGNUP],
-    onSuccess: () => {
-      navigate(PAGES.PRIVATE.DASHBOARD);
-    },
-    onError: (e) => {
-      setError(parseErrorObject(e));
-    },
-  });
-
-  const form = useForm<SignupInput>({
+  const form = useForm<LoginInput>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultUser,
   });
 
+  const mutation = useMutation({
+    mutationFn: loginUser,
+    mutationKey: [MUTATION_KEYS.LOGIN],
+    onError: (error) => {
+      setError(parseErrorObject(error));
+    },
+    onSuccess: (data) => {
+      if (data.error) {
+        setError(parseErrorObject(data.error));
+      }
+      setAuthenticated(true);
+      setUser(defaultUser);
+      navigate(PAGES.PRIVATE.ACCOUNT);
+    },
+  });
+
   const handleChange =
-    (field: keyof SignupInput) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    (field: keyof LoginInput) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setError("");
       setUser((prev) => ({
         ...prev,
@@ -88,7 +92,6 @@ export default function SignupForm() {
     e.preventDefault();
     setError("");
     mutation.mutate(user);
-    setUser(defaultUser);
   };
 
   const formFields: FormField[] = [
@@ -106,20 +109,13 @@ export default function SignupForm() {
       handleChange: handleChange("password"),
       label: "Password",
     },
-    {
-      type: "password",
-      name: "password_confirm",
-      value: user.password_confirm,
-      handleChange: handleChange("password_confirm"),
-      label: "Confirm Password",
-    },
   ];
 
   return (
     <FormLayoutPopup
       form={form}
-      fields={formFields}
       handleSubmit={handleSubmit}
+      fields={formFields}
       error={error}
     />
   );

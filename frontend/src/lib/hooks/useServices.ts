@@ -5,18 +5,6 @@ import { ENDPOINTS } from "@/config/endpoints";
 import { MUTATION_KEYS } from "@/config/query";
 import { authPost, normalizeObjectKeys } from "../utils";
 
-type Service = {
-  id: string;
-  name: string;
-  description?: string;
-  private: boolean;
-};
-
-type Services = {
-  all: Service[];
-  user: Service[];
-};
-
 const defaultServicesState = {
   all: [],
   user: [],

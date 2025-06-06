@@ -1,12 +1,9 @@
 export const PAGES = {
   PUBLIC: {
     LANDING: "/landing",
-    SIGNUP: "/signup",
-    LOGIN: "/login",
-    SERVICES: "/explore",
   },
   PRIVATE: {
-    DASHBOARD: "/app/dashboard",
+    ACCOUNT: "/app/account",
     SERVICE_OWN: "/app/service/own",
     SERVICE_ALL: "/app/service/all",
     SERVICE_NEW: "/app/service/new",

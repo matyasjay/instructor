@@ -3,12 +3,9 @@ import { AxiosError } from "axios";
 import { clsx, type ClassValue } from "clsx";
 import Cookies from "js-cookie";
 import { twMerge } from "tailwind-merge";
-import { ZodError } from "zod";
 import { COOKIES } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
 import { client } from "@/lib/http";
-
-type Endpoint = (typeof ENDPOINTS)[keyof typeof ENDPOINTS];
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -25,15 +22,38 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
   );
 }
 
+export function mapHttpError(error: AxiosError<{ error: string }>) {
+  const message = error.response?.data?.error;
+  return (
+    {
+      ["sql: no rows in result set"]: "Failed to get the database record!",
+    }[message + ""] ?? "Network error happened!"
+  );
+}
+
+export function parseValidationError(error: ZodIssue) {
+  return {
+    ["email"]: `E-mail is not a valid e-mail address!`,
+  }[Object(error).validation + ""];
+}
+
+export function mapZodIssue(issue: ZodIssue) {
+  return {
+    ["too_small"]: `${capitalizeFirstLetter(Object(issue).path)} must be at least ${Object(issue).minimum} characters long!`,
+    ["invalid_string"]: parseValidationError(issue),
+  }[issue.code + ""];
+}
+
 export function parseErrorObject<T = unknown>(error: T) {
   const _e = error as (T | ZodError) & {
     zod: boolean;
     error: string;
   };
   if (_e.zod) {
-    return (_e as ZodError).issues[0].message;
+    const issues = (_e as ZodError).issues;
+    return `${issues.map(mapZodIssue).join("\n")}`;
   } else if (_e instanceof AxiosError) {
-    return _e.response?.data.error;
+    return mapHttpError(_e);
   } else if (isRouteErrorResponse(error)) {
     return error.statusText;
   } else if (_e.error) {
@@ -81,6 +101,11 @@ export async function authPost<T = Record<string, unknown>>(
       error: parseErrorObject(e),
     };
   }
+}
+
+export async function requireAuth() {
+  const result = await authGet(ENDPOINTS.ME);
+  return { authenticated: !!result.user_id };
 }
 
 export function capitalizeFirstLetter(val: string) {

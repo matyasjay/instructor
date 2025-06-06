@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router";
+import { useAuth } from "@/components/context/auth";
 import { PAGES } from "@/config/pages";
-import { useAuth } from "./context";
 
 export default function ProtectedLayout() {
   const { authenticated } = useAuth();
