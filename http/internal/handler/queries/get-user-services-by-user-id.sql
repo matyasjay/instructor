@@ -52,11 +52,9 @@ FROM instructor."User" u
 JOIN instructor."ServicesOnUsers" su ON u.id = su."userId"
 JOIN instructor."Service" s ON su."serviceId" = s.id
 
--- Join other user of the service
 LEFT JOIN instructor."ServicesOnUsers" su2 ON su2."serviceId" = s.id
 LEFT JOIN instructor."User" u2 ON su2."userId" = u2.id
 
--- Join templates and their inputs
 LEFT JOIN instructor."TemplatesOnServices" ts ON s.id = ts."serviceId"
 LEFT JOIN instructor."PromptTemplate" pt ON ts."templateId" = pt.id
 LEFT JOIN instructor."PromptInput" pi ON pt.id = pi."templateId"

@@ -14,6 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type DefaultProps = {
   title: string;
@@ -37,7 +38,7 @@ type PopupProps =
       confirmVariant?: React.ComponentProps<typeof Button>["variant"];
     });
 
-export default function ButtonWithPopup({
+export default function AlertButton({
   title,
   content,
   trigger,
@@ -51,11 +52,20 @@ export default function ButtonWithPopup({
   confirm,
   onConfirm,
   confirmVariant = "default",
+  open,
 }: PopupProps &
   Omit<AlertDialogProps & AlertDialogTriggerProps, keyof PopupProps>) {
+  const handleBack = () => {
+    window.history.back();
+  };
+
   return (
-    <AlertDialog defaultOpen={defaultOpen}>
-      <AlertDialogTrigger asChild id={id} className={className}>
+    <AlertDialog defaultOpen={defaultOpen} open={open}>
+      <AlertDialogTrigger
+        asChild
+        id={id}
+        className={cn(className, open ? "hidden" : "")}
+      >
         {typeof trigger !== "object" ? (
           <Button variant={triggerVariant} className="cursor-pointer">
             {trigger}
@@ -69,7 +79,10 @@ export default function ButtonWithPopup({
           <AlertDialogTitle className="flex justify-between w-full items-center">
             {title}
             {dismiss === "top" && (
-              <AlertDialogCancel className="cursor-pointer">
+              <AlertDialogCancel
+                className="cursor-pointer"
+                onClick={open ? handleBack : undefined}
+              >
                 {cancel}
               </AlertDialogCancel>
             )}
@@ -90,7 +103,10 @@ export default function ButtonWithPopup({
               </AlertDialogAction>
             )}
             {dismiss === "split" && (
-              <AlertDialogCancel className="cursor-pointer w-[50%]">
+              <AlertDialogCancel
+                className="cursor-pointer w-[50%]"
+                onClick={open ? handleBack : undefined}
+              >
                 {cancel}
               </AlertDialogCancel>
             )}

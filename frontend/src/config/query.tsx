@@ -19,4 +19,5 @@ export const MUTATION_KEYS = {
   LOGIN: "instructor-user-login",
   CREATE_SERVICE: "instructor-service-create",
   GET_SERVICES: "instructor-services-get",
+  CREATE_TEMPLATE: "instructor-template-create",
 } as const;

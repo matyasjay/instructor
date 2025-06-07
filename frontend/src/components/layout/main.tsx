@@ -1,18 +1,113 @@
-import { Outlet } from "react-router";
+import { Fragment } from "react";
+import { Outlet, useNavigate } from "react-router";
+import { useAuth } from "@/components/context/auth";
 import ErrorBoundary from "@/components/context/error";
-import LayoutHeader from "@/components/feature/layout-header";
+import AlertButton from "@/components/feature/alert-button";
+import { menu, PRIMARY_ROUTES } from "@/components/feature/menu";
+import LoginForm from "@/components/form/login";
+import SignupForm from "@/components/form/signup";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { PAGES } from "@/config/pages";
+import useLogout from "@/lib/hooks/useLogout";
+import useUser from "@/lib/hooks/useUser";
+
+function getPageOrder(page: Nullable<string>) {
+  return +(page?.split("#")[0] ?? 0);
+}
+
+function getNavigationItems(
+  pages: { id?: string; path: string }[],
+  handleNavigate: (path: string) => () => void,
+) {
+  return pages
+    ?.sort((a, b) => {
+      const orderA = getPageOrder(a.id);
+      const orderB = getPageOrder(b.id);
+      return orderA - orderB;
+    })
+    .map((page) => {
+      return (
+        <Button
+          variant={
+            PRIMARY_ROUTES.includes(page.id?.split("#")[0] ?? "")
+              ? "default"
+              : "ghost"
+          }
+          className="cursor-pointer"
+          onClick={handleNavigate(page.path)}
+          key={page.id}
+        >
+          {page.id?.split("#")[1]}
+        </Button>
+      );
+    });
+}
+
+const left = menu?.filter(({ id }) => !!id && getPageOrder(id) > 0) ?? [];
+const right = menu?.filter(({ id }) => !!id && getPageOrder(id) < 0) ?? [];
 
 export default function Layout({ children }: { children?: React.ReactNode }) {
+  const navigate = useNavigate();
+  const { authenticated } = useAuth();
+  const user = useUser();
+  const logout = useLogout();
+
+  const handleNavigate = (path: string) => () => {
+    navigate(path);
+  };
+
   return (
     <ErrorBoundary>
-      <div className="mx-auto flex min-h-screen w-screen max-w-screen-2xl flex-col p-2 font-family-[Gotham]">
-        <div
-          className={`relative flex w-full rounded-2xl bg-white-4 dark:bg-dark`}
-        >
-          &nbsp;
-        </div>
-        <LayoutHeader />
-        <div className="mt-2 flex w-full h-dvh flex-1 gap-2 rounded-2xl">
+      <div className="mx-auto flex min-h-screen w-screen max-w-screen-2xl flex-col font-family-[Gotham]">
+        <nav className="h-[70px] fixed top-0 left-0 right-0 bg-sidebar flex items-center px-5 py-3 gap-3 max-w-[1400px] mx-auto border-x-1 z-50 shadow-md border-b-1">
+          <Button
+            className="text-lg hover:no-underline text-white cursor-pointer"
+            variant="link"
+            onClick={handleNavigate(PAGES.PUBLIC.LANDING)}
+          >
+            Instructor
+          </Button>
+          {authenticated ? (
+            <Fragment>
+              {getNavigationItems(left, handleNavigate)}
+              <h3 className="flex flex-col items-end ml-auto text-gray-400">
+                <span className="font-normal">{user.name}</span>
+                <span className="text-gray-500 text-xs">{user.email}</span>
+              </h3>
+              <Separator orientation="vertical" />
+              {getNavigationItems(right, handleNavigate)}
+              <AlertButton
+                title="Do you wish to sign out?"
+                trigger="Log out"
+                description="This action will sign you out from our systems and prevent accessing your data from our servers."
+                triggerVariant="outline"
+                dismiss="split"
+                confirm="Confirm"
+                onConfirm={logout}
+                confirmVariant="destructive"
+              />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <AlertButton
+                title="Sign In"
+                trigger="Sign In"
+                content={<LoginForm />}
+                description="Fill in your credentials to log in to your account."
+                className="ml-auto"
+              />
+              <AlertButton
+                triggerVariant="outline"
+                title="Sign Up"
+                trigger="Sign Up"
+                description="Fill in your details below to create a new account."
+                content={<SignupForm />}
+              />
+            </Fragment>
+          )}
+        </nav>
+        <div className="mt-[70px] flex w-full h-dvh flex-1 gap-2 rounded-2xl">
           <main className="w-full rounded-2xl bg-white-3 dark:bg-dark-2 p-0 mx-auto">
             <div className="max-w-[1400px] bg-accent mx-auto border-x-1 overflow-y-auto fixed top-[70px] left-0 right-0 bottom-0">
               <div className="flex flex-col gap-3.5 mx-auto align-middle min-h-full bg-gray-900">

@@ -1,8 +1,6 @@
 import { IndexRouteObject, Navigate, NonIndexRouteObject } from "react-router";
-import Account from "@/app/account";
 import Landing from "@/app/landing";
-import ServiceAll from "@/app/service/all";
-import ServiceOwn from "@/app/service/own";
+import { menu } from "@/components/feature/menu";
 import Layout from "@/components/layout/main";
 import ProtectedLayout from "@/components/layout/protected";
 import { SkeletonPage } from "@/components/ui/skeleton";
@@ -10,7 +8,7 @@ import { PAGES } from "@/config/pages";
 import { NotFound } from "@/lib/errors";
 import { requireAuth } from "@/lib/utils";
 
-const router: (IndexRouteObject | NonIndexRouteObject)[] = [
+const router = [
   {
     path: "/",
     element: <Layout />,
@@ -37,22 +35,11 @@ const router: (IndexRouteObject | NonIndexRouteObject)[] = [
             path: "/app/*",
             element: NotFound,
           },
-          {
-            path: "/app/account",
-            element: <Account />,
-          },
-          {
-            path: "/app/service/own",
-            element: <ServiceOwn />,
-          },
-          {
-            path: "/app/service/all",
-            element: <ServiceAll />,
-          },
+          ...menu,
         ],
       },
     ],
   },
-];
+] satisfies (IndexRouteObject | NonIndexRouteObject)[];
 
 export default router;

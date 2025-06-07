@@ -139,8 +139,8 @@ function FormLayoutPopupComponent<T extends FieldValues>({
   );
 }
 
-export default function createFormPopupLayout<T extends FieldValues>() {
-  return (props: FormLayoutPopupProps<T>) => (
-    <FormLayoutPopupComponent {...props} />
+export default function createFormPopupLayout() {
+  return (props: Record<string, unknown>) => (
+    <FormLayoutPopupComponent {...Object(props)} />
   );
 }

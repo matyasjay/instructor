@@ -14,6 +14,8 @@ declare class NullProto {
   private "propertyIsEnumerable": void;
 }
 
+declare type URecord<K = string, V = unknown> = Record<K, V>;
+
 declare type ZodError = import("zod").ZodError;
 
 declare type ZodIssue = ArrayElement<ZodError["issues"]>;

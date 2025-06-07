@@ -7,17 +7,18 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useServices } from "@/lib/hooks/useServices";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
 type ServiceListProps = {
   title: string;
-  services: AggregatedService[];
+  type: "all" | "user";
   public?: boolean;
 };
 
 function mapProperty([key, value = ""]: [
   string,
-  AggregatedService[keyof AggregatedService]
+  AggregatedService[keyof AggregatedService],
 ]) {
   const property =
     {
@@ -98,13 +99,13 @@ function mapServices(services: AggregatedService[], isPublic?: boolean) {
   ));
 }
 
-export default function ServiceList({
-  title,
-  services,
-  public: isPublic,
-}: ServiceListProps) {
+export default function ServiceList({ title, type }: ServiceListProps) {
+  const services = useServices(type);
+
   const list =
-    services.length > 0 ? mapServices(services, isPublic) : "Nothing to show";
+    services.length > 0
+      ? mapServices(services, type === "all")
+      : "Nothing to show";
 
   return (
     <Accordion type="single" defaultValue="services_container">

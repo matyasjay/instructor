@@ -43,7 +43,7 @@ model PromptTemplate {
 
 model PromptInput {
   id         String         @id @default(uuid())
-  input      Json           @default("{}")
+  input      String         @default("")
   template   PromptTemplate @relation(fields: [templateId], references: [id])
   templateId String         @unique @default("")
   createdAt  DateTime       @default(now())
@@ -52,7 +52,7 @@ model PromptInput {
 
 model PromptVariable {
   id         String         @id @default(uuid())
-  variable   Json           @default("{}")
+  variable   String         @default("")
   template   PromptTemplate @relation(fields: [templateId], references: [id])
   templateId String         @unique @default("")
   createdAt  DateTime       @default(now())
