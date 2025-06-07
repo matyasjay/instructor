@@ -56,4 +56,3 @@ func CreateUser(c echo.Context) error {
 		Token: token,
 	})
 }
-

@@ -16,9 +16,13 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
     (result, [key, value]) => ({
       ...result,
       [key.toLowerCase()]:
-        typeof value === "object" ? normalizeObjectKeys(value) : value,
+        typeof value === "object" && !Array.isArray(value)
+          ? normalizeObjectKeys(value)
+          : Array.isArray(value)
+          ? value.map(normalizeObjectKeys)
+          : value,
     }),
-    Object.create(null),
+    Object.create(null)
   );
 }
 
@@ -40,7 +44,7 @@ export function parseValidationError(error: ZodIssue) {
 export function mapZodIssue(issue: ZodIssue) {
   return {
     ["too_small"]: `${capitalizeFirstLetter(
-      Object(issue).path,
+      Object(issue).path
     )} must be at least ${Object(issue).minimum} characters long!`,
     ["invalid_string"]: parseValidationError(issue),
   }[issue.code + ""];
@@ -85,11 +89,11 @@ export async function authGet(endpoint: Endpoint) {
 
 export async function authPost<
   T = Record<string, unknown>,
-  R = Record<string, unknown>,
+  R = Record<string, unknown>
 >(
   endpoint: Endpoint,
   data: T,
-  options?: { skipNormalize?: boolean },
+  options?: { skipNormalize?: boolean }
 ): Promise<R | { error: string }> {
   try {
     const jwt = Cookies.get(COOKIES.JWT);

@@ -45,7 +45,7 @@ async function signupUser(input: SignupInput) {
 
   const response = await authPost<SignupInput, SignupResponse>(
     ENDPOINTS.SIGNUP,
-    schema.data,
+    schema.data
   );
 
   if ("error" in response) {
@@ -56,7 +56,7 @@ async function signupUser(input: SignupInput) {
 
   window.localStorage.setItem(
     STORAGE.USER,
-    JSON.stringify(Object(result).user),
+    JSON.stringify(Object(result).user)
   );
 
   Cookies.set(COOKIES.JWT, result.token);

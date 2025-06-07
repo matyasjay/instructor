@@ -1,4 +1,4 @@
-import { CpuIcon, ThumbsDown, ThumbsUp, WrenchIcon } from "lucide-react";
+import { CpuIcon, CopyIcon, WrenchIcon } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -11,9 +11,61 @@ import { capitalizeFirstLetter } from "@/lib/utils";
 
 type ServiceListProps = {
   title: string;
-  services: Service[];
+  services: AggregatedService[];
+  public?: boolean;
 };
-function mapServices(services: Service[]) {
+
+function mapProperty([key, value = ""]: [
+  string,
+  AggregatedService[keyof AggregatedService]
+]) {
+  const property =
+    {
+      ["boolean"]: value === true ? "Yes" : "No",
+      ["string"]: !value ? (
+        "Not available"
+      ) : value instanceof Date ? (
+        value.toISOString()
+      ) : Array.isArray(value) ? (
+        <ul>
+          {value.length === 0 ? (
+            <li>Not available</li>
+          ) : (
+            value.map((entry) => <li key={entry.id}>{entry.name}</li>)
+          )}
+        </ul>
+      ) : (
+        value
+      ),
+      ["object"]: Array.isArray(value) ? (
+        <ul>
+          {value.length === 0 ? (
+            <li>Not available</li>
+          ) : (
+            value.map((entry) => <li key={entry.id}>{entry.name}</li>)
+          )}
+        </ul>
+      ) : Object.values(value).length === 0 ? (
+        "Not available"
+      ) : (
+        JSON.stringify(value)
+      ),
+      ["number"]: "number",
+      ["symbol"]: "symbol",
+      ["bigint"]: "bigint",
+      ["function"]: "function",
+      ["undefined"]: "Not available",
+    }[typeof value] ?? "";
+
+  return key !== "id" ? (
+    <tr className="h-10" key={key}>
+      <td className="w-[170px]">{capitalizeFirstLetter(key)}</td>
+      <td>{property}</td>
+    </tr>
+  ) : null;
+}
+
+function mapServices(services: AggregatedService[], isPublic?: boolean) {
   return services.map((service) => (
     <AccordionItem value={service.name} key={service.name}>
       <AccordionTrigger className="cursor-pointer hover:no-underline bg-secondary px-7 font-bold [&[data-state=open]]:bg-primary ">
@@ -21,28 +73,7 @@ function mapServices(services: Service[]) {
       </AccordionTrigger>
       <AccordionContent className="flex flex-col gap-4 text-balance bg-sidebar border-t-1 px-7 py-3 border-x-1 border-b-1">
         <table>
-          <tbody>
-            {Object.entries(service).map(([key, value]) =>
-              key !== "id" ? (
-                <tr className="h-10" key={key}>
-                  <td className="w-[170px]">{capitalizeFirstLetter(key)}</td>
-                  <td>
-                    {typeof value === "boolean" ? (
-                      value === true ? (
-                        <ThumbsUp />
-                      ) : (
-                        <ThumbsDown />
-                      )
-                    ) : value === "" ? (
-                      <em>No value</em>
-                    ) : (
-                      value
-                    )}
-                  </td>
-                </tr>
-              ) : null
-            )}
-          </tbody>
+          <tbody>{Object.entries(service).map(mapProperty)}</tbody>
         </table>
         <Separator />
         <div className="flex gap-3 pb-[16px]">
@@ -50,18 +81,30 @@ function mapServices(services: Service[]) {
             <CpuIcon />
             Start Service
           </Button>
-          <Button variant="ghost" className="flex w-[300px] cursor-pointer">
-            <WrenchIcon />
-            Configure Service
-          </Button>
+          {isPublic ? (
+            <Button variant="ghost" className="flex w-[300px] cursor-pointer">
+              <CopyIcon />
+              Copy Service
+            </Button>
+          ) : (
+            <Button variant="ghost" className="flex w-[300px] cursor-pointer">
+              <WrenchIcon />
+              Configure Service
+            </Button>
+          )}
         </div>
       </AccordionContent>
     </AccordionItem>
   ));
 }
 
-export default function ServiceList({ title, services }: ServiceListProps) {
-  const list = services.length > 0 ? mapServices(services) : "Nothing to show";
+export default function ServiceList({
+  title,
+  services,
+  public: isPublic,
+}: ServiceListProps) {
+  const list =
+    services.length > 0 ? mapServices(services, isPublic) : "Nothing to show";
 
   return (
     <Accordion type="single" defaultValue="services_container">

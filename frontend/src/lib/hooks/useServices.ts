@@ -13,17 +13,17 @@ export async function fetchService(service: "all" | "user") {
     ["user"]: ENDPOINTS.GET_SERVICES_USER,
   }[service];
 
-  const result = await authPost<{ id: string }, Service[]>(
+  const result = await authPost<{ id: string }, AggregatedService[]>(
     endpoint,
     { id: user.id },
-    { skipNormalize: true },
+    { skipNormalize: true }
   );
 
   return result;
 }
 
-export function useServices(scope: "all" | "user"): Service[] {
-  const [services, setServices] = useState<Service[]>(Array(0));
+export function useServices(scope: "all" | "user"): AggregatedService[] {
+  const [services, setServices] = useState<AggregatedService[]>(Array(0));
 
   const mutation = useMutation({
     mutationFn: fetchService,

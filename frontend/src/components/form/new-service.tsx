@@ -43,7 +43,7 @@ async function createService(input: ServiceInput) {
 
   const response = await authPost<ServiceInput, ServiceResponse>(
     ENDPOINTS.CREATE_SERVICE,
-    schema.data,
+    schema.data
   );
 
   if ("error" in response) {
@@ -84,7 +84,7 @@ export default function NewServiceForm() {
     (
       e:
         | CheckedState
-        | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+        | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
       setError("");
       setService((prev) => ({

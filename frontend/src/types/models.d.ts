@@ -1,4 +1,12 @@
+declare type User = import("@/lib/prisma/generated/prisma").User;
+
+declare type Service = import("@/lib/prisma/generated/prisma").Service;
+
+declare type PromptTemplate =
+  import("@/lib/prisma/generated/prisma").PromptTemplate;
+
 type Endpoints = typeof import("@/config/endpoints").ENDPOINTS;
+
 declare type Endpoint = Endpoints[keyof Endpoints];
 
 declare type FormField = {
@@ -9,16 +17,7 @@ declare type FormField = {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-declare type Service = {
-  id: string;
-  name: string;
-  description?: string;
-  private: boolean;
-};
-
-
-declare type User = {
-  id: string;
-  name: string;
-  email: string;
+declare type AggregatedService = Service & {
+  users: User[];
+  templates: PromptTemplate[];
 };

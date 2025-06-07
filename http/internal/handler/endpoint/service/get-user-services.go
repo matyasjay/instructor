@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"net/http"
 	"os"
 
@@ -43,18 +44,33 @@ func GetUserServices(c echo.Context) error {
 	var services []models.Service
 
 	for rows.Next() {
-		var service models.Service
+		var (
+			service       models.Service
+			usersJSON     []byte
+			templatesJSON []byte
+		)
+
 		if err := rows.Scan(
 			&service.ID,
 			&service.Name,
 			&service.Private,
 			&service.Description,
-			&service.Users,
-			&service.Templates,
+			&usersJSON,
+			&templatesJSON,
 			&service.CreatedAt,
 			&service.UpdatedAt); err != nil {
 			return err
 		}
+
+		if err := json.Unmarshal(usersJSON, &service.Users); err != nil {
+			return err
+		}
+
+		// Unmarshal templates
+		if err := json.Unmarshal(templatesJSON, &service.Templates); err != nil {
+			return err
+		}
+
 		services = append(services, service)
 	}
 

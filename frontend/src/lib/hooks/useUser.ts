@@ -6,6 +6,9 @@ const defaultUser: User = {
   id: "",
   name: "",
   email: "",
+  password: "",
+  createdAt: new Date(Date.now()),
+  updatedAt: new Date(Date.now()),
 };
 
 export default function useUser() {

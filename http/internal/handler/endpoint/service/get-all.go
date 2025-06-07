@@ -50,4 +50,3 @@ func GetAllServices(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, services)
 }
-
