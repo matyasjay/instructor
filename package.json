@@ -1,6 +1,6 @@
 {
   "name": "@instructor/core",
-  "version": "1.1.51",
+  "version": "1.1.52",
   "description": "Instructor - Personal VTA",
   "engines": {
     "node": "22",
