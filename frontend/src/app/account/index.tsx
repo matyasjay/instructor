@@ -17,8 +17,6 @@ function Account() {
   delete user.passwordhash;
 
   return (
-    <div className="flex flex-col w-full gap-3.5 mx-auto justify-top items-start min-h-10/12 px-9">
-      <div className="flex flex-col w-full items-top">
         <Accordion
           type="multiple"
           className="w-full justify-start"
@@ -49,8 +47,6 @@ function Account() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      </div>
-    </div>
   );
 }
 

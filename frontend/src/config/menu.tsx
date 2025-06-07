@@ -28,7 +28,7 @@ export const menu = [
     element: <ServiceAll />,
   },
   {
-    id: "4#New Templates",
+    id: "4#New Template",
     path: "/app/template/new",
     element: <NewTemplate />,
   },
