@@ -16,10 +16,6 @@ declare type Service = {
   private: boolean;
 };
 
-declare type Services = {
-  all: Service[];
-  user: Service[];
-};
 
 declare type User = {
   id: string;

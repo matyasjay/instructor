@@ -5,6 +5,9 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"http/internal/handler/connection"
 	"http/internal/handler/endpoint"
+	"http/internal/handler/endpoint/template"
+	"http/internal/handler/endpoint/service"
+	"http/internal/handler/endpoint/user"
 	"net/http"
 	"os"
 
@@ -26,10 +29,10 @@ func RegisterRoutes(e *echo.Echo) {
 	e.File("/", "static/swagger/index.html")
 	e.Static("/", "static/swagger")
 
-	e.GET("/templates", endpoint.GetTemplates)
+	e.GET("/templates", template.GetTemplates)
 
-	e.POST("/user/login", endpoint.LoginUser)
-	e.POST("/user/create", endpoint.CreateUser)
+	e.POST("/user/login", user.LoginUser)
+	e.POST("/user/create", user.CreateUser)
 
 	var secret = os.Getenv("JWT_SECRET")
 
@@ -47,9 +50,9 @@ func RegisterRoutes(e *echo.Echo) {
 		return c.JSON(http.StatusOK, echo.Map{"user_id": claims["user_id"]})
 	})
 
-	r.POST("/user/current", endpoint.GetUserById)
+	r.POST("/user/current", user.GetUserById)
 
-	r.POST("/service/create", endpoint.CreateService)
-	r.POST("/service/user", endpoint.GetUserServices)
-	r.POST("/service/all", endpoint.GetAllServices)
+	r.POST("/service/create", service.CreateService)
+	r.POST("/service/user", service.GetUserServices)
+	r.POST("/service/all", service.GetAllServices)
 }

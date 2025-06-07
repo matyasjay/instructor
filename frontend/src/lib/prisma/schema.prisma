@@ -9,19 +9,54 @@ datasource db {
 }
 
 model User {
-  id       String            @id @default(uuid())
-  name     String            @unique
-  email    String            @unique
-  password String
-  services ServicesOnUsers[]
+  id        String            @id @default(uuid())
+  name      String            @unique
+  email     String            @unique
+  password  String
+  services  ServicesOnUsers[]
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @default(now()) @updatedAt
 }
 
 model Service {
-  id          String            @id @default(uuid())
-  name        String            @unique
+  id          String                @id @default(uuid())
+  name        String                @unique
+  private     Boolean               @default(false)
+  description String                @default("")
   users       ServicesOnUsers[]
-  private     Boolean           @default(false)
-  description String            @default("")
+  templates   TemplatesOnServices[]
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @default(now()) @updatedAt
+}
+
+model PromptTemplate {
+  id          String                @id @default(uuid())
+  name        String                @unique
+  description String
+  template    String
+  services    TemplatesOnServices[]
+  input       PromptInput?
+  variable    PromptVariable?
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @default(now()) @updatedAt
+}
+
+model PromptInput {
+  id         String         @id @default(uuid())
+  input      Json           @default("{}")
+  template   PromptTemplate @relation(fields: [templateId], references: [id])
+  templateId String         @unique @default("")
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @default(now()) @updatedAt
+}
+
+model PromptVariable {
+  id         String         @id @default(uuid())
+  variable   Json           @default("{}")
+  template   PromptTemplate @relation(fields: [templateId], references: [id])
+  templateId String         @unique @default("")
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @default(now()) @updatedAt
 }
 
 model ServicesOnUsers {
@@ -33,22 +68,11 @@ model ServicesOnUsers {
   @@id([userId, serviceId])
 }
 
-model PromptTemplate {
-  id          String        @id @default(uuid())
-  name        String        @unique
-  description String
-  template    String
-  variables   Json
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  PromptInput PromptInput[]
-}
-
-model PromptInput {
-  id         String         @id @default(uuid())
+model TemplatesOnServices {
   template   PromptTemplate @relation(fields: [templateId], references: [id])
   templateId String
-  input      Json           @default("{}")
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  service    Service        @relation(fields: [serviceId], references: [id])
+  serviceId  String
+
+  @@id([templateId, serviceId])
 }

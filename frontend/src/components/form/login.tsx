@@ -20,6 +20,11 @@ const formSchema = z.object({
 
 type LoginInput = z.infer<typeof formSchema>;
 
+type LoginResponse = {
+  user: User;
+  token: string;
+};
+
 const defaultUser: LoginInput = {
   email: "",
   password: "",
@@ -32,17 +37,20 @@ async function loginUser(input: LoginInput) {
     throw { ...schema.error, zod: schema.error instanceof ZodError };
   }
 
-  const response = await authPost<LoginInput>(ENDPOINTS.LOGIN, schema.data);
+  const response = await authPost<LoginInput, LoginResponse>(
+    ENDPOINTS.LOGIN,
+    schema.data,
+  );
 
-  if (response.error) {
+  if ("error" in response) {
     throw response;
   }
 
-  const result = normalizeObjectKeys(response);
+  const result = normalizeObjectKeys<LoginResponse>(response);
 
   window.localStorage.setItem(
     STORAGE.USER,
-    JSON.stringify(Object(result).user)
+    JSON.stringify(Object(result).user),
   );
 
   Cookies.set(COOKIES.JWT, result.token);
@@ -70,7 +78,7 @@ export default function LoginForm() {
       setError(parseErrorObject(error));
     },
     onSuccess: (data) => {
-      if (data.error) {
+      if ("error" in data) {
         setError(parseErrorObject(data.error));
       }
       setAuthenticated(true);

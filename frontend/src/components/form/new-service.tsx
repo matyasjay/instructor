@@ -22,6 +22,10 @@ const formSchema = z.object({
 
 type ServiceInput = z.infer<typeof formSchema>;
 
+type ServiceResponse = {
+  userid: string;
+};
+
 const defaultService: ServiceInput = {
   service: "",
   name: "",
@@ -37,12 +41,12 @@ async function createService(input: ServiceInput) {
     throw { ...schema.error, zod: schema.error instanceof ZodError };
   }
 
-  const response = await authPost<ServiceInput>(
+  const response = await authPost<ServiceInput, ServiceResponse>(
     ENDPOINTS.CREATE_SERVICE,
-    schema.data
+    schema.data,
   );
 
-  if (response.error) {
+  if ("error" in response) {
     throw response;
   }
 
@@ -66,11 +70,11 @@ export default function NewServiceForm() {
       setError(parseErrorObject(e));
     },
     onSuccess: (data) => {
-      if (data.error) {
+      if ("error" in data) {
         setError(parseErrorObject(data.error));
       } else {
         console.log(data);
-        setCreated(data.userid);
+        setCreated(!!data.userid);
       }
     },
   });
@@ -80,7 +84,7 @@ export default function NewServiceForm() {
     (
       e:
         | CheckedState
-        | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => {
       setError("");
       setService((prev) => ({

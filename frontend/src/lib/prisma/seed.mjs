@@ -6,11 +6,14 @@ const LOGIN = {
     template: "<div>Login Layout</div>",
     description: "Layout - Login",
     name: "layout-login",
-    variables: "",
   },
   INPUT: {
     templateId: "layout-login",
     id: "input-login",
+  },
+  VARIABLES: {
+    templateId: "layout-login",
+    id: "variables-login",
   },
 };
 
@@ -26,6 +29,13 @@ await prisma.promptTemplate
 await prisma.promptInput
   .createMany({
     data: LOGIN.INPUT,
+    skipDuplicates: true,
+  })
+  .catch(console.error);
+
+await prisma.promptVariable
+  .createMany({
+    data: LOGIN.VARIABLES,
     skipDuplicates: true,
   })
   .catch(console.error);

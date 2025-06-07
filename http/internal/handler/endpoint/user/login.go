@@ -1,70 +1,23 @@
-package endpoint
+package user
 
 import (
 	"net/http"
 
-	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 
 	_ "github.com/lib/pq"
 
 	"http/internal/handler/connection"
+	"http/internal/handler/models"
 	"http/internal/utils"
 )
 
-type Response struct {
-	User  User
+type LoginUserResponse struct {
+	User  models.User
 	Token string
 }
 
-type User struct {
-	ID           string
-	Name         string
-	Password     string
-	Email        string
-	PasswordHash string
-}
-
-type CreateUserInput struct {
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Name     string `json:"name"`
-}
-
-func CreateUser(c echo.Context) error {
-
-	db := connection.GetDB()
-
-	var input CreateUserInput
-	if err := c.Bind(&input); err != nil {
-		return err
-	}
-
-	hash, err := utils.HashPassword(input.Password)
-	if err != nil {
-		return err
-	}
-
-	var user User
-
-	rowErr := db.QueryRow(`
-		INSERT INTO instructor."User" (id, name, email, password)
-		VALUES ($1, $2, $3, $4)
-		RETURNING id, email, password`,
-		uuid.New(), input.Name, input.Email, hash).Scan(&user.ID, &user.Email, &user.PasswordHash)
-
-	if rowErr != nil {
-		return rowErr
-	}
-
-	token, _ := utils.GenerateJWT(user.ID)
-	return c.JSON(http.StatusCreated, Response{
-		User:  user,
-		Token: token,
-	})
-}
-
-type GetUserByEmailInput struct {
+type LoginUserInput struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
@@ -72,7 +25,7 @@ type GetUserByEmailInput struct {
 func LoginUser(c echo.Context) error {
 	db := connection.GetDB()
 
-	var input GetUserByEmailInput
+	var input LoginUserInput
 	if err := c.Bind(&input); err != nil {
 		return err
 	}
@@ -80,7 +33,7 @@ func LoginUser(c echo.Context) error {
 	email := input.Email
 	password := input.Password
 
-	var user User
+	var user models.User
 	var passwordHash string
 
 	row := db.QueryRow(`
@@ -100,7 +53,7 @@ func LoginUser(c echo.Context) error {
 	}
 
 	token, _ := utils.GenerateJWT(user.ID)
-	return c.JSON(http.StatusOK, Response{
+	return c.JSON(http.StatusOK, LoginUserResponse{
 		User:  user,
 		Token: token,
 	})
@@ -120,7 +73,7 @@ func GetUserById(c echo.Context) error {
 
 	id := input.ID
 
-	var user User
+	var user models.User
 
 	row := db.QueryRow(`
 			SELECT id, name, email

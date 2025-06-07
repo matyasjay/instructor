@@ -22,6 +22,11 @@ const formSchema = z.object({
 
 type SignupInput = z.infer<typeof formSchema>;
 
+type SignupResponse = {
+  user: User;
+  token: string;
+};
+
 const defaultUser: SignupInput = {
   email: "",
   name: "",
@@ -38,16 +43,20 @@ async function signupUser(input: SignupInput) {
     throw { ...schema.error, zod: schema.error instanceof ZodError };
   }
 
-  const response = await authPost<SignupInput>(ENDPOINTS.SIGNUP, schema.data);
+  const response = await authPost<SignupInput, SignupResponse>(
+    ENDPOINTS.SIGNUP,
+    schema.data,
+  );
 
-  if (response.error) {
+  if ("error" in response) {
     throw response;
   }
+
   const result = normalizeObjectKeys(response);
 
   window.localStorage.setItem(
     STORAGE.USER,
-    JSON.stringify(Object(result).user)
+    JSON.stringify(Object(result).user),
   );
 
   Cookies.set(COOKIES.JWT, result.token);

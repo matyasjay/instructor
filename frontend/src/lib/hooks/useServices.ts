@@ -5,57 +5,39 @@ import { ENDPOINTS } from "@/config/endpoints";
 import { MUTATION_KEYS } from "@/config/query";
 import { authPost, normalizeObjectKeys } from "../utils";
 
-const defaultServicesState = {
-  all: [],
-  user: [],
-};
-
-export async function fetchServices() {
+export async function fetchService(service: "all" | "user") {
   const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}");
 
-  const allServicesPromise = authPost(
-    ENDPOINTS.GET_SERVICES_ALL,
+  const endpoint = {
+    ["all"]: ENDPOINTS.GET_SERVICES_ALL,
+    ["user"]: ENDPOINTS.GET_SERVICES_USER,
+  }[service];
+
+  const result = await authPost<{ id: string }, Service[]>(
+    endpoint,
     { id: user.id },
-    { skipNormalize: true }
+    { skipNormalize: true },
   );
 
-  const userServicesPromise = authPost(
-    ENDPOINTS.GET_SERVICES_USER,
-    { id: user.id },
-    { skipNormalize: true }
-  );
-
-  const [allServices, userServices] = await Promise.all([
-    allServicesPromise,
-    userServicesPromise,
-  ]);
-
-  return {
-    all: allServices,
-    user: userServices,
-  };
+  return result;
 }
 
-export function useServices(): Services {
-  const [services, setServices] = useState<Services>(defaultServicesState);
+export function useServices(scope: "all" | "user"): Service[] {
+  const [services, setServices] = useState<Service[]>(Array(0));
 
   const mutation = useMutation({
-    mutationFn: fetchServices,
+    mutationFn: fetchService,
     mutationKey: [MUTATION_KEYS.GET_SERVICES],
     onSuccess: (data) => {
-      setServices(data);
+      if (Array.isArray(data)) {
+        setServices(data);
+      }
     },
   });
 
   useEffect(() => {
-    mutation.mutate();
+    mutation.mutate(scope);
   }, []); // eslint-disable-line
 
-  return Object.entries(services).reduce(
-    (acc, [name, service]) => ({
-      ...acc,
-      [name]: service?.map(normalizeObjectKeys) ?? [],
-    }),
-    Object.create(null)
-  );
+  return services?.map(normalizeObjectKeys);
 }
