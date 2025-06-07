@@ -18,7 +18,7 @@ type ServiceListProps = {
 
 function mapProperty([key, value = ""]: [
   string,
-  AggregatedService[keyof AggregatedService],
+  AggregatedService[keyof AggregatedService]
 ]) {
   const property =
     {

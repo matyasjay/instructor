@@ -19,7 +19,7 @@ function getPageOrder(page: Nullable<string>) {
 
 function getNavigationItems(
   pages: { id?: string; path: string }[],
-  handleNavigate: (path: string) => () => void,
+  handleNavigate: (path: string) => () => void
 ) {
   return pages
     ?.sort((a, b) => {

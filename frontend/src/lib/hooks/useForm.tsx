@@ -43,7 +43,7 @@ export default function useForm({
 }: UseFormProps) {
   const zodSchema = schema as unknown as FormSchema<ZodType>;
   const defaultValues = Object.fromEntries(
-    Object.keys(zodSchema.shape).map((key) => [key, ""]),
+    Object.keys(zodSchema.shape).map((key) => [key, ""])
   );
 
   const formFields = Object.keys(zodSchema.shape).map((key) => ({
@@ -85,12 +85,12 @@ export default function useForm({
       if (response.token) {
         window.localStorage.setItem(
           STORAGE.USER,
-          JSON.stringify(Object(response).user),
+          JSON.stringify(Object(response).user)
         );
 
         Cookies.set(COOKIES.JWT, Object(response).token);
 
-        setAuthenticated(true)
+        setAuthenticated(true);
       }
 
       return normalizeObjectKeys(response);
