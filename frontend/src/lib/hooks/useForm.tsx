@@ -26,17 +26,19 @@ export type FormSchema<T extends ZodType> = {
   safeParse: (input: unknown) => SafeParseReturnType<T, T>;
 };
 
-type UseFormProps<T extends ZodType> = {
+type UseFormProps = {
   endpoint: Endpoint;
   mutationKey: string;
-  schema: T;
+  schema: ZodType;
 };
 
-export default function useForm<T extends ZodType>({
+const Layout = createFormPopupLayout();
+
+export default function useForm({
   schema,
   endpoint,
   mutationKey,
-}: UseFormProps<T>) {
+}: UseFormProps) {
   const zodSchema = schema as unknown as FormSchema<ZodType>;
   const defaultValues = Object.fromEntries(
     Object.keys(zodSchema.shape).map((key) => [key, ""]),
@@ -125,7 +127,19 @@ export default function useForm<T extends ZodType>({
     value: state[field.name],
   }));
 
-  const Layout = createFormPopupLayout();
+  return {
+    form,
+    handleSubmit,
+    alerted,
+    handleDismiss,
+    error,
+    fields,
+  };
+}
+
+export function FormLayout(props: UseFormProps) {
+  const { handleDismiss, alerted, handleSubmit, error, form, fields } =
+    useForm(props);
 
   return (
     <>

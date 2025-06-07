@@ -1,9 +1,9 @@
 import { IndexRouteObject, Navigate, NonIndexRouteObject } from "react-router";
 import Landing from "@/app/landing";
-import { menu } from "@/components/feature/menu";
 import Layout from "@/components/layout/main";
 import ProtectedLayout from "@/components/layout/protected";
 import { SkeletonPage } from "@/components/ui/skeleton";
+import { menu } from "@/config/menu";
 import { PAGES } from "@/config/pages";
 import { NotFound } from "@/lib/errors";
 import { requireAuth } from "@/lib/utils";

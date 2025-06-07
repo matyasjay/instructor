@@ -7,11 +7,11 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import router from "@/app/router";
 import { AuthProvider } from "@/components/context/auth";
 import ErrorBoundary from "@/components/context/error";
 import { ThemeProvider } from "@/components/context/theme";
 import { defaultOptions } from "@/config/query";
+import router from "@/config/router";
 import "@/global.css";
 
 const root = document.getElementById("root");

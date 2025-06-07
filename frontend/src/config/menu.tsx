@@ -2,7 +2,7 @@ import Account from "@/app/account";
 import ServiceAll from "@/app/service/all";
 import ServiceNew from "@/app/service/new";
 import ServiceOwn from "@/app/service/own";
-import Template from "@/app/template";
+import NewTemplate from "@/app/template/new";
 
 export const PRIMARY_ROUTES = ["3", "4"];
 
@@ -29,7 +29,7 @@ export const menu = [
   },
   {
     id: "4#New Templates",
-    path: "/app/template",
-    element: <Template />,
+    path: "/app/template/new",
+    element: <NewTemplate />,
   },
 ];
