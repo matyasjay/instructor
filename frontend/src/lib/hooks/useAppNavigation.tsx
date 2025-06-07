@@ -1,4 +1,8 @@
-import { useNavigate } from "react-router";
+import {
+  IndexRouteObject,
+  NonIndexRouteObject,
+  useNavigate,
+} from "react-router";
 import { Button } from "@/components/ui/button";
 import { menu, PRIMARY_ROUTES } from "@/config/menu";
 
@@ -7,8 +11,8 @@ function getPageOrder(page: Nullable<string>) {
 }
 
 function getNavigationItems(
-  pages: { id?: string; path: string }[],
-  handleNavigate: (path: string) => () => void
+  pages: (IndexRouteObject | NonIndexRouteObject)[],
+  handleNavigate: (path: string) => () => void,
 ) {
   return pages
     ?.sort((a, b) => {
@@ -25,7 +29,7 @@ function getNavigationItems(
               : "ghost"
           }
           className="cursor-pointer"
-          onClick={handleNavigate(page.path)}
+          onClick={handleNavigate(page.path + "")}
           key={page.id}
         >
           {page.id?.split("#")[1]}

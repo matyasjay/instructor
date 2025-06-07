@@ -1,7 +1,13 @@
-import ServiceList from "@/components/feature/service-list";
+import { lazy, Suspense } from "react";
+
+const ServiceList = lazy(() => import("@/components/feature/service-list"))
 
 function ServiceOwn() {
-  return <ServiceList title="My Services" type="user" />;
+  return (
+    <Suspense>
+      <ServiceList title="My Services" type="user" />
+    </Suspense>
+  );
 }
 
 export default ServiceOwn;

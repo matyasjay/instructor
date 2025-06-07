@@ -1,11 +1,19 @@
 import { isRouteErrorResponse } from "react-router";
 import { AxiosError } from "axios";
+import axios from "axios";
 import { clsx, type ClassValue } from "clsx";
 import Cookies from "js-cookie";
 import { twMerge } from "tailwind-merge";
 import { COOKIES } from "@/config/cookies";
 import { ENDPOINTS } from "@/config/endpoints";
-import { client } from "@/lib/http";
+
+export const httpClient = axios.create({
+  method: "GET",
+  baseURL: "http://localhost:3333",
+  headers: {
+    Accept: "application/json",
+  },
+});
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,10 +27,10 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
         typeof value === "object" && !Array.isArray(value)
           ? normalizeObjectKeys(value)
           : Array.isArray(value)
-          ? value.map(normalizeObjectKeys)
-          : value,
+            ? value.map(normalizeObjectKeys)
+            : value,
     }),
-    Object.create(null)
+    Object.create(null),
   );
 }
 
@@ -44,7 +52,7 @@ export function parseValidationError(error: ZodIssue) {
 export function mapZodIssue(issue: ZodIssue) {
   return {
     ["too_small"]: `${capitalizeFirstLetter(
-      Object(issue).path
+      Object(issue).path,
     )} must be at least ${Object(issue).minimum} characters long!`,
     ["invalid_string"]: parseValidationError(issue),
   }[issue.code + ""];
@@ -74,7 +82,7 @@ export function parseErrorObject<T = unknown>(error: T) {
 export async function authGet(endpoint: Endpoint) {
   try {
     const jwt = Cookies.get(COOKIES.JWT);
-    const response = await client.get(endpoint, {
+    const response = await httpClient.get(endpoint, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
@@ -89,15 +97,15 @@ export async function authGet(endpoint: Endpoint) {
 
 export async function authPost<
   T = Record<string, unknown>,
-  R = Record<string, unknown>
+  R = Record<string, unknown>,
 >(
   endpoint: Endpoint,
   data: T,
-  options?: { skipNormalize?: boolean }
+  options?: { skipNormalize?: boolean },
 ): Promise<R | { error: string }> {
   try {
     const jwt = Cookies.get(COOKIES.JWT);
-    const response = await client.post(endpoint, data, {
+    const response = await httpClient.post(endpoint, data, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
