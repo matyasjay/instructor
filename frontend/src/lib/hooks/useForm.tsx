@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useForm as useReactHookForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { SafeParseReturnType, ZodError, ZodSchema, ZodType } from "zod";
+import { useAuth } from "@/components/context/auth";
 import createFormPopupLayout from "@/components/layout/popup-form";
 import {
   AlertDialog,
@@ -13,7 +15,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { STORAGE } from "@/config/cookies";
+import { COOKIES, STORAGE } from "@/config/cookies";
 import {
   authPost,
   cn,
@@ -54,6 +56,7 @@ export default function useForm({
   const [state, setState] = useState(defaultValues);
   const [error, setError] = useState<string>("");
   const [alerted, setAlerted] = useState(false);
+  const { setAuthenticated } = useAuth();
 
   const resolver = zodResolver(Object(zodSchema));
 
@@ -79,6 +82,17 @@ export default function useForm({
         throw response;
       }
 
+      if (response.token) {
+        window.localStorage.setItem(
+          STORAGE.USER,
+          JSON.stringify(Object(response).user),
+        );
+
+        Cookies.set(COOKIES.JWT, Object(response).token);
+
+        setAuthenticated(true)
+      }
+
       return normalizeObjectKeys(response);
     },
 
@@ -99,6 +113,7 @@ export default function useForm({
   const handleChange =
     (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setError("");
+      console.log(field);
       setState((prev) => ({
         ...prev,
         [field]: e.target.value,
@@ -114,7 +129,6 @@ export default function useForm({
       user: user.id,
     };
     mutation.mutate(payload);
-    setState(defaultValues);
   };
 
   const handleDismiss = () => {
