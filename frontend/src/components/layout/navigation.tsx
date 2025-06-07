@@ -1,62 +1,22 @@
 import { Fragment } from "react";
-import { useNavigate } from "react-router";
-import z from "zod";
 import { useAuth } from "@/components/context/auth";
 import AlertButton from "@/components/feature/alert-button";
+import { FormLayout } from "@/components/layout/form";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ENDPOINTS } from "@/config/endpoints";
-import { menu, PRIMARY_ROUTES } from "@/config/menu";
 import { PAGES } from "@/config/pages";
 import { MUTATION_KEYS } from "@/config/query";
-import { FormLayout } from "@/lib/hooks/useForm";
+import { createUserForm, loginUserForm } from "@/lib/forms";
+import useAppNavigation from "@/lib/hooks/useAppNavigation";
 import useLogout from "@/lib/hooks/useLogout";
 import useUser from "@/lib/hooks/useUser";
-import { Button } from "../ui/button";
-
-function getPageOrder(page: Nullable<string>) {
-  return +(page?.split("#")[0] ?? 0);
-}
-
-function getNavigationItems(
-  pages: { id?: string; path: string }[],
-  handleNavigate: (path: string) => () => void
-) {
-  return pages
-    ?.sort((a, b) => {
-      const orderA = getPageOrder(a.id);
-      const orderB = getPageOrder(b.id);
-      return orderA - orderB;
-    })
-    .map((page) => {
-      return (
-        <Button
-          variant={
-            PRIMARY_ROUTES.includes(page.id?.split("#")[0] ?? "")
-              ? "default"
-              : "ghost"
-          }
-          className="cursor-pointer"
-          onClick={handleNavigate(page.path)}
-          key={page.id}
-        >
-          {page.id?.split("#")[1]}
-        </Button>
-      );
-    });
-}
-
-const left = menu?.filter(({ id }) => !!id && getPageOrder(id) > 0) ?? [];
-const right = menu?.filter(({ id }) => !!id && getPageOrder(id) < 0) ?? [];
 
 export default function Navigation() {
-  const navigate = useNavigate();
   const { authenticated } = useAuth();
   const user = useUser();
   const logout = useLogout();
-
-  const handleNavigate = (path: string) => () => {
-    navigate(path);
-  };
+  const { left, right, handleNavigate } = useAppNavigation();
 
   return (
     <nav className="h-[70px] fixed top-0 left-0 right-0 bg-sidebar flex items-center px-5 py-3 gap-3 max-w-[1400px] mx-auto border-x-1 z-50 shadow-md border-b-1">
@@ -69,13 +29,16 @@ export default function Navigation() {
       </Button>
       {authenticated ? (
         <Fragment>
-          {getNavigationItems(left, handleNavigate)}
-          <h3 className="flex flex-col items-end ml-auto text-gray-400">
+          {left}
+          <h3
+            id="account-details"
+            className="flex flex-col items-end ml-auto text-gray-400"
+          >
             <span className="font-normal">{user.name}</span>
             <span className="text-gray-500 text-xs">{user.email}</span>
           </h3>
           <Separator orientation="vertical" />
-          {getNavigationItems(right, handleNavigate)}
+          {right}
           <AlertButton
             title="Do you wish to sign out?"
             trigger="Log out"
@@ -96,10 +59,7 @@ export default function Navigation() {
               <FormLayout
                 mutationKey={MUTATION_KEYS.LOGIN}
                 endpoint={ENDPOINTS.LOGIN}
-                schema={z.object({
-                  email: z.string().email(),
-                  password: z.string().min(8),
-                })}
+                form={loginUserForm}
               />
             }
             description="Fill in your credentials to log in to your account."
@@ -114,12 +74,7 @@ export default function Navigation() {
               <FormLayout
                 mutationKey={MUTATION_KEYS.SIGNUP}
                 endpoint={ENDPOINTS.SIGNUP}
-                schema={z.object({
-                  email: z.string().email(),
-                  name: z.string().min(5).max(30),
-                  password: z.string().min(8),
-                  password_confirm: z.string().min(8),
-                })}
+                form={createUserForm}
               />
             }
           />

@@ -58,12 +58,12 @@ export function parseErrorObject<T = unknown>(error: T) {
   if (_e.zod) {
     const issues = (_e as ZodError).issues;
     return `${issues.map(mapZodIssue).join("\n")}`;
+  } else if (_e.error) {
+    return _e.error;
   } else if (_e instanceof AxiosError) {
     return mapHttpError(_e);
   } else if (isRouteErrorResponse(error)) {
     return error.statusText;
-  } else if (_e.error) {
-    return _e.error;
   } else {
     return typeof _e === "object"
       ? JSON.stringify(_e)
@@ -119,4 +119,16 @@ export async function requireAuth() {
 
 export function capitalizeFirstLetter(val: string) {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
+
+let _throttle = false;
+export function throttle(callback: () => void, timeInMs: number) {
+  if (_throttle || typeof timeInMs !== "number" || isNaN(+timeInMs)) {
+    return void 0;
+  }
+  _throttle = true;
+  setTimeout(() => {
+    if (typeof callback === "function") callback();
+    _throttle = false;
+  }, timeInMs);
 }

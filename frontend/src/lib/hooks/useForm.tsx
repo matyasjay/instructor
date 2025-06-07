@@ -3,41 +3,24 @@ import { useForm as useReactHookForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { SafeParseReturnType, ZodError, ZodSchema, ZodType } from "zod";
+import { ZodError } from "zod";
 import { useAuth } from "@/components/context/auth";
-import createFormPopupLayout from "@/components/layout/popup-form";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { COOKIES, STORAGE } from "@/config/cookies";
 import {
   authPost,
-  cn,
   normalizeObjectKeys,
   parseErrorObject,
+  throttle,
 } from "@/lib/utils";
 
-export type FormSchema<T extends ZodType> = {
-  shape: ZodSchema<URecord, T>;
-  safeParse: (input: unknown) => SafeParseReturnType<T, T>;
-};
-
-type UseFormProps = {
+export type UseFormProps = {
   endpoint: Endpoint;
   mutationKey: string;
-  schema: ZodType;
+  form: Form;
 };
 
-const Layout = createFormPopupLayout();
-
 export default function useForm({
-  schema,
+  form: { schema, fields: fieldConfig },
   endpoint,
   mutationKey,
 }: UseFormProps) {
@@ -46,12 +29,14 @@ export default function useForm({
     Object.keys(zodSchema.shape).map((key) => [key, ""])
   );
 
-  const formFields = Object.keys(zodSchema.shape).map((key) => ({
-    type: key,
-    name: key,
-    label:
-      key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1"),
-  }));
+  const formFields = Object.keys(zodSchema.shape)
+    .filter((field) => field !== "user")
+    .map((key) => ({
+      type: key,
+      name: key,
+      label:
+        key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1"),
+    }));
 
   const [state, setState] = useState(defaultValues);
   const [error, setError] = useState<string>("");
@@ -110,10 +95,13 @@ export default function useForm({
     },
   });
 
+  const checkError = () => {
+    throttle(() => setError(""), 200);
+  };
+
   const handleChange =
     (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setError("");
-      console.log(field);
+      checkError();
       setState((prev) => ({
         ...prev,
         [field]: e.target.value,
@@ -137,6 +125,7 @@ export default function useForm({
 
   const fields = formFields.map((field) => ({
     ...field,
+    ...fieldConfig?.[field.name],
     handleChange: handleChange(field.name),
     value: state[field.name],
   }));
@@ -149,41 +138,4 @@ export default function useForm({
     error,
     fields,
   };
-}
-
-export function FormLayout(props: UseFormProps) {
-  const { handleDismiss, alerted, handleSubmit, error, form, fields } =
-    useForm(props);
-
-  return (
-    <>
-      <Layout
-        form={form}
-        handleSubmit={handleSubmit}
-        fields={fields}
-        error={error}
-      />
-      <AlertDialog open={alerted}>
-        <AlertDialogTrigger asChild className={cn(!alerted ? "hidden" : "")}>
-          &nbsp;
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex justify-between w-full items-center">
-              Success! Your changes has been saved.
-              <AlertDialogCancel
-                className="cursor-pointer"
-                onClick={handleDismiss}
-              >
-                Dismiss
-              </AlertDialogCancel>
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              You can safely close this notification.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
-  );
 }

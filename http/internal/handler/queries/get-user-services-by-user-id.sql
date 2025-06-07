@@ -31,15 +31,6 @@ SELECT
             'updatedAt', pi."updatedAt"
 		  )
 		  ELSE NULL
-		END,
-		'variable', CASE
-		  WHEN pv.id IS NOT NULL THEN jsonb_build_object(
-		    'id', pv.id,
-            'variable', pv.variable,
-            'createdAt', pv."createdAt",
-            'updatedAt', pv."updatedAt"
-		  )
-		  ELSE NULL
 		END
       )
     END
@@ -58,8 +49,8 @@ LEFT JOIN instructor."User" u2 ON su2."userId" = u2.id
 LEFT JOIN instructor."TemplatesOnServices" ts ON s.id = ts."serviceId"
 LEFT JOIN instructor."PromptTemplate" pt ON ts."templateId" = pt.id
 LEFT JOIN instructor."PromptInput" pi ON pt.id = pi."templateId"
-LEFT JOIN instructor."PromptVariable" pv ON pt.id = pv."templateId"
 
 WHERE u."id" = $1
 
 GROUP BY s.id;
+

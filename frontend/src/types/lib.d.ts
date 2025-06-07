@@ -1,3 +1,6 @@
+type Endpoints = typeof import("@/config/endpoints").ENDPOINTS;
+declare type Endpoint = Endpoints[keyof Endpoints];
+
 declare type Nullable<T> = T | null | undefined;
 
 declare type ArrayElement<T> = T extends readonly (infer ElementType)[]
@@ -14,8 +17,10 @@ declare class NullProto {
   private "propertyIsEnumerable": void;
 }
 
-declare type URecord<K = string, V = unknown> = Record<K, V>;
+declare type Record<K = string, V = unknown> = Record<K, V>;
 
 declare type ZodError = import("zod").ZodError;
+
+declare type ZodType = import("zod").ZodType;
 
 declare type ZodIssue = ArrayElement<ZodError["issues"]>;

@@ -36,7 +36,6 @@ model PromptTemplate {
   template    String
   services    TemplatesOnServices[]
   input       PromptInput?
-  variable    PromptVariable?
   createdAt   DateTime              @default(now())
   updatedAt   DateTime              @default(now()) @updatedAt
 }
@@ -44,15 +43,6 @@ model PromptTemplate {
 model PromptInput {
   id         String         @id @default(uuid())
   input      String         @default("")
-  template   PromptTemplate @relation(fields: [templateId], references: [id])
-  templateId String         @unique @default("")
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @default(now()) @updatedAt
-}
-
-model PromptVariable {
-  id         String         @id @default(uuid())
-  variable   String         @default("")
   template   PromptTemplate @relation(fields: [templateId], references: [id])
   templateId String         @unique @default("")
   createdAt  DateTime       @default(now())

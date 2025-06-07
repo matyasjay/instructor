@@ -18,7 +18,6 @@ type CreateTemplateInput struct {
 	Template    string `json:"template"`
 	Service     string `json:"service"`
 	Input       string `json:"input"`
-	Variable    string `json:"variable"`
 }
 
 func CreateTemplate(c echo.Context) error {
@@ -57,16 +56,6 @@ func CreateTemplate(c echo.Context) error {
 			INSERT INTO instructor."PromptInput" (templateId, input, "createdAt", "updatedAt")
 			VALUES ($1, $2, NOW(), NOW())
 		`, templateID, input.Input)
-		if err != nil {
-			return err
-		}
-	}
-
-	if input.Variable != "" {
-		_, err = tx.Exec(`
-			INSERT INTO instructor."PromptVariable" (templateId, variable, "createdAt", "updatedAt")
-			VALUES ($1, $2, NOW(), NOW())
-		`, templateID, input.Variable)
 		if err != nil {
 			return err
 		}

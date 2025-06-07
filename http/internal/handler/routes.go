@@ -55,4 +55,7 @@ func RegisterRoutes(e *echo.Echo) {
 	r.POST("/service/create", service.CreateService)
 	r.POST("/service/user", service.GetUserServices)
 	r.POST("/service/all", service.GetAllServices)
+
+	r.POST("/template/all", service.GetAllServices)
+	r.POST("/template/create", template.CreateTemplate)
 }

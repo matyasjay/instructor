@@ -1,18 +1,8 @@
-import z from "zod";
 import AlertButton from "@/components/feature/alert-button";
+import { FormLayout } from "@/components/layout/form";
 import { ENDPOINTS } from "@/config/endpoints";
 import { MUTATION_KEYS } from "@/config/query";
-import { FormLayout } from "@/lib/hooks/useForm";
-
-const schema = z.object({
-  user: z.string(),
-  name: z.string(),
-  description: z.string(),
-  template: z.string(),
-  service: z.string(),
-  input: z.string(),
-  variable: z.string(),
-});
+import { createTemplateForm } from "@/lib/forms";
 
 export default function TemplateNew() {
   return (
@@ -23,7 +13,7 @@ export default function TemplateNew() {
       open
       content={
         <FormLayout
-          schema={schema}
+          form={createTemplateForm}
           endpoint={ENDPOINTS.CREATE_TEMPLATE}
           mutationKey={MUTATION_KEYS.CREATE_TEMPLATE}
         />

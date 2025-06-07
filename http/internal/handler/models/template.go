@@ -17,14 +17,6 @@ type PromptInput struct {
 	UpdatedAt  string
 }
 
-type PromptVariable struct {
-	ID         string
-	TemplateID string
-	Variable   []byte
-	CreatedAt  string
-	UpdatedAt  string
-}
-
 type TemplateOnServices struct {
 	TemplateID string
 	ServiceID  string

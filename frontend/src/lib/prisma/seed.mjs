@@ -11,10 +11,6 @@ const LOGIN = {
     templateId: "layout-login",
     id: "input-login",
   },
-  VARIABLES: {
-    templateId: "layout-login",
-    id: "variables-login",
-  },
 };
 
 const prisma = new PrismaClient();
@@ -29,13 +25,6 @@ await prisma.promptTemplate
 await prisma.promptInput
   .createMany({
     data: LOGIN.INPUT,
-    skipDuplicates: true,
-  })
-  .catch(console.error);
-
-await prisma.promptVariable
-  .createMany({
-    data: LOGIN.VARIABLES,
     skipDuplicates: true,
   })
   .catch(console.error);
