@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { useForm as useReactHookForm } from "react-hook-form";
+import {
+  FieldValues,
+  UseFormReturn,
+  useForm as useReactHookForm,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
@@ -26,7 +30,7 @@ export default function useForm({
 }: UseFormProps) {
   const zodSchema = schema as unknown as FormSchema<ZodType>;
   const defaultValues = Object.fromEntries(
-    Object.keys(zodSchema.shape).map((key) => [key, ""])
+    Object.keys(zodSchema.shape).map((key) => [key, ""]),
   );
 
   const formFields = Object.keys(zodSchema.shape)
@@ -45,7 +49,10 @@ export default function useForm({
 
   const resolver = zodResolver(Object(zodSchema));
 
-  const form = useReactHookForm({ defaultValues, resolver });
+  const form = useReactHookForm({
+    defaultValues,
+    resolver,
+  }) as UseFormReturn<FieldValues>;
 
   const mutation = useMutation({
     mutationFn: async function mutationFn(input: Record<string, unknown>) {
@@ -70,7 +77,7 @@ export default function useForm({
       if (response.token) {
         window.localStorage.setItem(
           STORAGE.USER,
-          JSON.stringify(Object(response).user)
+          JSON.stringify(Object(response).user),
         );
 
         Cookies.set(COOKIES.JWT, Object(response).token);
@@ -128,7 +135,7 @@ export default function useForm({
     ...fieldConfig?.[field.name],
     handleChange: handleChange(field.name),
     value: state[field.name],
-  }));
+  })) as FormField[];
 
   return {
     form,

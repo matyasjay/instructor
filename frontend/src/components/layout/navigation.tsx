@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useAuth } from "@/components/context/auth";
 import AlertButton from "@/components/feature/alert-button";
-import { FormLayout } from "@/components/layout/form";
+import FormLayout from "@/components/layout/form";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ENDPOINTS } from "@/config/endpoints";

@@ -1,5 +1,5 @@
 import AlertButton from "@/components/feature/alert-button";
-import { FormLayout } from "@/components/layout/form";
+import FormLayout from "@/components/layout/form";
 import { ENDPOINTS } from "@/config/endpoints";
 import { MUTATION_KEYS } from "@/config/query";
 import { createServiceForm } from "@/lib/forms";
