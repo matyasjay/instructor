@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 
 	_ "github.com/lib/pq"
@@ -43,17 +44,17 @@ func CreateTemplate(c echo.Context) error {
 
 	var templateID string
 	err = tx.QueryRow(`
-		INSERT INTO instructor."PromptTemplate" (name, description, template, "createdAt", "updatedAt")
-		VALUES ($1, $2, $3, NOW(), NOW())
+		INSERT INTO instructor."PromptTemplate" (id, name, description, template, "createdAt", "updatedAt")
+		VALUES ($1, $2, $3, $4, NOW(), NOW())
 		RETURNING id
-	`, input.Name, input.Description, input.Template).Scan(&templateID)
+	`, uuid.New(), input.Name, input.Description, input.Template).Scan(&templateID)
 	if err != nil {
 		return err
 	}
 
 	if input.Input != "" {
 		_, err = tx.Exec(`
-			INSERT INTO instructor."PromptInput" (templateId, input, "createdAt", "updatedAt")
+			INSERT INTO instructor."PromptInput" ("templateId", input, "createdAt", "updatedAt")
 			VALUES ($1, $2, NOW(), NOW())
 		`, templateID, input.Input)
 		if err != nil {
@@ -61,11 +62,11 @@ func CreateTemplate(c echo.Context) error {
 		}
 	}
 
-	for _, serviceID := range input.Service {
+	if input.Service != "" {
 		_, err = tx.Exec(`
-			INSERT INTO instructor."TemplatesOnServices" (templateId, serviceId)
+			INSERT INTO instructor."TemplatesOnServices" ("templateId", "serviceId")
 			VALUES ($1, $2)
-		`, templateID, serviceID)
+		`, templateID, input.Service)
 		if err != nil {
 			return err
 		}
