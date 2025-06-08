@@ -14,7 +14,12 @@ declare type Form = {
   fields?: Record<string, Partial<FormField>>;
 };
 
-type FormField = {
+declare type Field =
+  | User[keyof User]
+  | Template[keyof Template]
+  | AggregatedService[keyof AggregatedService];
+
+declare type FormField = {
   name: string;
   label: string;
   type: "text" | "email" | "password" | "checkbox" | "select" | "toggle";
@@ -37,7 +42,7 @@ type FormField = {
   >;
 };
 
-type CheckedState = import("@radix-ui/react-checkbox").CheckedState;
+declare type CheckedState = import("@radix-ui/react-checkbox").CheckedState;
 
 declare type AggregatedService = Service & {
   users: User[];

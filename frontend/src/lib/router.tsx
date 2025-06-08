@@ -1,5 +1,6 @@
 import { IndexRouteObject, Navigate, NonIndexRouteObject } from "react-router";
 import Landing from "@/app/landing";
+import ServiceOwn from "@/app/service/own";
 import ErrorLayout from "@/components/layout/error";
 import Layout from "@/components/layout/main";
 import ProtectedLayout from "@/components/layout/protected";
@@ -49,6 +50,10 @@ const router = [
             ),
           },
           ...menu,
+          {
+            path: "/app/service/own/:id",
+            element: <ServiceOwn />,
+          },
         ],
       },
     ],

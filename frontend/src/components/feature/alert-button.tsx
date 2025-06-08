@@ -24,6 +24,7 @@ type DefaultProps = {
   cancel?: React.ReactNode;
   dismiss?: "top" | "split" | "hidden";
   triggerVariant?: React.ComponentProps<typeof Button>["variant"];
+  width?: number;
 };
 
 type PopupProps =
@@ -53,6 +54,7 @@ export default function AlertButton({
   onConfirm,
   confirmVariant = "default",
   open,
+  width = 500,
 }: PopupProps &
   Omit<AlertDialogProps & AlertDialogTriggerProps, keyof PopupProps>) {
   const handleBack = () => {
@@ -74,7 +76,9 @@ export default function AlertButton({
           trigger
         )}
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent
+        className={cn(`max-w-${width} w-${width} sm:max-w-${width}`)}
+      >
         <AlertDialogHeader>
           <AlertDialogTitle className="flex justify-between w-full items-center">
             {title}

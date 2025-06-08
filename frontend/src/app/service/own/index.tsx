@@ -1,13 +1,9 @@
-import { lazy, Suspense } from "react";
-
-const ServiceList = lazy(() => import("@/components/feature/service-list"))
+import { useParams } from "react-router";
+import Services from "@/components/feature/dashboard/services";
 
 function ServiceOwn() {
-  return (
-    <Suspense>
-      <ServiceList title="My Services" type="user" />
-    </Suspense>
-  );
+  const { id } = useParams();
+  return <Services title="My Services" type="user" defaultOpen={id}/>;
 }
 
 export default ServiceOwn;

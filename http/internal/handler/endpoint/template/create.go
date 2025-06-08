@@ -54,9 +54,9 @@ func CreateTemplate(c echo.Context) error {
 
 	if input.Input != "" {
 		_, err = tx.Exec(`
-			INSERT INTO instructor."PromptInput" ("templateId", input, "createdAt", "updatedAt")
-			VALUES ($1, $2, NOW(), NOW())
-		`, templateID, input.Input)
+			INSERT INTO instructor."PromptInput" (id, "templateId", input, "createdAt", "updatedAt")
+			VALUES ($1, $2, $3, NOW(), NOW())
+		`, uuid.New(), templateID, input.Input)
 		if err != nil {
 			return err
 		}

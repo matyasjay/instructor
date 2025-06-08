@@ -1,7 +1,7 @@
-import ServiceList from "@/components/feature/service-list";
+import Services from "@/components/feature/dashboard/services";
 
 function ServiceAll() {
-  return <ServiceList title="Shared Services" type="all" />;
+  return <Services title="Shared Services" type="all" />;
 }
 
 export default ServiceAll;

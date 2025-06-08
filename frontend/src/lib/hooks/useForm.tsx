@@ -129,6 +129,7 @@ export default function useForm({
 
   const handleDismiss = () => {
     setAlerted(false);
+    window.history.back()
   };
 
   const fields = formFields.map((field) => ({

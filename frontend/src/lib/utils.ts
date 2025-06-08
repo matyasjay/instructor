@@ -1,6 +1,7 @@
 import { isRouteErrorResponse } from "react-router";
 import { AxiosError } from "axios";
 import axios from "axios";
+import camelCase from "camelcase";
 import { clsx, type ClassValue } from "clsx";
 import Cookies from "js-cookie";
 import { twMerge } from "tailwind-merge";
@@ -23,7 +24,7 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
   return Object.entries(Object(obj)).reduce(
     (result, [key, value]) => ({
       ...result,
-      [key.toLowerCase()]:
+      [camelCase(key)]:
         typeof value === "object" && !Array.isArray(value)
           ? normalizeObjectKeys(value)
           : Array.isArray(value)

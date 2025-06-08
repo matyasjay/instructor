@@ -54,7 +54,7 @@ export function useServices(scope: "all" | "user"): {
   }, []); // eslint-disable-line
 
   const services =
-    !!data && "error" in data ? [] : (data?.map(normalizeObjectKeys) ?? []);
+    (!!data && "error" in data ? [] : (data?.map(normalizeObjectKeys) ?? [])).sort((a,b)=> a.name.localeCompare(b.name));
 
   const isPending = rawIsPending || !delayFinished;
 
