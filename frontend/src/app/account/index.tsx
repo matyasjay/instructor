@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { STORAGE } from "@/config/cookies";
+import { STORAGE } from "@/lib/cookies";
 import { capitalizeFirstLetter } from "@/lib/utils";
 
 function Account() {

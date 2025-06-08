@@ -10,8 +10,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "@/components/context/auth";
 import ErrorBoundary from "@/components/context/error";
 import ThemeProvider from "@/components/context/theme";
-import { defaultOptions } from "@/config/query";
-import router from "@/config/router";
+import { defaultOptions } from "@/lib/query";
+import router from "@/lib/router";
 import "@/global.css";
 
 const root = document.getElementById("root");

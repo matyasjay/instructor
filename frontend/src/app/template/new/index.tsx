@@ -1,8 +1,8 @@
 import AlertButton from "@/components/feature/alert-button";
 import FormLayout from "@/components/layout/form";
-import { ENDPOINTS } from "@/config/endpoints";
-import { MUTATION_KEYS } from "@/config/query";
+import { ENDPOINTS } from "@/lib/endpoints";
 import { createTemplateForm } from "@/lib/forms";
+import { MUTATION_KEYS } from "@/lib/query";
 
 export default function TemplateNew() {
   return (

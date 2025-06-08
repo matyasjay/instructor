@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { STORAGE } from "@/config/cookies";
+import { STORAGE } from "@/lib/cookies";
 import useAuth from "@/lib/hooks/useAuth";
 
 const defaultUser: User = {

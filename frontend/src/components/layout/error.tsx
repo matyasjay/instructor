@@ -12,7 +12,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Separator } from "@/components/ui/separator";
-import { PAGES } from "@/config/pages";
+import { PAGES } from "@/lib/pages";
 import { parseErrorObject } from "@/lib/utils";
 
 export default function ErrorLayout({

@@ -4,8 +4,8 @@ import axios from "axios";
 import { clsx, type ClassValue } from "clsx";
 import Cookies from "js-cookie";
 import { twMerge } from "tailwind-merge";
-import { COOKIES } from "@/config/cookies";
-import { ENDPOINTS } from "@/config/endpoints";
+import { COOKIES } from "@/lib/cookies";
+import { ENDPOINTS } from "@/lib/endpoints";
 
 export const httpClient = axios.create({
   method: "GET",

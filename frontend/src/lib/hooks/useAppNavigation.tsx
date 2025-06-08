@@ -4,7 +4,7 @@ import {
   useNavigate,
 } from "react-router";
 import { Button } from "@/components/ui/button";
-import { menu, PRIMARY_ROUTES } from "@/config/menu";
+import { menu, PRIMARY_ROUTES } from "@/lib/menu";
 
 function getPageOrder(page: Nullable<string>) {
   return +(page?.split("#")[0] ?? 0);

@@ -1,6 +1,6 @@
 import { createContext, useMemo, useState } from "react";
 import Cookies from "js-cookie";
-import { COOKIES } from "@/config/cookies";
+import { COOKIES } from "@/lib/cookies";
 
 export const AuthContext = createContext<{
   authenticated: boolean;

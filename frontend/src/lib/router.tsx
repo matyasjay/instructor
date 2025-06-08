@@ -1,11 +1,12 @@
 import { IndexRouteObject, Navigate, NonIndexRouteObject } from "react-router";
 import Landing from "@/app/landing";
+import ErrorLayout from "@/components/layout/error";
 import Layout from "@/components/layout/main";
 import ProtectedLayout from "@/components/layout/protected";
 import { SkeletonPage } from "@/components/ui/skeleton";
-import { menu } from "@/config/menu";
-import { PAGES } from "@/config/pages";
-import { NotFound } from "@/lib/errors";
+import { PageNotFoundError } from "@/lib/error";
+import { menu } from "@/lib/menu";
+import { PAGES } from "@/lib/pages";
 import { requireAuth } from "@/lib/utils";
 
 const router = [
@@ -21,7 +22,13 @@ const router = [
       },
       {
         path: "/*",
-        element: NotFound,
+        element: (
+          <ErrorLayout
+            error={PageNotFoundError}
+            resetErrorBoundary={() => null}
+            hideLayout
+          />
+        ),
       },
       {
         path: "/landing",
@@ -33,7 +40,13 @@ const router = [
         children: [
           {
             path: "/app/*",
-            element: NotFound,
+            element: (
+              <ErrorLayout
+                error={PageNotFoundError}
+                resetErrorBoundary={() => null}
+                hideLayout
+              />
+            ),
           },
           ...menu,
         ],

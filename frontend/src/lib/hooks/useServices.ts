@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { STORAGE } from "@/config/cookies";
-import { ENDPOINTS } from "@/config/endpoints";
-import { MUTATION_KEYS } from "@/config/query";
+import { STORAGE } from "@/lib/cookies";
+import { ENDPOINTS } from "@/lib/endpoints";
+import { MUTATION_KEYS } from "@/lib/query";
 import { authPost, normalizeObjectKeys } from "../utils";
 
 export async function fetchService(service: "all" | "user") {
@@ -16,7 +16,7 @@ export async function fetchService(service: "all" | "user") {
   const result = await authPost<{ id: string }, AggregatedService[]>(
     endpoint,
     { id: user.id },
-    { skipNormalize: true }
+    { skipNormalize: true },
   );
 
   return result;
