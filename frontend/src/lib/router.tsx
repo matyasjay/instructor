@@ -3,7 +3,7 @@ import Landing from "@/app/landing";
 import ErrorLayout from "@/components/layout/error";
 import Layout from "@/components/layout/main";
 import ProtectedLayout from "@/components/layout/protected";
-import { SkeletonPage } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/skeleton";
 import { PageNotFoundError } from "@/lib/error";
 import { menu } from "@/lib/menu";
 import { PAGES } from "@/lib/pages";
@@ -14,7 +14,7 @@ const router = [
     path: "/",
     element: <Layout />,
     loader: requireAuth,
-    hydrateFallbackElement: <SkeletonPage />,
+    hydrateFallbackElement: <Spinner />,
     children: [
       {
         path: "/",

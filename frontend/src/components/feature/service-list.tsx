@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useServices } from "@/lib/hooks/useServices";
 import { capitalizeFirstLetter } from "@/lib/utils";
+import { Spinner } from "../ui/skeleton";
 
 type ServiceListProps = {
   title: string;
@@ -18,7 +19,7 @@ type ServiceListProps = {
 
 function mapProperty([key, value = ""]: [
   string,
-  AggregatedService[keyof AggregatedService]
+  AggregatedService[keyof AggregatedService],
 ]) {
   const property =
     {
@@ -100,14 +101,16 @@ function mapServices(services: AggregatedService[], isPublic?: boolean) {
 }
 
 export default function ServiceList({ title, type }: ServiceListProps) {
-  const services = useServices(type);
+  const { services, isPending } = useServices(type);
 
   const list =
     services.length > 0
       ? mapServices(services, type === "all")
       : "Nothing to show";
 
-  return (
+  return isPending ? (
+    <Spinner />
+  ) : (
     <Accordion type="single" defaultValue="services_container">
       <AccordionItem value="services_container" className="border-1 mb-3">
         <AccordionTrigger className="hover:no-underline bg-sidebar px-7 font-bold [&>svg]:hidden">

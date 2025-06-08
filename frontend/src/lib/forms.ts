@@ -1,13 +1,20 @@
 import z from "zod";
+import { fetchService } from "./hooks/useServices";
 
 export const createServiceForm: Form = {
   schema: z.object({
+    user: z.string().optional(),
     service: z.string(),
     name: z.string().min(5).max(30),
-    private: z.boolean(),
     description: z.string().min(10).max(150).optional(),
-    user: z.string().optional(),
+    private: z.boolean(),
   }),
+  fields: {
+    private: {
+      type: "toggle",
+      description: "Private services are not discoverable by others.",
+    },
+  },
 };
 
 export const createUserForm: Form = {
@@ -32,20 +39,22 @@ export const createTemplateForm: Form = {
     name: z.string().min(5),
     description: z.string(),
     template: z.string().max(200),
-    service: z.string().min(3),
     input: z.string(),
+    service: z.string().min(3),
   }),
   fields: {
     name: {
-      label: "Template name",
+      label: "Name",
     },
     template: {
-      label: "Prompt template",
+      label: "Template",
     },
     service: {
-      label: "Connected service",
+      label: "Service",
       type: "select",
-      options: [],
+      placeholder: "Please choose...",
+      description: "The template will be connected to this service.",
+      asyncOptions: () => fetchService("user"),
     },
   },
 };

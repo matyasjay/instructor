@@ -22,22 +22,41 @@ export async function fetchService(service: "all" | "user") {
   return result;
 }
 
-export function useServices(scope: "all" | "user"): AggregatedService[] {
-  const [services, setServices] = useState<AggregatedService[]>(Array(0));
+export function useServices(scope: "all" | "user"): {
+  isPending: boolean;
+  services: AggregatedService[];
+} {
+  const [delayFinished, setDelayFinished] = useState(false);
 
-  const mutation = useMutation({
+  const {
+    isPending: rawIsPending,
+    data,
+    mutate,
+  } = useMutation({
     mutationFn: fetchService,
     mutationKey: [MUTATION_KEYS.GET_SERVICES],
     onSuccess: (data) => {
-      if (Array.isArray(data)) {
-        setServices(data);
+      if (Object(data).error) {
+        return [];
       }
+      return data;
     },
   });
 
   useEffect(() => {
-    mutation.mutate(scope);
+    const timeout = setTimeout(() => {
+      setDelayFinished(true);
+    }, 200);
+
+    mutate(scope);
+
+    return () => clearTimeout(timeout);
   }, []); // eslint-disable-line
 
-  return services?.map(normalizeObjectKeys);
+  const services =
+    !!data && "error" in data ? [] : (data?.map(normalizeObjectKeys) ?? []);
+
+  const isPending = rawIsPending || !delayFinished;
+
+  return { isPending, services };
 }

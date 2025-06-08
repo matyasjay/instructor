@@ -10,24 +10,18 @@ function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function SkeletonPage() {
+function Spinner() {
+  const size = "70px";
   return (
-    <div className="flex flex-col space-y-3">
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
+    <div className="p-4">
+      <div className="overflow-hidden shadow-sm w-full flex items-center justify-center h-[300px]">
+        <div
+          className="animate-spin rounded-full border-4 border-muted border-t-primary"
+          style={{ width: size, height: size }}
+        />
       </div>
     </div>
   );
 }
 
-export { Skeleton, SkeletonPage };
+export { Skeleton, Spinner };

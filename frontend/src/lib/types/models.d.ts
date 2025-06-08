@@ -14,28 +14,30 @@ declare type Form = {
   fields?: Record<string, Partial<FormField>>;
 };
 
-type DefaultFormProps = {
-  options?: Record<string, unknown>[];
+type FormField = {
   name: string;
   label: string;
-  type: "text" | "email" | "password" | "checkbox" | "select";
+  type: "text" | "email" | "password" | "checkbox" | "select" | "toggle";
+  description?: string;
+  placeholder?: string;
+  value?: string | boolean;
+  handleChange?: (
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | CheckedState
+      | string,
+  ) => void;
+  options?: {
+    label: string;
+    value: string;
+  }[];
+  asyncOptions?: () => Promise<
+    | ({ id: string; name: string } & Record<string, unknown>)[]
+    | { error: string }
+  >;
 };
 
-type CheckedState = import("@radix-ui/react-checkbox").CheckedState
-
-declare type FormField = DefaultFormProps &
-  (
-    | {
-        value: string | number | boolean;
-        handleChange: (
-          e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | CheckedState,
-        ) => void;
-      }
-    | {
-        value?: undefined;
-        handleChange?: undefined;
-      }
-  );
+type CheckedState = import("@radix-ui/react-checkbox").CheckedState;
 
 declare type AggregatedService = Service & {
   users: User[];

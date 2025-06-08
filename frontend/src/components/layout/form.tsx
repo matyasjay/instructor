@@ -1,5 +1,5 @@
 import React from "react";
-import { FieldValues, Path, UseFormReturn } from "react-hook-form";
+import { FieldValues, UseFormReturn } from "react-hook-form";
 import { AlertCircleIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
@@ -12,72 +12,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import useForm, { UseFormProps } from "@/lib/hooks/useForm";
 import { cn } from "@/lib/utils";
-
-type FormFieldProps = {
-  field: FormField;
-  form: UseFormReturn<FieldValues>;
-};
-
-function InputField<T extends FieldValues>({ field, form }: FormFieldProps) {
-  return (
-    <FormField
-      control={form.control}
-      name={field.name as Path<T>}
-      render={({ field: formField }) => (
-        <FormItem
-          key={formField.name}
-          className="flex flex-row items-center gap-2"
-        >
-          <FormLabel className="text-sm font-normal whitespace-nowrap justify-end w-[200px]">
-            {field.label}
-          </FormLabel>
-          <FormControl className="w-full">
-            <Input
-              type={field.type}
-              value={field.value + ""}
-              onChange={field.handleChange}
-            />
-          </FormControl>
-        </FormItem>
-      )}
-    />
-  );
-}
-
-function CheckboxField({ field, form }: FormFieldProps) {
-  return (
-    <FormField
-      control={form.control}
-      name={field.name}
-      render={({ field: formField }) => (
-        <FormItem
-          key={formField.name}
-          className="flex flex-row items-center gap-2 ml-[120px]"
-        >
-          <FormControl>
-            <Checkbox
-              checked={!field.value}
-              onCheckedChange={field.handleChange}
-            />
-          </FormControl>
-          <FormLabel className="text-sm font-normal">{field.label}</FormLabel>
-        </FormItem>
-      )}
-    />
-  );
-}
+import { CheckboxField, InputField, SelectField, ToggleField } from "./input";
 
 function renderFormFields(form: UseFormReturn<FieldValues>) {
   return function (field: FormField) {
@@ -86,6 +25,8 @@ function renderFormFields(form: UseFormReturn<FieldValues>) {
         ["checkbox"]: (
           <CheckboxField key={field.name} field={field} form={form} />
         ),
+        ["select"]: <SelectField key={field.name} field={field} form={form} />,
+        ["toggle"]: <ToggleField key={field.name} field={field} form={form} />,
       }[field.type + ""] ?? (
         <InputField key={field.name} field={field} form={form} />
       )
@@ -109,7 +50,7 @@ export default function FormLayout(props: UseFormProps & { submit?: string }) {
             type="submit"
             className="cursor-pointer w-full max-w-[350px] mx-auto"
           >
-            {props.submit}
+            {props.submit ?? "Submit"}
           </Button>
           {error && (
             <Alert variant="destructive">

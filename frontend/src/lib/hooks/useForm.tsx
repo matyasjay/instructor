@@ -111,7 +111,8 @@ export default function useForm({
       checkError();
       setState((prev) => ({
         ...prev,
-        [field]: e.target.value,
+        [field]:
+          typeof e === "string" || typeof e === "boolean" ? e : e.target.value,
       }));
     };
 
