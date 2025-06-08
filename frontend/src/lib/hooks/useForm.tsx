@@ -8,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { ZodError } from "zod";
-import { useAuth } from "@/components/context/auth";
 import { COOKIES, STORAGE } from "@/config/cookies";
+import useAuth  from "@/lib/hooks/useAuth";
 import {
   authPost,
   normalizeObjectKeys,

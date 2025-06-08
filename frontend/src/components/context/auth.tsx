@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 import Cookies from "js-cookie";
 import { COOKIES } from "@/config/cookies";
 
@@ -12,15 +12,13 @@ export const AuthContext = createContext<{
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authenticated, setAuthenticated] = useState(
-    !!Cookies.get(COOKIES.JWT)
+    !!Cookies.get(COOKIES.JWT),
   );
 
   const value = useMemo(
     () => ({ authenticated, setAuthenticated }),
-    [authenticated]
+    [authenticated],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-export const useAuth = () => useContext(AuthContext);

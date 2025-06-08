@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import { useAuth } from "@/components/context/auth";
 import AlertButton from "@/components/feature/alert-button";
 import FormLayout from "@/components/layout/form";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import { PAGES } from "@/config/pages";
 import { MUTATION_KEYS } from "@/config/query";
 import { createUserForm, loginUserForm } from "@/lib/forms";
 import useAppNavigation from "@/lib/hooks/useAppNavigation";
+import useAuth from "@/lib/hooks/useAuth";
 import useLogout from "@/lib/hooks/useLogout";
 import useUser from "@/lib/hooks/useUser";
 

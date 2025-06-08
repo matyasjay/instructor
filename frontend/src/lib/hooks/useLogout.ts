@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
-import { useAuth } from "@/components/context/auth";
 import { COOKIES, STORAGE } from "@/config/cookies";
 import { PAGES } from "@/config/pages";
+import useAuth from "@/lib/hooks/useAuth";
 
 export default function useLogout() {
   const navigate = useNavigate();

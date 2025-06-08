@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "@/components/context/auth";
 import { STORAGE } from "@/config/cookies";
+import useAuth from "@/lib/hooks/useAuth";
 
 const defaultUser: User = {
   id: "",
