@@ -6,7 +6,7 @@ import { clsx, type ClassValue } from "clsx";
 import Cookies from "js-cookie";
 import { twMerge } from "tailwind-merge";
 import { COOKIES } from "@/lib/cookies";
-import { ENDPOINTS } from "@/lib/endpoints";
+import { ENDPOINT } from "@/lib/endpoints";
 
 export const httpClient = axios.create({
   method: "GET",
@@ -122,7 +122,7 @@ export async function authPost<
 }
 
 export async function requireAuth() {
-  const result = await authGet(ENDPOINTS.ME);
+  const result = await authGet(ENDPOINT.USER_CHECK);
   return { authenticated: !!result.user_id };
 }
 

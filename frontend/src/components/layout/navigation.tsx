@@ -3,14 +3,14 @@ import AlertButton from "@/components/feature/alert-button";
 import FormLayout from "@/components/layout/form";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ENDPOINTS } from "@/lib/endpoints";
+import { ENDPOINT } from "@/lib/endpoints";
 import { createUserForm, loginUserForm } from "@/lib/forms";
 import useAppNavigation from "@/lib/hooks/useAppNavigation";
 import useAuth from "@/lib/hooks/useAuth";
 import useLogout from "@/lib/hooks/useLogout";
 import useUser from "@/lib/hooks/useUser";
+import { PRIMARY_ROUTES } from "@/lib/menu";
 import { PAGES } from "@/lib/pages";
-import { MUTATION_KEYS } from "@/lib/query";
 
 export default function Navigation() {
   const { authenticated } = useAuth();
@@ -29,7 +29,20 @@ export default function Navigation() {
       </Button>
       {authenticated ? (
         <Fragment>
-          {left}
+          {left.map((page) => (
+            <Button
+              variant={
+                PRIMARY_ROUTES.includes(page.id?.split("#")[0] ?? "")
+                  ? "default"
+                  : "ghost"
+              }
+              className="cursor-pointer rounded-none"
+              onClick={handleNavigate(page.path + "")}
+              key={page.id}
+            >
+              {page.id?.split("#")[1]}
+            </Button>
+          ))}
           <h3
             id="account-details"
             className="flex flex-col items-end ml-auto text-gray-400"
@@ -38,7 +51,20 @@ export default function Navigation() {
             <span className="text-gray-500 text-xs">{user.email}</span>
           </h3>
           <Separator orientation="vertical" />
-          {right}
+          {right.map((page) => (
+            <Button
+              variant={
+                PRIMARY_ROUTES.includes(page.id?.split("#")[0] ?? "")
+                  ? "default"
+                  : "ghost"
+              }
+              className="cursor-pointer rounded-none"
+              onClick={handleNavigate(page.path + "")}
+              key={page.id}
+            >
+              {page.id?.split("#")[1]}
+            </Button>
+          ))}
           <AlertButton
             title="Do you wish to sign out?"
             trigger="Log out"
@@ -56,11 +82,7 @@ export default function Navigation() {
             title="Sign In"
             trigger="Sign In"
             content={
-              <FormLayout
-                mutationKey={MUTATION_KEYS.LOGIN}
-                endpoint={ENDPOINTS.LOGIN}
-                form={loginUserForm}
-              />
+              <FormLayout endpoint={ENDPOINT.USER_LOGIN} form={loginUserForm} />
             }
             description="Fill in your credentials to log in to your account."
             className="ml-auto"
@@ -72,8 +94,7 @@ export default function Navigation() {
             description="Fill in your details below to create a new account."
             content={
               <FormLayout
-                mutationKey={MUTATION_KEYS.SIGNUP}
-                endpoint={ENDPOINTS.SIGNUP}
+                endpoint={ENDPOINT.USER_SIGNUP}
                 form={createUserForm}
               />
             }

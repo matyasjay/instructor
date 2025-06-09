@@ -1,14 +1,18 @@
 module http
 
-go 1.24.0
+go 1.23.0
+
+toolchain go1.23.10
 
 require (
+	github.com/duythinht/dbml-go v0.0.0-20220713090938-b5659a82f71b
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/uuid v1.6.0
 	github.com/labstack/echo-jwt/v4 v4.3.1
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/lib/pq v1.10.9
-	golang.org/x/crypto v0.38.0
+	github.com/skia-dev/go2ts v1.5.0
+	golang.org/x/crypto v0.39.0
 )
 
 require (
@@ -19,6 +23,6 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	golang.org/x/net v0.40.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/text v0.25.0 // indirect
+	golang.org/x/text v0.26.0 // indirect
 	golang.org/x/time v0.11.0 // indirect
 )

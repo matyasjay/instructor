@@ -6,7 +6,6 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "@/components/context/auth";
 import ErrorBoundary from "@/components/context/error";
 import ThemeProvider from "@/components/context/theme";
@@ -28,7 +27,6 @@ const App = () => {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        {import.meta.env.DEV && <ReactQueryDevtools />}
         <ThemeProvider>
           <AuthProvider>
             <RouterProvider router={memoRouter} />

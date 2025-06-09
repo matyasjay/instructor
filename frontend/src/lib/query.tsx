@@ -1,3 +1,5 @@
+import { ENDPOINT } from "@/lib/endpoints";
+
 export const defaultOptions = {
   defaultOptions: {
     queries: {
@@ -9,15 +11,13 @@ export const defaultOptions = {
   },
 };
 
-export const QUERY_KEYS = {
-  ME: "instructor-me-get",
-  USER: "instructor-user-get",
-} as const;
-
-export const MUTATION_KEYS = {
-  SIGNUP: "instructor-user-signup",
-  LOGIN: "instructor-user-login",
-  CREATE_SERVICE: "instructor-service-create",
-  GET_SERVICES: "instructor-services-get",
-  CREATE_TEMPLATE: "instructor-template-create",
+export const REQUEST_KEY: Record<Endpoint, string> = {
+  [ENDPOINT.SERVICE_CREATE]: "instructor-service-create",
+  [ENDPOINT.SERVICE_GET]: "instructor-service-get",
+  [ENDPOINT.TEMPLATE_CREATE]: "instructor-template-create",
+  [ENDPOINT.TEMPLATE_GET]: "instructor-template-get",
+  [ENDPOINT.USER_CHECK]: "instructor-user-check",
+  [ENDPOINT.USER_GET]: "instructor-user-get",
+  [ENDPOINT.USER_LOGIN]: "instructor-user-login",
+  [ENDPOINT.USER_CREATE]: "instructor-user-signup",
 } as const;

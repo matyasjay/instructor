@@ -3,39 +3,18 @@ import {
   NonIndexRouteObject,
   useNavigate,
 } from "react-router";
-import { Button } from "@/components/ui/button";
-import { menu, PRIMARY_ROUTES } from "@/lib/menu";
+import { menu } from "@/lib/menu";
 
 function getPageOrder(page: Nullable<string>) {
   return +(page?.split("#")[0] ?? 0);
 }
 
-function getNavigationItems(
-  pages: (IndexRouteObject | NonIndexRouteObject)[],
-  handleNavigate: (path: string) => () => void,
-) {
-  return pages
-    ?.sort((a, b) => {
-      const orderA = getPageOrder(a.id);
-      const orderB = getPageOrder(b.id);
-      return orderA - orderB;
-    })
-    .map((page) => {
-      return (
-        <Button
-          variant={
-            PRIMARY_ROUTES.includes(page.id?.split("#")[0] ?? "")
-              ? "default"
-              : "ghost"
-          }
-          className="cursor-pointer rounded-none"
-          onClick={handleNavigate(page.path + "")}
-          key={page.id}
-        >
-          {page.id?.split("#")[1]}
-        </Button>
-      );
-    });
+function getNavigationItems(pages: (IndexRouteObject | NonIndexRouteObject)[]) {
+  return pages?.sort((a, b) => {
+    const orderA = getPageOrder(a.id);
+    const orderB = getPageOrder(b.id);
+    return orderA - orderB;
+  });
 }
 
 const left = menu?.filter(({ id }) => !!id && getPageOrder(id) > 0) ?? [];
@@ -48,8 +27,8 @@ export default function useAppNavigation() {
     navigate(path);
   };
 
-  const leftItems = getNavigationItems(left, handleNavigate);
-  const rightItems = getNavigationItems(right, handleNavigate);
+  const leftItems = getNavigationItems(left);
+  const rightItems = getNavigationItems(right);
 
   return {
     left: leftItems,

@@ -1,4 +1,4 @@
-type Endpoints = typeof import("@/config/endpoints").ENDPOINTS;
+type Endpoints = typeof import("@/lib/endpoints").ENDPOINTS;
 declare type Endpoint = Endpoints[keyof Endpoints];
 
 declare type Nullable<T> = T | null | undefined;

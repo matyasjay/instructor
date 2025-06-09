@@ -1,3 +1,5 @@
 build-errors.log
 bin
+!bin/air
+!bin/typegen
 cmd/cmd

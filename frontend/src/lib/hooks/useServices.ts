@@ -1,63 +1,20 @@
-import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { STORAGE } from "@/lib/cookies";
-import { ENDPOINTS } from "@/lib/endpoints";
-import { MUTATION_KEYS } from "@/lib/query";
-import { authPost, normalizeObjectKeys } from "../utils";
-
-export async function fetchService(service: "all" | "user") {
-  const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}");
-
-  const endpoint = {
-    ["all"]: ENDPOINTS.GET_SERVICES_ALL,
-    ["user"]: ENDPOINTS.GET_SERVICES_USER,
-  }[service];
-
-  const result = await authPost<{ id: string }, AggregatedService[]>(
-    endpoint,
-    { id: user.id },
-    { skipNormalize: true },
-  );
-
-  return result;
-}
+import { ENDPOINT } from "@/lib/endpoints";
+import useFetch from "@/lib/hooks/useFetch";
 
 export function useServices(scope: "all" | "user"): {
   isPending: boolean;
-  services: AggregatedService[];
+  services: Service[];
 } {
-  const [delayFinished, setDelayFinished] = useState(false);
-
-  const {
-    isPending: rawIsPending,
-    data,
-    mutate,
-  } = useMutation({
-    mutationFn: fetchService,
-    mutationKey: [MUTATION_KEYS.GET_SERVICES],
-    onSuccess: (data) => {
-      if (Object(data).error) {
-        return [];
-      }
-      return data;
+  const { response, isPending } = useFetch<{ private: boolean }, Service>({
+    endpoint: ENDPOINT.SERVICE_GET,
+    params: {
+      private: scope === "user",
     },
   });
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDelayFinished(true);
-    }, 200);
-
-    mutate(scope);
-
-    return () => clearTimeout(timeout);
-  }, []); // eslint-disable-line
-
-  const services = (
-    !!data && "error" in data ? [] : (data?.map(normalizeObjectKeys) ?? [])
-  ).sort((a, b) => a.name.localeCompare(b.name));
-
-  const isPending = rawIsPending || !delayFinished;
+  const services = Array.isArray(response)
+    ? response?.sort((a, b) => a.name.localeCompare(b.name))
+    : [];
 
   return { isPending, services };
 }

@@ -1,5 +1,6 @@
 import z from "zod";
-import { fetchService } from "./hooks/useServices";
+import { ENDPOINT } from "./endpoints";
+import { authPost } from "./utils";
 
 export const createServiceForm: Form = {
   schema: z.object({
@@ -24,6 +25,14 @@ export const createUserForm: Form = {
     password: z.string().min(8),
     password_confirm: z.string().min(8),
   }),
+  fields: {
+    email: {
+      label: "E-mail",
+    },
+    password_confirm: {
+      label: "Confirm password",
+    },
+  },
 };
 
 export const loginUserForm: Form = {
@@ -31,6 +40,11 @@ export const loginUserForm: Form = {
     email: z.string().email(),
     password: z.string().min(8),
   }),
+  fields: {
+    email: {
+      label: "E-mail",
+    },
+  },
 };
 
 export const createTemplateForm: Form = {
@@ -54,7 +68,19 @@ export const createTemplateForm: Form = {
       type: "select",
       placeholder: "Please choose...",
       description: "The template will be connected to this service.",
-      asyncOptions: () => fetchService("user"),
+      asyncOptions: async () => {
+        const response = await authPost<{ private: boolean }, Service[]>(
+          ENDPOINT.USER_GET,
+          { private: true },
+          { skipNormalize: true },
+        );
+
+        if ("error" in response && response.error) {
+          throw response.error;
+        }
+
+        return response as Service[];
+      },
     },
   },
 };

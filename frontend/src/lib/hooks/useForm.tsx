@@ -10,6 +10,7 @@ import Cookies from "js-cookie";
 import { ZodError } from "zod";
 import { COOKIES, STORAGE } from "@/lib/cookies";
 import useAuth from "@/lib/hooks/useAuth";
+import { REQUEST_KEY } from "@/lib/query";
 import {
   authPost,
   normalizeObjectKeys,
@@ -19,14 +20,12 @@ import {
 
 export type UseFormProps = {
   endpoint: Endpoint;
-  mutationKey: string;
   form: Form;
 };
 
 export default function useForm({
   form: { schema, fields: fieldConfig },
   endpoint,
-  mutationKey,
 }: UseFormProps) {
   const zodSchema = schema as unknown as FormSchema<ZodType>;
   const defaultValues = Object.fromEntries(
@@ -41,6 +40,8 @@ export default function useForm({
       label:
         key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1"),
     }));
+
+  const mutationKey = REQUEST_KEY[endpoint];
 
   const [state, setState] = useState(defaultValues);
   const [error, setError] = useState<string>("");
@@ -129,7 +130,7 @@ export default function useForm({
 
   const handleDismiss = () => {
     setAlerted(false);
-    window.history.back()
+    window.history.back();
   };
 
   const fields = formFields.map((field) => ({

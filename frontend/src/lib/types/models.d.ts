@@ -1,9 +1,3 @@
-declare type User = import("@/lib/prisma/generated/prisma").User;
-
-declare type Service = import("@/lib/prisma/generated/prisma").Service;
-
-declare type Template = import("@/lib/prisma/generated/prisma").PromptTemplate;
-
 declare type FormSchema<T extends ZodType> = {
   shape: ZodSchema<URecord, T>;
   safeParse: (input: unknown) => SafeParseReturnType<T, T>;
@@ -17,7 +11,7 @@ declare type Form = {
 declare type Field =
   | User[keyof User]
   | Template[keyof Template]
-  | AggregatedService[keyof AggregatedService];
+  | Service[keyof Service];
 
 declare type FormField = {
   name: string;
@@ -36,15 +30,7 @@ declare type FormField = {
     label: string;
     value: string;
   }[];
-  asyncOptions?: () => Promise<
-    | ({ id: string; name: string } & Record<string, unknown>)[]
-    | { error: string }
-  >;
+  asyncOptions?: () => Promise<Record<string, unknown>[]>;
 };
 
 declare type CheckedState = import("@radix-ui/react-checkbox").CheckedState;
-
-declare type AggregatedService = Service & {
-  users: User[];
-  templates: Template[];
-};

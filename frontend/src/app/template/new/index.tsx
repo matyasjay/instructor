@@ -1,8 +1,7 @@
 import AlertButton from "@/components/feature/alert-button";
 import FormLayout from "@/components/layout/form";
-import { ENDPOINTS } from "@/lib/endpoints";
+import { ENDPOINT } from "@/lib/endpoints";
 import { createTemplateForm } from "@/lib/forms";
-import { MUTATION_KEYS } from "@/lib/query";
 
 export default function TemplateNew() {
   return (
@@ -14,8 +13,7 @@ export default function TemplateNew() {
       content={
         <FormLayout
           form={createTemplateForm}
-          endpoint={ENDPOINTS.CREATE_TEMPLATE}
-          mutationKey={MUTATION_KEYS.CREATE_TEMPLATE}
+          endpoint={ENDPOINT.TEMPLATE_CREATE}
         />
       }
       triggerVariant="default"

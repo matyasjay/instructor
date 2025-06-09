@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 dayjs.extend(relativeTime);
 
 export default function mapServiceField(
-  field: AggregatedService[keyof AggregatedService],
+  field: Service[keyof Service],
   key: string,
 ) {
   return {
@@ -100,5 +100,5 @@ export default function mapServiceField(
           </div>
         ),
       })[field + ""],
-  }[key as keyof AggregatedService]();
+  }[key as keyof Service]();
 }

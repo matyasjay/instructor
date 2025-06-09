@@ -1,13 +1,10 @@
-export const ENDPOINTS = {
-  TEMPLATE: "/template",
-
-  LOGIN: "/user/login",
-  SIGNUP: "/user/create",
-
-  ME: "/auth/me",
-  CURRENT_USER: "/auth/user/current",
-  CREATE_SERVICE: "/auth/service/create",
-  CREATE_TEMPLATE: "/auth/template/create",
-  GET_SERVICES_ALL: "/auth/service/all",
-  GET_SERVICES_USER: "/auth/service/user",
+export const ENDPOINT = {
+  SERVICE_CREATE: "/auth/service/create",
+  SERVICE_GET: "/auth/service/get",
+  TEMPLATE_CREATE: "/auth/template/create",
+  TEMPLATE_GET: "/auth/template/get",
+  USER_CHECK: "/auth/user/check",
+  USER_CREATE: "/user/create",
+  USER_GET: "/auth/user/current",
+  USER_LOGIN: "/user/login",
 } as const;

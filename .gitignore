@@ -13,7 +13,9 @@ pnpm-debug.log*
 .vercel/.env*
 dist
 dist-ssr
-frontend/src/lib/prisma/generated
+generated
+!generated/prisma/schema.prisma
+!generated/dbml/schema.prisma
 
 #Editor
 
@@ -30,6 +32,9 @@ frontend/src/lib/prisma/generated
 # Go Modules
 
 tmp
+!bin/air
+!bin/typegen
+bin/**/*
 
 # Terraform
 

@@ -2,9 +2,8 @@ import { PlusIcon } from "lucide-react";
 import AlertButton from "@/components/feature/alert-button";
 import FormLayout from "@/components/layout/form";
 import { Button } from "@/components/ui/button";
-import { ENDPOINTS } from "@/lib/endpoints";
+import { ENDPOINT } from "@/lib/endpoints";
 import { createServiceForm } from "@/lib/forms";
-import { MUTATION_KEYS } from "@/lib/query";
 
 export default function ServiceNew() {
   return (
@@ -20,8 +19,7 @@ export default function ServiceNew() {
       content={
         <FormLayout
           form={createServiceForm}
-          endpoint={ENDPOINTS.CREATE_SERVICE}
-          mutationKey={MUTATION_KEYS.CREATE_SERVICE}
+          endpoint={ENDPOINT.SERVICE_CREATE}
         />
       }
       className="ml-3"

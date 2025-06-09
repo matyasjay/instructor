@@ -13,3 +13,6 @@ test:
 run:
 	dotenvx run -f ../.env.local -- go run main.go
 
+typegen-build:
+	go build -o bin/typegen ./cmd/typegen
+

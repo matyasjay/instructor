@@ -2,11 +2,10 @@ package main
 
 import (
 	"os"
+	"http/cmd/server/router"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-
-	"http/internal/handler"
 )
 
 func main() {
@@ -15,7 +14,6 @@ func main() {
 	if http_port == "" {
 		http_port = "3333"
 	}
-
 
 	e := echo.New()
 
@@ -29,8 +27,7 @@ func main() {
 			AllowCredentials: true,
 		}))
 
-
-	handler.RegisterRoutes(e)
+	router.RegisterRoutes(e)
 
 	e.Logger.Fatal(e.Start(":" + http_port))
 }
