@@ -53,8 +53,9 @@ export function useServices(scope: "all" | "user"): {
     return () => clearTimeout(timeout);
   }, []); // eslint-disable-line
 
-  const services =
-    (!!data && "error" in data ? [] : (data?.map(normalizeObjectKeys) ?? [])).sort((a,b)=> a.name.localeCompare(b.name));
+  const services = (
+    !!data && "error" in data ? [] : (data?.map(normalizeObjectKeys) ?? [])
+  ).sort((a, b) => a.name.localeCompare(b.name));
 
   const isPending = rawIsPending || !delayFinished;
 

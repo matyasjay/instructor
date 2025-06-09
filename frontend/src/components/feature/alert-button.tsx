@@ -69,7 +69,10 @@ export default function AlertButton({
         className={cn(className, open ? "hidden" : "")}
       >
         {typeof trigger !== "object" ? (
-          <Button variant={triggerVariant} className="cursor-pointer">
+          <Button
+            variant={triggerVariant}
+            className="cursor-pointer rounded-none"
+          >
             {trigger}
           </Button>
         ) : (
@@ -84,7 +87,7 @@ export default function AlertButton({
             {title}
             {dismiss === "top" && (
               <AlertDialogCancel
-                className="cursor-pointer"
+                className="cursor-pointer rounded-none"
                 onClick={open ? handleBack : undefined}
               >
                 {cancel}
@@ -100,7 +103,7 @@ export default function AlertButton({
               <AlertDialogAction onClick={onConfirm} asChild>
                 <Button
                   variant={confirmVariant}
-                  className="w-[50%] cursor-pointer"
+                  className="w-[50%] cursor-pointer rounded-none"
                 >
                   {confirm}
                 </Button>
@@ -108,7 +111,7 @@ export default function AlertButton({
             )}
             {dismiss === "split" && (
               <AlertDialogCancel
-                className="cursor-pointer w-[50%]"
+                className="cursor-pointer w-[50%] rounded-none"
                 onClick={open ? handleBack : undefined}
               >
                 {cancel}

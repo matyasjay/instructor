@@ -1,28 +1,12 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { EyeOffIcon, EyeIcon } from "lucide-react";
+import Template from "@/components/feature/dashboard/template";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { capitalizeFirstLetter } from "@/lib/utils";
-import Template from "./template";
 
 dayjs.extend(relativeTime);
-
-export function mapKey(key: string) {
-  const keyMap =
-    {
-      name: "",
-      id: "",
-      private: "Visibility",
-      description: "Details",
-      createdAt: "",
-      updatedAt: "",
-      users: "Owner",
-      templates: "Templates",
-      template: "Template",
-      input: "Input",
-    }[key] ?? "";
-  return keyMap;
-}
 
 export function mapTemplates(template: Field) {
   const _template = Object(template);
@@ -36,7 +20,7 @@ export function mapPrompt(prompt: string | undefined) {
     <div className="block w-full mt-3" key={prompt}>
       {!prompt ? (
         <span className="block w-full rich-text bg-sidebar p-3 py-5 border-x-1 border-y-1 border-white/30">
-          Not available
+          &nbsp;
         </span>
       ) : (
         <span
@@ -53,7 +37,7 @@ export function mapPrompt(prompt: string | undefined) {
 export function mapUsers(user: Field) {
   const _user = Object(user);
   return (
-    <Badge key={_user.id} className="bg-gray-600 px-2">
+    <Badge key={_user.id} className="bg-primary/40 px-2 rounded-none">
       {_user.name}
     </Badge>
   );
@@ -67,33 +51,56 @@ export function mapArray(fields: Field[], key: string) {
           users: mapUsers,
         }[key] ?? (() => <></>),
       )
-    : "Not available";
+    : null;
 }
 
 export function mapString(field: string, key: string) {
   return (
-    {
-      createdAt: `Created ${dayjs(field).fromNow()}`,
-      updatedAt: `Last updated ${dayjs(field).fromNow()}`,
-      templates: field.split(" ").map(capitalizeFirstLetter).join(" "),
-      template: mapPrompt(field),
-    }[key + ""] ??
-    (field || "Not Available")
+    <div className="w-full">
+      {{
+        createdAt: `Created ${dayjs(field).fromNow()}`,
+        updatedAt: `Updated ${dayjs(field).fromNow()}`,
+        templates: field.split(" ").map(capitalizeFirstLetter).join(" "),
+        template: mapPrompt(field),
+      }[key + ""] ??
+        field ??
+        null}
+    </div>
   );
 }
 
 export function mapBool(field: boolean, key: string) {
   const value = {
     private: {
-      true: <EyeOffIcon width={20} />,
-      false: <EyeIcon width={20} />,
+      true: (
+        <div className="flex items-center">
+          <Button
+            variant="outline"
+            className="w-30 cursor-pointer rounded-none m-0"
+          >
+            <EyeOffIcon width={20} />
+            Private
+          </Button>
+        </div>
+      ),
+      false: (
+        <div className="flex items-center ">
+          <Button
+            variant="outline"
+            className="w-30 cursor-pointer rounded-none m-0"
+          >
+            <EyeIcon width={20} />
+            Public
+          </Button>
+        </div>
+      ),
     },
   }[key] ?? {
     true: "Yes",
     false: "No",
   };
 
-  return value[String(field) as keyof typeof value];
+  return value[(field + "") as keyof typeof value];
 }
 
 export function mapField({ field, key }: { field: Field; key: string }) {
@@ -104,6 +111,6 @@ export function mapField({ field, key }: { field: Field; key: string }) {
       ["string"]: () => mapString(field + "", key),
       ["boolean"]: () => mapBool(!!field, key),
       ["array"]: () => mapArray([...Object(field)], key),
-    }[type] ?? (() => "Not Available")
+    }[type] ?? (() => null)
   )();
 }

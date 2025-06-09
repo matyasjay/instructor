@@ -48,7 +48,7 @@ export default function FormLayout(props: UseFormProps & { submit?: string }) {
           <Separator />
           <Button
             type="submit"
-            className="cursor-pointer w-full max-w-[350px] mx-auto"
+            className="cursor-pointer w-full max-w-[350px] mx-auto rounded-none"
           >
             {props.submit ?? "Submit"}
           </Button>
@@ -81,7 +81,7 @@ export default function FormLayout(props: UseFormProps & { submit?: string }) {
             <AlertDialogTitle className="flex justify-between w-full items-center">
               Success! Your changes has been saved.
               <AlertDialogCancel
-                className="cursor-pointer"
+                className="cursor-pointer rounded-none"
                 onClick={handleDismiss}
               >
                 Dismiss

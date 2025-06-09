@@ -14,12 +14,12 @@ function Account() {
 
   delete user.id;
   delete user.password;
-  delete user.passwordhash;
+  delete user.passwordHash;
 
   return (
     <Accordion
       type="multiple"
-      className="w-full justify-start"
+      className="w-full justify-start p-8"
       value={["account_details", "account_services"]}
     >
       <AccordionItem value="account_details" className="border-1 mb-3">

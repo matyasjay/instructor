@@ -11,7 +11,7 @@ export default function ServiceNew() {
     <AlertButton
       title="Create New Service"
       trigger={
-        <Button className="cursor-pointer">
+        <Button className="cursor-pointer rounded-none">
           <PlusIcon />
           New Service
         </Button>

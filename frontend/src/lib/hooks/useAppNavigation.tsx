@@ -28,7 +28,7 @@ function getNavigationItems(
               ? "default"
               : "ghost"
           }
-          className="cursor-pointer"
+          className="cursor-pointer rounded-none"
           onClick={handleNavigate(page.path + "")}
           key={page.id}
         >
