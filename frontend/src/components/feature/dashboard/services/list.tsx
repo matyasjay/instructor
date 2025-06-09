@@ -15,7 +15,11 @@ export default function ServiceList() {
     setSelected(
       services.find(({ id }) => id === serviceId) ?? Object.create(null),
     );
-    window.history.pushState(null, "", `${PAGES.PRIVATE.SERVICE_OWN}/${serviceId}`);
+    window.history.pushState(
+      null,
+      "",
+      `${PAGES.PRIVATE.SERVICE_OWN}/${serviceId}`,
+    );
   };
 
   return (

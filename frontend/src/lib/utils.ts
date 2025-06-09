@@ -25,7 +25,7 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
     (result, [key, value]) => ({
       ...result,
       [camelCase(key)]:
-        typeof value === "object" && !Array.isArray(value)
+        !!value && typeof value === "object" && !Array.isArray(value)
           ? normalizeObjectKeys(value)
           : Array.isArray(value)
             ? value.map(normalizeObjectKeys)

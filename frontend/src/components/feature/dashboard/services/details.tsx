@@ -25,16 +25,16 @@ export default function ServiceDetails() {
           <ServiceDetailsSkeleton />
         ) : !selected ? null : (
           Object.entries(serviceDetails).map(([key, field]) => {
-            const verticalSpace =
-              {
-                ["description"]: "4",
-              }[key] ?? "0";
-
             const title =
               {
                 ["templates"]: "Templates",
                 ["description"]: "Description",
               }[key] ?? "";
+
+            const verticalSpace =
+              {
+                ["description"]: "4",
+              }[key] ?? "0";
 
             return !field || (Array.isArray(field) && !field.length) ? null : (
               <div key={key} className="flex flex-col">
