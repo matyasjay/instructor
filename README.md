@@ -11,23 +11,6 @@
 ![Docker](https://img.shields.io/badge/Containerized-Docker-2496ED?logo=docker)
 ![Terraform](https://img.shields.io/badge/IaC-Terraform-844FBA?logo=terraform)
 
-## Prerequisites
-
-- [Node v22](https://nodejs.org/en/download)
-- [Go v1.22](https://go.dev/learn)
-- [Kind](https://kind.sigs.k8s.io)
-- [Docker](https://www.docker.com)
-- [Docker Compose](https://docs.docker.com/compose/install)
-- [Terraform](https://developer.hashicorp.com/terraform/install)
-- [dotenvx](https://dotenvx.com/docs/install#npm)
-- [pnpm v10](https://pnpm.io/installation)
-- [kubectl](https://kubernetes.io/docs/reference/kubectl)
-- [yq](https://github.com/mikefarah/yq)
-- [TypeScript (tsc)](https://www.typescriptlang.org/download/)
-- [Vite](https://vite.dev/guide/cli.html)
-- [Prettier](https://prettier.io/docs/)
-- [ESLint](https://eslint.org/docs/latest/use/getting-started)
-
 ### Environment
 
 Add the neccessary Terraform secrets in the `terraform/terraform.tfvars` file.
