@@ -5,14 +5,11 @@ build:
 	go build -o bin/main
 
 fmt:
-	gofmt -w ./internal/*
+	gofmt -w ./pkg/* ./cmd/*
 
 test:
 	go build
 
 run:
 	dotenvx run -f ../.env.local -- go run main.go
-
-typegen-build:
-	go build -o bin/typegen ./cmd/typegen
 

@@ -9,13 +9,13 @@ datasource db {
 }
 
 model User {
-  id        String            @id @default(uuid())
-  name      String            @unique
-  email     String            @unique
-  password  String
-  services  ServicesOnUsers[]
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @default(now()) @updatedAt
+  id         String            @id @default(uuid())
+  name       String            @unique
+  email      String            @unique
+  password   String
+  services   ServicesOnUsers[]
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @default(now()) @updatedAt
 }
 
 model Service {

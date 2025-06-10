@@ -6,11 +6,9 @@ import { PAGES } from "@/lib/pages";
 export const ServicesContext = createContext<{
   defaultOpen: string | undefined;
   isPending: boolean;
-  selected: Nullable<AggregatedService>;
-  services: AggregatedService[];
-  setSelected: React.Dispatch<
-    React.SetStateAction<Nullable<AggregatedService>>
-  >;
+  selected: Nullable<Service>;
+  services: Service[];
+  setSelected: React.Dispatch<React.SetStateAction<Nullable<Service>>>;
   title: string;
   type: "user" | "all";
 }>({
@@ -34,7 +32,7 @@ export const ServiceProvider = ({
 }) => {
   const { id } = useParams();
   const { services, isPending } = useServices(type);
-  const [selected, setSelected] = useState<Nullable<AggregatedService>>(null);
+  const [selected, setSelected] = useState<Nullable<Service>>(null);
 
   useEffect(() => {
     if (!isPending && services?.length) {

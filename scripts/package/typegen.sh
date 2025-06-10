@@ -4,8 +4,11 @@ sh scripts/package/prisma.sh
 
 cd http
 
-go build -o bin/typegen ./cmd/typegen
-./bin/typegen
+go build -o bin/gen-structs ./cmd/cli/typegen/structs
+./bin/gen-structs
+
+go build -o bin/gen-declarations ./cmd/cli/typegen/declarations
+./bin/gen-declarations
 
 cd ../
 

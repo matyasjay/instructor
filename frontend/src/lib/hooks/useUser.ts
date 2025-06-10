@@ -7,8 +7,9 @@ const defaultUser: User = {
   name: "",
   email: "",
   password: "",
-  createdAt: new Date(Date.now()),
-  updatedAt: new Date(Date.now()),
+  createdAt: new Date(Date.now()).toISOString(),
+  updatedAt: new Date(Date.now()).toISOString(),
+  services: Object.create(null),
 };
 
 export default function useUser() {

@@ -15,7 +15,7 @@ import (
 	"http/pkg/util"
 )
 
-var GET_SERVICE_BY_USER_ID = "cmd/server/queries/get_services_by_user.sql"
+var GET_SERVICE_BY_USER_ID = "sql/get_services_by_user.sql"
 
 func Get(c echo.Context) error {
 	var unsafeInput model.PostServiceInput
