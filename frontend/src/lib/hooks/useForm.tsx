@@ -71,11 +71,11 @@ export default function useForm({
         Record<string, unknown>
       >(endpoint, Object(parsedSchema.data));
 
-      if ("error" in response) {
+      if ("error" in response && !!response.error) {
         throw response;
       }
 
-      if (response.token) {
+      if (Object(response).token) {
         window.localStorage.setItem(
           STORAGE.USER,
           JSON.stringify(Object(response).user),
@@ -94,13 +94,7 @@ export default function useForm({
       setError(parseErrorObject(e));
     },
     onSuccess: (data) => {
-      console.log(data);
-      const response = data ?? {};
-      if (!!response && typeof response === "object" && "error" in response) {
-        setError(parseErrorObject(response.error));
-      } else {
-        setAlerted(!!response);
-      }
+      setAlerted(!!data);
     },
   });
 

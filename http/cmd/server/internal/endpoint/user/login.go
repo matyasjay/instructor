@@ -33,7 +33,7 @@ func Login(c echo.Context) error {
 		if err != nil {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Unable to find user!")
 		}
-		if err := util.CheckPasswordHash(safeInput.Password, passwordHash); err {
+		if err := util.CheckPasswordHash(safeInput.Password, passwordHash); !err {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Invalid credentials!")
 		}
 		token, err = util.GenerateJWT(user.ID)

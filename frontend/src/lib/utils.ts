@@ -36,9 +36,9 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
 }
 
 export function mapHttpError(error: AxiosError<{ error: string }>) {
-  const { message } = normalizeObjectKeys(
-    error.response?.data ?? Object.create(null),
-  )?.error ?? error
+  const { message } =
+    normalizeObjectKeys(error.response?.data ?? Object.create(null))?.error ??
+    error;
   return (
     {
       ["sql: no rows in result set"]: "Failed to get the database record!",
