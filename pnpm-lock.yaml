@@ -19,6 +19,9 @@ catalogs:
     prisma:
       specifier: ^6.8.2
       version: 6.8.2
+    prisma-dbml-generator:
+      specifier: ^0.12.0
+      version: 0.12.0
     semver:
       specifier: ^7.7.2
       version: 7.7.2
@@ -39,6 +42,9 @@ importers:
       prisma:
         specifier: 'catalog:'
         version: 6.8.2(typescript@5.8.3)
+      prisma-dbml-generator:
+        specifier: 'catalog:'
+        version: 0.12.0
       semver:
         specifier: 'catalog:'
         version: 7.7.2
@@ -50,9 +56,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.0.1
         version: 5.0.1(react-hook-form@7.57.0(react@19.1.0))
-      '@prisma/client':
-        specifier: ^6.8.2
-        version: 6.8.2(prisma@6.8.2(typescript@5.8.3))(typescript@5.8.3)
       '@radix-ui/react-accordion':
         specifier: ^1.2.11
         version: 1.2.11(@types/react-dom@19.1.5(@types/react@19.1.6))(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -122,9 +125,6 @@ importers:
       lucide-react:
         specifier: ^0.511.0
         version: 0.511.0(react@19.1.0)
-      ramda:
-        specifier: ^0.30.1
-        version: 0.30.1
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -261,12 +261,6 @@ importers:
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
-      prisma:
-        specifier: 'catalog:'
-        version: 6.8.2(typescript@5.8.3)
-      prisma-dbml-generator:
-        specifier: ^0.12.0
-        version: 0.12.0
       tailwindcss:
         specifier: ^4.1.7
         version: 4.1.7
@@ -291,8 +285,6 @@ importers:
       vitest:
         specifier: ^3.1.4
         version: 3.1.4(@edge-runtime/vm@3.2.0)(@types/node@22.15.23)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(tsx@4.19.4)
-
-  frontend/src/lib/prisma/generated/prisma: {}
 
   http: {}
 
@@ -749,18 +741,6 @@ packages:
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
-
-  '@prisma/client@6.8.2':
-    resolution: {integrity: sha512-5II+vbyzv4si6Yunwgkj0qT/iY0zyspttoDrL3R4BYgLdp42/d2C8xdi9vqkrYtKt9H32oFIukvyw3Koz5JoDg==}
-    engines: {node: '>=18.18'}
-    peerDependencies:
-      prisma: '*'
-      typescript: '>=5.1.0'
-    peerDependenciesMeta:
-      prisma:
-        optional: true
-      typescript:
-        optional: true
 
   '@prisma/config@6.8.2':
     resolution: {integrity: sha512-ZJY1fF4qRBPdLQ/60wxNtX+eu89c3AkYEcP7L3jkp0IPXCNphCYxikTg55kPJLDOG6P0X+QG5tCv6CmsBRZWFQ==}
@@ -3683,9 +3663,6 @@ packages:
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
-  ramda@0.30.1:
-    resolution: {integrity: sha512-tEF5I22zJnuclswcZMc8bDIrwRHRzf+NqVEmqg50ShAZMP7MWeR/RGDthfM/p+BlqvF2fXAzpn8i+SJcYD3alw==}
-
   range-parser@1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
@@ -4943,11 +4920,6 @@ snapshots:
   '@pkgr/core@0.2.4': {}
 
   '@polka/url@1.0.0-next.29': {}
-
-  '@prisma/client@6.8.2(prisma@6.8.2(typescript@5.8.3))(typescript@5.8.3)':
-    optionalDependencies:
-      prisma: 6.8.2(typescript@5.8.3)
-      typescript: 5.8.3
 
   '@prisma/config@6.8.2':
     dependencies:
@@ -8104,8 +8076,6 @@ snapshots:
       side-channel: 1.1.0
 
   queue-microtask@1.2.3: {}
-
-  ramda@0.30.1: {}
 
   range-parser@1.2.1: {}
 

@@ -94,7 +94,7 @@ export default function Navigation() {
             description="Fill in your details below to create a new account."
             content={
               <FormLayout
-                endpoint={ENDPOINT.USER_SIGNUP}
+                endpoint={ENDPOINT.USER_CREATE}
                 form={createUserForm}
               />
             }

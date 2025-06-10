@@ -2,45 +2,47 @@ package user
 
 import (
 	"net/http"
-	"http/cmd/server/connection"
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 
 	_ "github.com/lib/pq"
 
-	"http/pkg/shared"
+	"http/cmd/server/internal"
+	"http/pkg/model"
+	"http/pkg/util"
 )
 
 
 func Create(c echo.Context) error {
 
-	db := connection.GetDB()
+	db := internal.GetDB()
 
-	var input shared.UserInput
+	var input model.PostUserInput
 	if err := c.Bind(&input); err != nil {
 		return err
 	}
 
-	hash, err := shared.HashPassword(input.Password)
+	hash, err := util.HashPassword(input.Password)
 	if err != nil {
 		return err
 	}
 
-	var user shared.User
+	var user model.User
 
 	rowErr := db.QueryRow(`
 		INSERT INTO instructor."User" (id, name, email, password)
 		VALUES ($1, $2, $3, $4)
-		RETURNING id, email, password`,
-		uuid.New(), input.Name, input.Email, hash).Scan(&user.ID, &user.Email, &user.PasswordHash)
+		RETURNING id, email
+	`, uuid.New(), input.Name, input.Email, hash).
+		Scan(&user.ID, &user.Email)
 
 	if rowErr != nil {
 		return rowErr
 	}
 
-	token, _ := shared.GenerateJWT(user.ID)
-	return c.JSON(http.StatusCreated, shared.UserResponse{
+	token, _ := util.GenerateJWT(user.ID)
+	return c.JSON(http.StatusCreated, model.UserResponse{
 		User:  user,
 		Token: token,
 	})

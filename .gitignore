@@ -4,6 +4,7 @@
 .env.keys
 *.pem
 kind-kubeconfig.yaml
+*.dbml
 
 node_modules
 pnpm-debug.log*

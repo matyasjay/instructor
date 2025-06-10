@@ -28,50 +28,7 @@
 - [Prettier](https://prettier.io/docs/)
 - [ESLint](https://eslint.org/docs/latest/use/getting-started)
 
-## Workflow
-
-```
-.
-├── Makefile             # Top level commands
-├── docker               # Dockerand Kind configuration
-├── frontend             # Vite/Tailwind based client service
-│ ├── index.html         # Frontend entry point
-│ ├── package.json       # Service level packages
-│ ├── vite.config.ts     # Bundler configuration
-│ ├── tailwind.config.ts # Theme configuration
-│ ├── tsconfig.json      # Compiler options
-│ ├── public/            # Publicly accessible assets
-│ └── src/               # Applciation source code
-│   ├── app/             # Application router
-│   ├── components/      # Reusable components
-│   ├── config/          # Configuration files
-│   ├── lib/             # Utilities and tools
-│   ├── types/           # Declaration files
-│   ├── global.css       # Styling entry point
-│   └── fonts.css        # Font declarations
-├── http/                # Go-based backend service
-│ ├── bin/               # Go executables
-│ │ └── air              # Development mode Go server
-│ ├── cmd/               # Application source code
-│ │ └── main.go          # Backend entry point
-│ ├── internal/          # Utilities and tools
-│ ├── go.mod             # Go modules file
-│ └── go.sum             # Go modules file
-├── postgres/            # Database service
-│ ├── package.json       # Service level packages
-│ └── prisma/            # Prisma directory
-│   └── schema.prisma    # Database schema definitions
-├── scripts/             # Automations
-│ ├── deploy/            # Pipeline helpers
-│ ├── env/               # Environment and encription utilities
-│ ├── git/               # Workflow helpers
-│ └── package/           # Builders and package related scripts
-└── terraform/           # Infrastructure code
-```
-
-Top level helpers are available to automate most workflows while developing or publishing the project. The scripts are exposed by `Makefile` and could be run with `make <script>` command from the root directory.
-
-### Environment Setup
+### Environment
 
 Add the neccessary Terraform secrets in the `terraform/terraform.tfvars` file.
 

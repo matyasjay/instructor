@@ -2,8 +2,8 @@ package template
 
 import (
 	"database/sql"
-	"http/cmd/server/connection"
-	"http/pkg/shared"
+	"http/cmd/server/internal"
+	"http/pkg/model"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -12,9 +12,9 @@ import (
 )
 
 func Get(c echo.Context) error {
-	var templates []shared.Template
+	var templates []model.Template
 
-	err := connection.WithTxDefault(func(tx *sql.Tx) error {
+	err := internal.WithTxDefault(func(tx *sql.Tx) error {
 		rows, err := tx.Query(`
 			SELECT
 				"PromptTemplate".id
@@ -30,7 +30,7 @@ func Get(c echo.Context) error {
 		}
 
 		for rows.Next() {
-			var template shared.Template
+			var template model.Template
 			if err := rows.Scan(&template.ID,
 				&template.Name,
 				&template.Description,

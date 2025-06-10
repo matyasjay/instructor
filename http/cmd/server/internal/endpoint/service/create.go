@@ -2,8 +2,9 @@ package service
 
 import (
 	"database/sql"
-	"http/cmd/server/connection"
-	"http/pkg/shared"
+	"http/cmd/server/internal"
+	"http/pkg/model"
+	"http/pkg/util"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -13,17 +14,17 @@ import (
 )
 
 func Create(c echo.Context) error {
-	var unsafeInput shared.ServiceInput
-	safeInput, err := shared.AssertInput(c, unsafeInput)
+	var unsafeInput model.PostServiceInput
+	safeInput, err := util.AssertInput(c, unsafeInput)
 	if err != nil {
 		return err
 	}
 
-	var user shared.User
-	var service shared.Service
-	var relation shared.ServiceOnUser
+	var user model.User
+	var service model.Service
+	var relation model.ServicesOnUsers
 
-	err = connection.WithTxDefault(func(tx *sql.Tx) error {
+	err = internal.WithTxDefault(func(tx *sql.Tx) error {
 		err = tx.QueryRow(`
 			SELECT id, name, email
 			FROM instructor."User"

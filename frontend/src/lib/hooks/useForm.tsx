@@ -94,6 +94,7 @@ export default function useForm({
       setError(parseErrorObject(e));
     },
     onSuccess: (data) => {
+      console.log(data);
       const response = data ?? {};
       if (!!response && typeof response === "object" && "error" in response) {
         setError(parseErrorObject(response.error));

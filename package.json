@@ -1,24 +1,23 @@
 {
   "name": "@instructor/core",
   "version": "1.1.52",
-  "description": "Instructor - Personal VTA",
-  "engines": {
-    "node": "22",
-    "pnpm": "10"
+  "scripts": {
+    "prepare": "husky"
   },
-  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977",
   "dependencies": {
     "@dotenvx/dotenvx": "catalog:",
     "chalk": "catalog:",
     "husky": "catalog:",
     "prisma": "catalog:",
+    "prisma-dbml-generator": "catalog:",
     "semver": "catalog:"
   },
-  "scripts": {
-    "prepare": "husky"
-  },
   "prisma": {
-    "schema": "frontend/src/lib/prisma/schema.prisma",
-    "seed": "node frontend/src/lib/prisma/seed.mjs"
-  }
+    "schema": "database/schema.prisma"
+  },
+  "engines": {
+    "node": "22",
+    "pnpm": "10"
+  },
+  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }

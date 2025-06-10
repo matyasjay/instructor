@@ -1,7 +1,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/../environment.sh"
 
-echo "${F_BOLD}Initialise Prisma Schema${NO_FORMAT}\n"
+echo "${F_BOLD}Generate Prisma Bindings${NO_FORMAT}\n"
 
-cd frontend && pnpm generate:prisma
+pnpm prisma generate
 
 echo "\n${F_BOLD}Done!${NO_FORMAT}\n"

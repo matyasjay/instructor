@@ -1,11 +1,11 @@
-package router
+package server
 
 import (
 	"fmt"
-	"http/cmd/server/connection"
-	"http/cmd/server/endpoint/service"
-	"http/cmd/server/endpoint/template"
-	"http/cmd/server/endpoint/user"
+	"http/cmd/server/internal"
+	"http/cmd/server/internal/endpoint/service"
+	"http/cmd/server/internal/endpoint/user"
+	"http/cmd/server/internal/endpoint/template"
 	"net/http"
 	"os"
 
@@ -16,9 +16,9 @@ import (
 
 func RegisterRoutes(e *echo.Echo) {
 
-	connection.HandleHTTPError(e)
+	internal.HandleHTTPError(e)
 
-	_, err := connection.InitDB()
+	_, err := internal.InitDB()
 	if err != nil {
 		fmt.Println("Failed to setup database connection!")
 	}

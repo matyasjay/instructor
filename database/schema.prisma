@@ -1,11 +1,6 @@
-generator client {
-  provider = "prisma-client-js"
-  output   = "./generated/prisma"
-}
-
 generator dbml {
   provider = "prisma-dbml-generator"
-  output   = "./generated/dbml"
+  output   = "./"
 }
 
 datasource db {
@@ -27,7 +22,7 @@ model Service {
   id          String                @id @default(uuid())
   name        String                @unique
   private     Boolean
-  description String                @default("")
+  description String?
   users       ServicesOnUsers[]
   templates   TemplatesOnServices[]
   createdAt   DateTime              @default(now())
@@ -47,9 +42,9 @@ model Template {
 
 model TemplateInput {
   id         String   @id @default(uuid())
-  input      String   @default("")
+  input      String?
   template   Template @relation(fields: [templateId], references: [id])
-  templateId String   @unique @default("")
+  templateId String   @unique
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
 }

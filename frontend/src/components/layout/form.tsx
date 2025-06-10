@@ -59,7 +59,7 @@ export default function FormLayout(props: UseFormProps & { submit?: string }) {
               <AlertDescription>
                 <p>Please check your inputs and try again.</p>
                 <ul className="list-inside list-disc text-sm">
-                  {error.split("\n").map((e) =>
+                  {error?.split("\n").map((e) =>
                     !e ? null : (
                       <li key={e} className="text-rose-400">
                         {e}

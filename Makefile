@@ -1,10 +1,8 @@
 dev:
 	sh scripts/package/dev.sh
 
-typegen:
-	cd http && make typegen-build
-	cp http/internal/handler/model/main.go http/cmd/typegen/internal/model/main.go
-	cd http/bin && ./typegen
+generate:
+	sh scripts/package/typegen.sh
 
 test:
 	sh scripts/package/test.sh

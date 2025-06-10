@@ -10,15 +10,16 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"http/cmd/server/connection"
-	"http/pkg/shared"
+	"http/cmd/server/internal"
+	"http/pkg/model"
+	"http/pkg/util"
 )
 
 var GET_SERVICE_BY_USER_ID = "cmd/server/queries/get_services_by_user.sql"
 
 func Get(c echo.Context) error {
-	var unsafeInput shared.ServiceInput
-	safeInput, err := shared.AssertInput(c, unsafeInput)
+	var unsafeInput model.PostServiceInput
+	safeInput, err := util.AssertInput(c, unsafeInput)
 	if err != nil {
 		return err
 	}
@@ -28,9 +29,9 @@ func Get(c echo.Context) error {
 		return err
 	}
 
-	var services []shared.Service
+	var services []model.Service
 
-	err = connection.WithTxDefault(func(tx *sql.Tx) error {
+	err = internal.WithTxDefault(func(tx *sql.Tx) error {
 		var row *sql.Rows
 		query := string(file)
 
@@ -47,7 +48,7 @@ func Get(c echo.Context) error {
 
 		for row.Next() {
 			var (
-				service       shared.Service
+				service       model.Service
 				usersJSON     []byte
 				templatesJSON []byte
 			)

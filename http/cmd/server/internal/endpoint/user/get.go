@@ -1,9 +1,9 @@
 package user
 
 import (
-	"http/pkg/shared"
+	"http/cmd/server/internal"
+	"http/pkg/model"
 	"net/http"
-	"http/cmd/server/connection"
 
 	"github.com/labstack/echo/v4"
 
@@ -12,16 +12,16 @@ import (
 
 
 func Get(c echo.Context) error {
-	db := connection.GetDB()
+	db := internal.GetDB()
 
-	var input shared.UserInput
+	var input model.PostUserInput
 	if err := c.Bind(&input); err != nil {
 		return err
 	}
 
 	id := input.UserID
 
-	var user shared.User
+	var user model.User
 
 	row := db.QueryRow(`
 		SELECT id, name, email

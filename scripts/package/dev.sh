@@ -4,7 +4,7 @@ echo "\n${F_BOLD}Run Development Container${NO_FORMAT}${C_GREY46}\n"
 
 echo "${NO_FORMAT}${F_BOLD}Building packages${NO_FORMAT}${C_GREY46}\n"
 
-cd frontend 
+cd frontend
 
 tsc -b && pnpm vite build . --log-level silent
 
@@ -16,7 +16,7 @@ echo "${NO_FORMAT}${F_BOLD}Done!${NO_FORMAT}${C_GREY46}\n"
 
 echo "${NO_FORMAT}${F_BOLD}Building development images${NO_FORMAT}${C_GREY46}\n"
 
-docker-compose -f docker/docker-compose.yml up --build 
+docker-compose -f docker/docker-compose.yml up --build
 
 echo "\n${NO_FORMAT}${F_BOLD}Done!${NO_FORMAT}\n"
 

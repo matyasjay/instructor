@@ -9,20 +9,21 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"http/cmd/server/connection"
-	"http/pkg/shared"
+	"http/cmd/server/internal"
+	"http/pkg/model"
+	"http/pkg/util"
 )
 
 func Create(c echo.Context) error {
-	var unsafeInput shared.TemplateInput
-	safeInput, err := shared.AssertInput(c, unsafeInput)
+	var unsafeInput model.PostTemplateInput
+	safeInput, err := util.AssertInput(c, unsafeInput)
 	if err != nil {
 		return err
 	}
 
-	var template shared.Template
+	var template model.Template
 
-	err = connection.WithTxDefault(func(tx *sql.Tx) error {
+	err = internal.WithTxDefault(func(tx *sql.Tx) error {
 		err = tx.QueryRow(`
 			INSERT INTO instructor."Template" (id, name, description, template, "createdAt", "updatedAt")
 			VALUES ($1, $2, $3, $4, NOW(), NOW())
