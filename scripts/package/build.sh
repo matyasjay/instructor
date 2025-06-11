@@ -9,7 +9,7 @@ echo "${C_GREY46}Build Service - frontend${NO_FORMAT}\n"
 
 cd frontend
 
-pnpm prettier --write --loglevel silent . && pnpm eslint . --fix
+pnpm prettier --write --log-level silent . && pnpm eslint . --fix
 
 tsc --build && dotenvx run -f --quiet ../.env.production -- pnpm vite build . --log-level silent
 

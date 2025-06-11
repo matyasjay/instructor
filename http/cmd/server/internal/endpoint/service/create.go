@@ -39,7 +39,7 @@ func Create(c echo.Context) error {
 			VALUES ($1, $2, $3, $4)
 			RETURNING id, name, description, private
 		`, uuid.New(), safeInput.Name, safeInput.Private, safeInput.Description).
-			Scan( &service.ID, &service.Name, &service.Private, &service.Description)
+			Scan(&service.ID, &service.Name, &service.Private, &service.Description)
 		if err != nil {
 			return err
 		}

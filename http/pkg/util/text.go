@@ -9,13 +9,12 @@ import (
 	"golang.org/x/text/language"
 )
 
-func AssertInput[T any](c echo.Context, input T ) (T, error) {
+func AssertInput[T any](c echo.Context, input T) (T, error) {
 	if err := c.Bind(&input); err != nil {
 		return input, err
 	}
 	return input, nil
 }
-
 
 func IsAllUpper(s string) bool {
 	for _, r := range s {
@@ -46,14 +45,14 @@ func CamelCase(s string) string {
 	}
 
 	runes[0] = unicode.ToLower(runes[0])
-	runes[len(runes) - 1] = unicode.ToLower(runes[len(runes) - 1])
+	runes[len(runes)-1] = unicode.ToLower(runes[len(runes)-1])
 	return string(runes)
 }
 
 var acronyms = map[string]string{
-	"id":   "ID",
-	"Id":   "ID",
-	"iD":   "ID",
+	"id": "ID",
+	"Id": "ID",
+	"iD": "ID",
 }
 
 func PascalCase(s string) string {
@@ -78,7 +77,6 @@ func PascalCase(s string) string {
 	return result
 }
 
-
 func DbmlToStruct(dbmlType string) string {
 	switch strings.ToLower(dbmlType) {
 	case "int", "integer":
@@ -95,4 +93,3 @@ func DbmlToStruct(dbmlType string) string {
 		return dbmlType
 	}
 }
-

@@ -10,7 +10,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-
 func Get(c echo.Context) error {
 	db := internal.GetDB()
 

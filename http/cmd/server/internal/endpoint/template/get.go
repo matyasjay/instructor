@@ -41,7 +41,7 @@ func Get(c echo.Context) error {
 			templates = append(templates, template)
 		}
 
-		if err := rows.Close(); err != nil{
+		if err := rows.Close(); err != nil {
 			return err
 		}
 

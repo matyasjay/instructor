@@ -6,7 +6,7 @@ read -r input
 
 if [ -z "$input" ]; then
   echo "\n${F_BOLD}Confirmed!${NO_FORMAT}\n"
-  make sign
+  sh scripts/package/sign.sh
   sh scripts/package/bump.sh "$(PROJECT)" && git push
 else
   echo "\n${F_BOLD}${C_GREY62}Cancelled!${NO_FORMAT}\n"

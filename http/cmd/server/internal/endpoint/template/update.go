@@ -15,7 +15,7 @@ import (
 func Update(c echo.Context) error {
 	var unsafeInput model.PostTemplateInput
 	safeInput, err := util.AssertInput(c, unsafeInput)
-	if err != nil{
+	if err != nil {
 		return err
 	}
 

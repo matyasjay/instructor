@@ -52,7 +52,7 @@ func Login(c echo.Context) error {
 		})
 	}
 	return c.JSON(http.StatusOK, model.UserResponse{
-		User: user,
+		User:  user,
 		Token: token,
 	})
 }

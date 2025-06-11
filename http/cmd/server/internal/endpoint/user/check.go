@@ -1,9 +1,9 @@
 package user
 
 import (
-	"net/http"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 func Check(c echo.Context) error {
@@ -11,4 +11,3 @@ func Check(c echo.Context) error {
 	claims := user.Claims.(jwt.MapClaims)
 	return c.JSON(http.StatusOK, echo.Map{"user_id": claims["user_id"], "exp": claims["exp"]})
 }
-

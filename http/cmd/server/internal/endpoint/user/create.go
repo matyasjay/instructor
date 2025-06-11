@@ -13,7 +13,6 @@ import (
 	"http/pkg/util"
 )
 
-
 func Create(c echo.Context) error {
 
 	db := internal.GetDB()

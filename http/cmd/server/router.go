@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"http/cmd/server/internal"
 	"http/cmd/server/internal/endpoint/service"
-	"http/cmd/server/internal/endpoint/user"
 	"http/cmd/server/internal/endpoint/template"
+	"http/cmd/server/internal/endpoint/user"
 	"net/http"
 	"os"
 
@@ -32,7 +32,6 @@ func RegisterRoutes(e *echo.Echo) {
 
 	e.POST("/user/login", user.Login)
 	e.POST("/user/create", user.Create)
-
 
 	auth := e.Group("/auth")
 	var jwtSecret = os.Getenv("JWT_SECRET")

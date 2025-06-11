@@ -1,6 +1,5 @@
 package model
 
-
 type WithError struct {
 	Error error
 }
@@ -8,4 +7,3 @@ type WithError struct {
 type WithUser struct {
 	UserID string
 }
-
