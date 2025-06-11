@@ -43,9 +43,11 @@ export function mapHttpError(error: AxiosError<{ error: string }>) {
     !!message && typeof message === "object" && "message" in message
       ? message.message
       : message;
-    return {
+  return (
+    {
       ["sql: no rows in result set"]: "Failed to get the database record!",
-    }[key] ?? key;
+    }[key] ?? key
+  );
 }
 
 export function parseValidationError(error: ZodIssue) {
