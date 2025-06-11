@@ -20,4 +20,6 @@ go build -o bin/gen-declarations ./cmd/cli/typegen/declarations
 
 cd ../
 
+pnpm prettier --write --loglevel silent ./frontend/src/lib/types/endpoint.d.ts
+
 echo "\n${F_BOLD}Done!${NO_FORMAT}\n"

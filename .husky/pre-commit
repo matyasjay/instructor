@@ -1,1 +1,21 @@
-make test
+echo "\nTest Packages\n"
+
+echo "Test - frontend\n"
+
+cd frontend
+
+pnpm prettier --write --log-level silent . && pnpm eslint . --fix
+
+echo "Done!\n"
+
+echo "Test - http\n"
+
+cd ../http
+
+go build -a -o bin/main ./
+go build -a -o bin/gen-structs ./cmd/cli/typegen/structs
+go build -a -o bin/gen-declarations ./cmd/cli/typegen/declarations
+
+echo "Done!\n"
+
+exit 0
