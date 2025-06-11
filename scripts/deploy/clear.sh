@@ -2,7 +2,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/../environment.sh"
 
 echo "\n${F_BOLD}Clear Kubernetes Deployments${NO_FORMAT}\n"
 
-make info
+sh scripts/package/info.sh
 
 kubectl delete deployment instructor-backend --namespace instructor-app
 kubectl delete deployment instructor-frontend --namespace instructor-app

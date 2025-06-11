@@ -1,8 +1,6 @@
 module http
 
-go 1.23.0
-
-toolchain go1.23.10
+go 1.24.0
 
 require (
 	github.com/duythinht/dbml-go v0.0.0-20220713090938-b5659a82f71b

@@ -1,11 +1,7 @@
-source "$(dirname "${BASH_SOURCE[0]}")/../environment.sh"
-
-make sign
-make clear
-sh ./scripts/deploy/docker.sh
-make info
-cd terraform
-terraform apply -auto-approve
-cd ../
-make sign
-make info
+sh scripts/git/sign.sh
+sh scripts/deploy/clear.sh
+sh scripts/deploy/images.sh
+sh scripts/package/info.sh
+sh scripts/deploy/apply.sh
+sh scripts/git/sign.sh
+sh scripts/package/info.sh

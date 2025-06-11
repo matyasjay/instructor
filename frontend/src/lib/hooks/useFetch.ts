@@ -14,7 +14,7 @@ function _fetch<P, R>(endpoint: Endpoint, params?: P) {
   return async function post() {
     const response = authPost<P, R>(
       endpoint,
-      { ...(params ?? Object.create(null)), userId: user.id},
+      { ...(params ?? Object.create(null)), userId: user.id },
       { skipNormalize: true },
     );
 

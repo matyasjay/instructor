@@ -1,24 +1,25 @@
 source "$(dirname "${BASH_SOURCE[0]}")/../environment.sh"
 
+dotenvx run -f --quiet .env.production -- node scripts/env/validate.mjs
+
 echo "\n${F_BOLD}Build Packages${NO_FORMAT}"
 
-cd frontend 
-
-dotenvx run -f --quiet ../.env.production -- node ../scripts/env/validate.mjs
 
 echo "${C_GREY46}Build Service - frontend${NO_FORMAT}\n"
 
-prettier --write --loglevel silent . && eslint . --fix 
+cd frontend
 
-tsc -b && dotenvx run -f --quiet ../.env.production -- pnpm vite build . --log-level silent
+pnpm prettier --write --loglevel silent . && pnpm eslint . --fix
+
+tsc --build && dotenvx run -f --quiet ../.env.production -- pnpm vite build . --log-level silent
 
 echo "${F_BOLD}Done!${NO_FORMAT}"
 
 echo "\n${C_GREY46}Build Service - http${NO_FORMAT}\n"
 
-cd ../http 
+cd ../http
 
-gofmt -w ./internal/*
+gofmt -w ./cmd/* ./pkg/*
 
 CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/main .
 

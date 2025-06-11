@@ -5,6 +5,7 @@ let version = "";
 
 const jsons = [
   "./package.json",
+  "./database/package.json",
   "./docker/package.json",
   "./frontend/package.json",
   "./http/package.json",
@@ -23,3 +24,5 @@ jsons.forEach((json, index) =>
 );
 
 console.log(`INFO\tVersion bumped to ${version}`);
+
+process.exit(0);

@@ -1,8 +1,8 @@
 dev:
 	sh scripts/package/dev.sh
 
-generate:
-	sh scripts/package/typegen.sh
+build:
+	sh scripts/package/build.sh
 
 test:
 	sh scripts/package/test.sh
@@ -28,14 +28,8 @@ clear:
 decode:
 	sh scripts/deploy/decode.sh
 
-build:
-	sh scripts/package/build.sh
-
-plan:
-	cd terraform && terraform init && terraform plan
-
 apply:
-	cd terraform && terraform init && terraform plan && terraform apply -auto-approve
+	sh scripts/deploy/apply.sh
 
 env-decrypt:
 	sh scripts/env/decrypt.sh

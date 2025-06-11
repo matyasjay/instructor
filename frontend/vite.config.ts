@@ -5,12 +5,12 @@ import viteTsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   server: {
-    watch: {
-      usePolling: true,
-    },
     host: true,
     port: process.env.FRONTEND_PORT ?? 3000,
     strictPort: true,
+    watch: {
+      usePolling: true,
+    },
   },
   plugins: [react(), viteTsconfigPaths(), tailwindcss()],
   optimizeDeps: { exclude: ["fsevents"] },

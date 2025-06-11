@@ -21,7 +21,7 @@ echo "$CLIENT_KEY_DATA" | base64 -d > terraform/client_key.pem
 echo "${F_BOLD}Done!${NO_FORMAT}\n"
 
 
-echo "${F_BOLD}Generated PEM files for Terraform${NO_FORMAT}\n"
+echo "${F_BOLD}Generated Certificates${NO_FORMAT}\n"
 
 ls -1 terraform/*.pem
 

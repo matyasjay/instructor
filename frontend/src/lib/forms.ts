@@ -31,7 +31,7 @@ export const createUserForm: Form = {
     },
     password_confirm: {
       label: "Confirm password",
-      type: "password"
+      type: "password",
     },
   },
 };

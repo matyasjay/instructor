@@ -6,20 +6,20 @@ echo "${C_GREY46}Test - frontend${NO_FORMAT}\n"
 
 cd frontend
 
-tsc
+pnpm prettier --write --log-level silent . && pnpm eslint . --fix
 
-pnpm exec eslint --fix .
+tsc --build && dotenvx run -f --quiet ../.env.production -- pnpm vite build . --log-level silent
 
 echo "${F_BOLD}Done!${NO_FORMAT}\n"
 
 echo "${C_GREY46}Test - http${NO_FORMAT}\n"
 
-echo "No tests found!"
+cd ../http
+
+go build -a -o bin/main ./
+go build -a -o bin/gen-structs ./cmd/cli/typegen/structs
+go build -a -o bin/gen-declarations ./cmd/cli/typegen/declarations
 
 echo "${F_BOLD}Done!${NO_FORMAT}\n"
 
 exit 0
-# dotenvx run ../../.env.test --quiet -- vitest run
-# "test:unit:watch": "dotenvx run ../.env.test -- vitest watch",
-# "test:unit:coverage": "dotenvx run ../.env.test -- vitest run --coverage"
-

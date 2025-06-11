@@ -2,8 +2,8 @@ source "$(dirname "${BASH_SOURCE[0]}")/../environment.sh"
 
 echo "\n${F_BOLD}Sign Git Working Tree${NO_FORMAT}\n"
 
-make test
-make build
+sh scripts/package/info.sh
+sh scripts/package/build.sh
 
 echo "${C_GREY62}Commit Details:${NO_FORMAT}${C_GREY46}\n"
 
