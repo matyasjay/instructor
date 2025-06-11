@@ -19,12 +19,14 @@ func main() {
 	ts := go2ts.New()
 	ts.Add(model.User{})
 	ts.Add(model.PostUserInput{})
+	ts.Add(model.UserResponse{})
 	ts.Add(model.Template{})
 	ts.Add(model.PostTemplateInput{})
 	ts.Add(model.PostTemplateInputInput{})
 	ts.Add(model.TemplateInput{})
 	ts.Add(model.Service{})
 	ts.Add(model.PostServiceInput{})
+	ts.Add(model.ServiceResponse{})
 
 	f, err := os.Create(declarationPath)
 	if err != nil {
@@ -60,6 +62,7 @@ func main() {
 	exportRe := regexp.MustCompile(`\bexport\b`)
 	interfaceRe := regexp.MustCompile(`^declare interface (\w+) \{$`)
 	propertyRe := regexp.MustCompile(`^(\s*)([\w_]+)(\??):`)
+	anyRe := regexp.MustCompile(`[\s]any;$`)
 
 	scanner := bufio.NewScanner(strings.NewReader(string(content)))
 
@@ -70,6 +73,7 @@ func main() {
 	for scanner.Scan() {
 		line := scanner.Text()
 		line = exportRe.ReplaceAllString(line, "declare")
+		line = anyRe.ReplaceAllString(line, " unknown;")
 
 		if matches := interfaceRe.FindStringSubmatch(line); matches != nil {
 			name := matches[1]

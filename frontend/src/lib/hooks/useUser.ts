@@ -9,7 +9,6 @@ const defaultUser: User = {
   password: "",
   createdAt: new Date(Date.now()).toISOString(),
   updatedAt: new Date(Date.now()).toISOString(),
-  services: Object.create(null),
 };
 
 export default function useUser() {

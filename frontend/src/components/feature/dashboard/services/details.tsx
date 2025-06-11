@@ -12,7 +12,6 @@ export default function ServiceDetails() {
 
   delete serviceDetails.id;
   delete serviceDetails.name;
-  delete serviceDetails.users;
   delete serviceDetails.private;
   delete serviceDetails.createdAt;
   delete serviceDetails.updatedAt;

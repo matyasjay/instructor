@@ -3,9 +3,12 @@ import useFetch from "@/lib/hooks/useFetch";
 
 export function useServices(scope: "all" | "user"): {
   isPending: boolean;
-  services: Service[];
+  services: ServiceResponse[];
 } {
-  const { response, isPending } = useFetch<{ private: boolean }, Service>({
+  const { response, isPending } = useFetch<
+    { private: boolean },
+    ServiceResponse
+  >({
     endpoint: ENDPOINT.SERVICE_GET,
     params: {
       private: scope === "user",

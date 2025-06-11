@@ -5,3 +5,9 @@ type UserResponse struct {
 	User  User
 	Token string
 }
+
+type ServiceResponse struct {
+	Service
+	Templates []Template
+	Users     []User
+}

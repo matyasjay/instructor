@@ -29,7 +29,7 @@ func Get(c echo.Context) error {
 		return err
 	}
 
-	var services []model.Service
+	var services []model.ServiceResponse
 
 	err = internal.WithTxDefault(func(tx *sql.Tx) error {
 		var row *sql.Rows
@@ -48,7 +48,7 @@ func Get(c echo.Context) error {
 
 		for row.Next() {
 			var (
-				service       model.Service
+				service       model.ServiceResponse
 				usersJSON     []byte
 				templatesJSON []byte
 			)

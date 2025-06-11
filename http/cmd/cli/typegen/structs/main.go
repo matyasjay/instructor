@@ -5,6 +5,7 @@ import (
 	"http/pkg/util"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/duythinht/dbml-go/parser"
@@ -51,6 +52,8 @@ func parseSchema(path string) (string, error) {
 }
 
 func resolveCycles(lines []string) (string, error) {
+	toRemoveRegex := regexp.MustCompile(`([\w])+\s+([\w]+On[\w]+)`)
+
 	var safeLines []string
 
 	for _, line := range lines {
@@ -58,7 +61,11 @@ func resolveCycles(lines []string) (string, error) {
 		if len(fields) == 2 {
 			fieldName := fields[0]
 			typeName := fields[1]
-			if fieldName == typeName {
+
+			// HACK - remove many-to-many cycles like [Service ServiceOnUsers]
+			// in fact, only DBML resolves those fields and cannot be used in
+			// either services, hence we get rid of them here
+			if fieldName == typeName || toRemoveRegex.MatchString(line)  {
 				continue
 			}
 		}
