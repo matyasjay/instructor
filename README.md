@@ -1,6 +1,6 @@
 # `@instructor/core`
 
-[![Latest Release](https://img.shields.io/badge/Release-1.1.53-blue)](https://github.com/matyasjay/instructor/releases/latest)
+[![Latest Release](https://img.shields.io/badge/Release-1.1.52-blue)](https://github.com/matyasjay/instructor/releases/latest)
 [![GolangCI](https://github.com/matyasjay/instructor/actions/workflows/golangcli-lint.yml/badge.svg?branch=main)](https://github.com/matyasjay/instructor/actions/workflows/golangcli-lint.yml)
 [![CompileCI](https://github.com/matyasjay/instructor/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/matyasjay/instructor/actions/workflows/tests.yml)
 
@@ -10,6 +10,24 @@
 ![Prisma](https://img.shields.io/badge/ORM-Prisma-2D3748?logo=prisma)
 ![Docker](https://img.shields.io/badge/Containerized-Docker-2496ED?logo=docker)
 ![Terraform](https://img.shields.io/badge/IaC-Terraform-844FBA?logo=terraform)
+
+## Prerequisites
+
+- [Node v22](https://nodejs.org/en/download)
+- [Go v1.24](https://go.dev/learn)
+- [Air](https://github.com/air-verse/air)
+- [Kind](https://kind.sigs.k8s.io)
+- [Docker](https://www.docker.com)
+- [Docker Compose](https://docs.docker.com/compose/install)
+- [Terraform](https://developer.hashicorp.com/terraform/install)
+- [dotenvx](https://dotenvx.com/docs/install#npm)
+- [pnpm v10](https://pnpm.io/installation)
+- [kubectl](https://kubernetes.io/docs/reference/kubectl)
+- [yq](https://github.com/mikefarah/yq)
+- [TypeScript (tsc)](https://www.typescriptlang.org/download/)
+- [Vite](https://vite.dev/guide/cli.html)
+- [Prettier](https://prettier.io/docs/)
+- [ESLint](https://eslint.org/docs/latest/use/getting-started)
 
 ### Environment
 
