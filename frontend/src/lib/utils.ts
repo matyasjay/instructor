@@ -36,14 +36,16 @@ export function normalizeObjectKeys<T = Record<string, unknown>>(obj: T): T {
 }
 
 export function mapHttpError(error: AxiosError<{ error: string }>) {
-  const { message } =
+  const message =
     normalizeObjectKeys(error.response?.data ?? Object.create(null))?.error ??
     error;
-  return (
-    {
+  const key: string =
+    !!message && typeof message === "object" && "message" in message
+      ? message.message
+      : message;
+    return {
       ["sql: no rows in result set"]: "Failed to get the database record!",
-    }[message + ""] ?? message
-  );
+    }[key] ?? key;
 }
 
 export function parseValidationError(error: ZodIssue) {
@@ -62,6 +64,7 @@ export function mapZodIssue(issue: ZodIssue) {
 }
 
 export function parseErrorObject<T = unknown>(error: T) {
+  console.log(error);
   const _e = error as (T | ZodError) & {
     zod: boolean;
     error: string;

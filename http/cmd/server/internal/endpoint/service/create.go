@@ -37,7 +37,7 @@ func Create(c echo.Context) error {
 		err := tx.QueryRow(`
 			INSERT INTO instructor."Service" (id, name, private, description)
 			VALUES ($1, $2, $3, $4)
-			RETURNING id, name, description, private
+			RETURNING id, name, private, description
 		`, uuid.New(), safeInput.Name, safeInput.Private, safeInput.Description).
 			Scan(&service.ID, &service.Name, &service.Private, &service.Description)
 		if err != nil {

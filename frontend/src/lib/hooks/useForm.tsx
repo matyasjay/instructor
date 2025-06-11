@@ -33,7 +33,7 @@ export default function useForm({
   );
 
   const formFields = Object.keys(zodSchema.shape)
-    .filter((field) => field !== "user")
+    .filter((field) => field !== "userId")
     .map((key) => ({
       type: key,
       name: key,
@@ -118,14 +118,13 @@ export default function useForm({
     const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}");
     const payload = {
       ...state,
-      user: user.id,
+      userId: user.id,
     };
     mutation.mutate(payload);
   };
 
   const handleDismiss = () => {
     setAlerted(false);
-    window.history.back();
   };
 
   const fields = formFields.map((field) => ({

@@ -4,8 +4,7 @@ import { authPost } from "./utils";
 
 export const createServiceForm: Form = {
   schema: z.object({
-    user: z.string().optional(),
-    service: z.string(),
+    userId: z.string(),
     name: z.string().min(5).max(30),
     description: z.string().min(10).max(150).optional(),
     private: z.boolean(),
@@ -50,7 +49,7 @@ export const loginUserForm: Form = {
 
 export const createTemplateForm: Form = {
   schema: z.object({
-    user: z.string(),
+    userId: z.string(),
     name: z.string().min(5),
     description: z.string(),
     template: z.string().max(200),
