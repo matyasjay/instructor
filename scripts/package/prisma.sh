@@ -4,4 +4,4 @@ echo "${F_BOLD}Generate Prisma Bindings${NO_FORMAT}\n"
 
 pnpm prisma generate
 
-echo "\n${F_BOLD}Done!${NO_FORMAT}\n"
+echo "${F_BOLD}Done!${NO_FORMAT}"
