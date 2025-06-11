@@ -14,7 +14,6 @@ const router = [
   {
     path: "/",
     element: <Layout />,
-    loader: requireAuth,
     hydrateFallbackElement: <Spinner />,
     children: [
       {
@@ -41,6 +40,7 @@ const router = [
         children: [
           {
             path: "/app/*",
+            loader: requireAuth,
             element: (
               <ErrorLayout
                 error={PageNotFoundError}
@@ -49,9 +49,13 @@ const router = [
               />
             ),
           },
-          ...menu,
+          ...menu.map((item) => ({
+            ...item,
+            loader: requireAuth,
+          })),
           {
             path: "/app/service/own/:id",
+            loader: requireAuth,
             element: <ServiceOwn />,
           },
         ],

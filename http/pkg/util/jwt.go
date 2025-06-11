@@ -20,12 +20,15 @@ func CheckPasswordHash(password, hash string) bool {
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password)) == nil
 }
 
-func GenerateJWT(userID string) (string, error) {
+func GenerateJWT(userID string) *jwt.Token {
 	claims := jwt.MapClaims{
 		"user_id": userID,
 		"exp":     time.Now().Add(time.Hour * 72).Unix(),
 	}
-
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtSecret)
+	return token
+}
+
+func TokenToString(token *jwt.Token) (string, error) {
+  return token.SignedString(jwtSecret)
 }

@@ -18,6 +18,7 @@ declare type PostUserInput = {
 declare type UserResponse = {
   user: User;
   token: string;
+  expire: number;
   error: error;
 };
 

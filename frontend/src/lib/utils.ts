@@ -125,7 +125,7 @@ export async function authPost<
 
 export async function requireAuth() {
   const result = await authGet(ENDPOINT.USER_CHECK);
-  return { authenticated: !!result.user_id };
+  return { authenticated: !!result.id };
 }
 
 export function capitalizeFirstLetter(val: string) {

@@ -7,6 +7,7 @@ import (
 	"http/pkg/util"
 	"net/http"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 
 	_ "github.com/lib/pq"
@@ -14,7 +15,8 @@ import (
 
 func Login(c echo.Context) error {
 	var user model.User
-	var token string
+	var token *jwt.Token
+	var tokenString string
 
 	var unsafeInput model.PostUserInput
 	safeInput, err := util.AssertInput(c, unsafeInput)
@@ -36,23 +38,28 @@ func Login(c echo.Context) error {
 		if err := util.CheckPasswordHash(safeInput.Password, passwordHash); !err {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Invalid credentials!")
 		}
-		token, err = util.GenerateJWT(user.ID)
-		if err != nil {
-			return echo.NewHTTPError(http.StatusInternalServerError, "Failed to generate token!")
-		}
+		token = util.GenerateJWT(user.ID)
 		return nil
 	})
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, model.UserResponse{
 			User:  user,
-			Token: token,
+			Token: tokenString,
 			WithError: model.WithError{
 				Error: err,
 			},
 		})
 	}
+
+	tokenString, err = util.TokenToString(token)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, "Failed to generate token!")
+	}
+
+	claims := token.Claims.(jwt.MapClaims)
 	return c.JSON(http.StatusOK, model.UserResponse{
 		User:  user,
-		Token: token,
+		Token: tokenString,
+		Expire: int(claims["exp"].(int64)),
 	})
 }

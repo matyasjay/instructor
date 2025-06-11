@@ -3,6 +3,7 @@ package user
 import (
 	"net/http"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 
@@ -29,20 +30,26 @@ func Create(c echo.Context) error {
 
 	var user model.User
 
-	rowErr := db.QueryRow(`
+	err = db.QueryRow(`
 		INSERT INTO instructor."User" (id, name, email, password)
 		VALUES ($1, $2, $3, $4)
 		RETURNING id, email
 	`, uuid.New(), input.Name, input.Email, hash).
 		Scan(&user.ID, &user.Email)
-
-	if rowErr != nil {
-		return rowErr
+	if err != nil {
+		return err
 	}
 
-	token, _ := util.GenerateJWT(user.ID)
+	token := util.GenerateJWT(user.ID)
+	tokenString, err := util.TokenToString(token)
+	if err != nil {
+		return err
+	}
+
+	claims := token.Claims.(jwt.MapClaims)
 	return c.JSON(http.StatusCreated, model.UserResponse{
 		User:  user,
-		Token: token,
+		Token: tokenString,
+		Expire: int(claims["exp"].(int64)),
 	})
 }
