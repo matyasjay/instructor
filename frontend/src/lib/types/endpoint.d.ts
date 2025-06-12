@@ -44,7 +44,15 @@ declare type PostTemplateInput = {
   name: string;
   description: string;
   template: string;
+  input: string;
+  serviceId: string;
   userId: string;
+};
+
+declare type TemplateResponse = {
+  serviceId: string;
+  template: Template;
+  error: error;
 };
 
 declare type PostTemplateInputInput = {
@@ -72,6 +80,7 @@ declare type PostServiceInput = {
 declare type ServiceResponse = {
   templates: Template[] | null;
   users: User[] | null;
+  error: error;
   updatedAt: string;
   createdAt: string;
   description: string;

@@ -1,11 +1,13 @@
 import { Fragment } from "react";
 import { CopyIcon, CpuIcon, TrashIcon, WrenchIcon } from "lucide-react";
+import TemplateNew from "@/app/template/new";
 import { Button } from "@/components/ui/button";
 import useServiceDashboard from "@/lib/hooks/useServiceDashboard";
 import mapServiceField from "./fields";
 
 export default function ServiceHeader() {
-  const { selected, type, isPending, services } = useServiceDashboard();
+  const { selected, setSelected, type, isPending, services } =
+    useServiceDashboard();
 
   const actionsDisabled = isPending || !services?.length;
 
@@ -29,13 +31,24 @@ export default function ServiceHeader() {
     //
   };
 
+  const handleUpdate = (response: TemplateResponse) => {
+    setSelected((prev) => ({
+      ...(prev ?? Object.create(null)),
+      templates: (prev?.templates ?? []).reduce(
+        (acc, current) =>
+          current.id === response.template.id ? acc : [...acc, current],
+        Array(0),
+      ),
+    }));
+  };
+
   return (
     <div className="h-20 px-5 py-3 flex justify-between items-center bg-primary/20 border-t-1 border-primary border-b-1 border-b-white/30">
       {!selected ? null : (
         <Fragment>
           <div className="flex flex-col gap-1 py-6 mr-auto">
             <h1 className="flex gap-5 items-center font-bold text-lg uppercase tracking-widest">
-              {selected.name ?? ""}
+              {selected.name ?? ""}&nbsp;-&nbsp;Details
             </h1>
             <span className="flex items-center text-xs italic">
               {mapServiceField(selected.updatedAt, "updatedAt")}
@@ -51,6 +64,7 @@ export default function ServiceHeader() {
               <CpuIcon />
               Start
             </Button>
+            <TemplateNew optimisticUpdate={handleUpdate} />
             {type === "user" && mapServiceField(selected?.private, "private")}
             {type === "all" ? (
               <Button

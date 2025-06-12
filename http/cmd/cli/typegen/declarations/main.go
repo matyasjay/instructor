@@ -22,6 +22,7 @@ func main() {
 	ts.Add(model.UserResponse{})
 	ts.Add(model.Template{})
 	ts.Add(model.PostTemplateInput{})
+	ts.Add(model.TemplateResponse{})
 	ts.Add(model.PostTemplateInputInput{})
 	ts.Add(model.TemplateInput{})
 	ts.Add(model.Service{})

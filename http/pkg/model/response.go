@@ -23,6 +23,6 @@ type ServiceResponse struct {
 
 type TemplateResponse struct {
 	WithError
-	ServiceID  string
-	TemplateID string
+	ServiceID string
+	Template  Template
 }

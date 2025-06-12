@@ -23,6 +23,7 @@ func Create(c echo.Context) error {
 
 	var template model.Template
 	var service model.Service
+	var input model.TemplateInput
 
 	err = internal.WithTxDefault(func(tx *sql.Tx) error {
 		err = tx.QueryRow(`
@@ -44,6 +45,17 @@ func Create(c echo.Context) error {
 		if err != nil {
 			return err
 		}
+
+		err = tx.QueryRow(`
+			INSERT INTO instructor."TemplateInput" (id, input, "templateId", "createdAt", "updatedAt")
+			VALUES ($1, $2, $3, NOW(), NOW())
+			RETURNING id
+		`, uuid.New(), &safeInput.Input, &template.ID).
+			Scan(&input.ID)
+		if err != nil {
+			return err
+		}
+
 		return nil
 	})
 
@@ -51,7 +63,14 @@ func Create(c echo.Context) error {
 		WithError: model.WithError{
 			Error: err,
 		},
-		ServiceID:  service.ID,
-		TemplateID: template.ID,
+		ServiceID: service.ID,
+		Template: model.Template{
+			ID:          template.ID,
+			Description: template.Description,
+			Input:       template.Input,
+			Template:    template.Template,
+			CreatedAt:   template.CreatedAt,
+			UpdatedAt:   template.UpdatedAt,
+		},
 	})
 }

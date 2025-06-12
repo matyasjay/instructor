@@ -42,3 +42,6 @@ env-validate:
 
 prisma:
 	sh scripts/package/prisma.sh
+
+typegen:
+	sh scripts/package/typegen.sh

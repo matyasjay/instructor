@@ -21,11 +21,14 @@ import {
 export type UseFormProps = {
   endpoint: Endpoint;
   form: Form;
+  /* eslint-disable-next-line */ // find a better generic to resolve `any`
+  handleUpdate?: (entry: any) => void;
 };
 
 export default function useForm({
   form: { schema, fields: fieldConfig },
   endpoint,
+  handleUpdate,
 }: UseFormProps) {
   const zodSchema = schema as unknown as FormSchema<ZodType>;
   const defaultValues = Object.fromEntries(
@@ -94,6 +97,7 @@ export default function useForm({
       setError(parseErrorObject(e));
     },
     onSuccess: (data) => {
+      handleUpdate?.(data);
       setAlerted(!!data);
     },
   });

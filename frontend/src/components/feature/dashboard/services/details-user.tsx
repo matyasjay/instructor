@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import TemplateNew from "@/app/template/new";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useServiceDashboard from "@/lib/hooks/useServiceDashboard";
 import mapServiceField from "./fields";
@@ -50,9 +49,8 @@ export default function ServiceDetails() {
               <Fragment>
                 <div className="flex p-3 items-center justify-between bg-primary/10 border-y-1 border-primary">
                   <h2 className="font-bold text-lg uppercase tracking-widest">
-                    Service Templates
+                    {selected?.name ?? ""}&nbsp;-&nbsp;Templates
                   </h2>
-                  <TemplateNew />
                 </div>
                 {templates}
               </Fragment>

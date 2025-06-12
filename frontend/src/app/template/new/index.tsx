@@ -5,14 +5,18 @@ import { Button } from "@/components/ui/button";
 import { ENDPOINT } from "@/lib/endpoints";
 import { createTemplateForm } from "@/lib/forms";
 
-export default function TemplateNew() {
+type TemplateNewProps = {
+  optimisticUpdate: (template: TemplateResponse) => void;
+};
+
+export default function TemplateNew({ optimisticUpdate }: TemplateNewProps) {
   return (
     <AlertButton
       title="Create New Template"
       trigger={
         <Button className="cursor-pointer rounded-none" variant="outline">
           <PlusIcon />
-          New Template
+          Template
         </Button>
       }
       description="Fill in the details below then submit to create a new template."
@@ -20,10 +24,10 @@ export default function TemplateNew() {
         <FormLayout
           form={createTemplateForm}
           endpoint={ENDPOINT.TEMPLATE_CREATE}
+          handleUpdate={optimisticUpdate}
         />
       }
       triggerVariant="default"
-      className="ml-3"
     />
   );
 }
