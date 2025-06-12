@@ -30,5 +30,5 @@ func GenerateJWT(userID string) *jwt.Token {
 }
 
 func TokenToString(token *jwt.Token) (string, error) {
-  return token.SignedString(jwtSecret)
+	return token.SignedString(jwtSecret)
 }

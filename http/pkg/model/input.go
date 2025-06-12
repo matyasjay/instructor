@@ -12,6 +12,7 @@ type PostTemplateInput struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Template    string `json:"template"`
+	ServiceID   string `json:"serviceId"`
 }
 
 type PostTemplateInputInput struct {

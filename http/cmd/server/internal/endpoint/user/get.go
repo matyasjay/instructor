@@ -31,7 +31,11 @@ func Get(c echo.Context) error {
 	err := row.Scan(&user.ID, &user.Name, &user.Email)
 
 	if err != nil {
-		return err
+		return c.JSON(http.StatusNotFound, model.UserResponse{
+			WithError: model.WithError{
+				Error: err,
+			},
+		})
 	}
 
 	return c.JSON(http.StatusOK, user)

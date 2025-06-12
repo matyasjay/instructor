@@ -35,7 +35,7 @@ export default function ServiceDetails() {
                 ["description"]: "4",
               }[key] ?? "0";
 
-            return !field || (Array.isArray(field) && !field.length) ? null : (
+            return (
               <div key={key} className="flex flex-col">
                 <div className={`w-full text-left px-5 pb-${verticalSpace}`}>
                   <h2 className="font-bold text-lg text-primary/90 border-b-1 mb-4 border-primary/50">

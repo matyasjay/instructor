@@ -48,8 +48,8 @@ func Create(c echo.Context) error {
 
 	claims := token.Claims.(jwt.MapClaims)
 	return c.JSON(http.StatusCreated, model.UserResponse{
-		User:  user,
-		Token: tokenString,
+		User:   user,
+		Token:  tokenString,
 		Expire: int(claims["exp"].(int64)),
 	})
 }

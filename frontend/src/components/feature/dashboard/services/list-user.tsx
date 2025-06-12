@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { ServiceListSkeleton } from "./skeletons";
 
 export default function ServiceList() {
-  const { title, type, isPending, services, selected, setSelected } =
+  const { title, isPending, services, selected, setSelected } =
     useServiceDashboard();
 
   const handleSelect = (serviceId: string) => () => {
@@ -25,7 +25,7 @@ export default function ServiceList() {
   return (
     <Fragment>
       <div className="flex items-center justify-between bg-primary/20 h-20 text-lg leading-none border-b-1 border-primary/40 p-4 font-bold border-r-1">
-        {title} {type === "user" && <ServiceNew />}
+        {title} <ServiceNew />
       </div>
       <ScrollArea
         className="min-h-[calc(100dvh-150px)] w-[300px] bg-secondary border-r-1 border-primary/40"

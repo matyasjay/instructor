@@ -58,8 +58,8 @@ func Login(c echo.Context) error {
 
 	claims := token.Claims.(jwt.MapClaims)
 	return c.JSON(http.StatusOK, model.UserResponse{
-		User:  user,
-		Token: tokenString,
+		User:   user,
+		Token:  tokenString,
 		Expire: int(claims["exp"].(int64)),
 	})
 }

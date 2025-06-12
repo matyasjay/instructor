@@ -22,6 +22,7 @@ func Create(c echo.Context) error {
 	}
 
 	var template model.Template
+	var service model.Service
 
 	err = internal.WithTxDefault(func(tx *sql.Tx) error {
 		err = tx.QueryRow(`
@@ -33,12 +34,24 @@ func Create(c echo.Context) error {
 		if err != nil {
 			return err
 		}
+
+		err = tx.QueryRow(`
+			INSERT INTO instructor."TemplatesOnServices" ("serviceId", "templateId")
+			VALUES ($1, $2)
+			RETURNING "serviceId", "templateId"
+		`, &safeInput.ServiceID, &template.ID).
+			Scan(&service.ID, &template.ID)
+		if err != nil {
+			return err
+		}
 		return nil
 	})
 
-	if err != nil {
-		return err
-	}
-
-	return c.JSON(http.StatusCreated, template)
+	return c.JSON(http.StatusCreated, model.TemplateResponse{
+		WithError: model.WithError{
+			Error: err,
+		},
+		ServiceID:  service.ID,
+		TemplateID: template.ID,
+	})
 }

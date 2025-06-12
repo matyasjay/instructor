@@ -5,6 +5,6 @@ export const ENDPOINT = {
   TEMPLATE_GET: "/auth/template/get",
   USER_CHECK: "/auth/user/check",
   USER_CREATE: "/user/create",
-  USER_GET: "/auth/user/current",
+  USER_GET: "/auth/user/get",
   USER_LOGIN: "/user/login",
 } as const;

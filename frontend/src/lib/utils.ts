@@ -5,7 +5,7 @@ import camelCase from "camelcase";
 import { clsx, type ClassValue } from "clsx";
 import Cookies from "js-cookie";
 import { twMerge } from "tailwind-merge";
-import { COOKIES } from "@/lib/cookies";
+import { COOKIES, STORAGE } from "@/lib/cookies";
 import { ENDPOINT } from "@/lib/endpoints";
 
 export const httpClient = axios.create({
@@ -112,6 +112,14 @@ export async function authPost<
   options?: { skipNormalize?: boolean },
 ): Promise<R | { error: string }> {
   try {
+    // @ts-expect-error - userId is implicit
+    if (!data.userId) {
+      const user = JSON.parse(
+        window.localStorage.getItem(STORAGE.USER) ?? "{}",
+      );
+      // @ts-expect-error - userId is implicit
+      data.userId = user.id;
+    }
     const jwt = Cookies.get(COOKIES.JWT);
     const response = await httpClient.post(endpoint, data, {
       headers: {

@@ -6,7 +6,7 @@ import { PAGES } from "@/lib/pages";
 export const ServicesContext = createContext<{
   defaultOpen: string | undefined;
   isPending: boolean;
-  selected: Nullable<ServiceResponse>;
+  selected: Nullable<Partial<ServiceResponse>>;
   services: ServiceResponse[];
   setSelected: React.Dispatch<React.SetStateAction<Nullable<ServiceResponse>>>;
   title: string;

@@ -135,8 +135,8 @@ export function SelectField({ field, form }: FormFieldProps) {
       name={field.name}
       render={({ field: formField }) => (
         <FormItem key={formField.name} className="flex flex-col justify-center">
-          <div className="flex gap-2">
-            <FormLabel className="text-sm font-normal justify-end w-[200px]">
+          <div className="flex">
+            <FormLabel className="text-sm font-normal justify-end w-[200px] mr-2">
               {field.label}
             </FormLabel>
             <Select onValueChange={field.handleChange}>

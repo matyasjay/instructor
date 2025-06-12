@@ -3,48 +3,47 @@
 package model
 
 type TemplatesOnServices struct {
-	ServiceID string
+	ServiceID  string
 	TemplateID string
 }
 
 type ServicesOnUsers struct {
 	ServiceID string
-	UserID string
+	UserID    string
 }
 
 type TemplateInput struct {
-	UpdatedAt string
-	CreatedAt string
+	UpdatedAt  string
+	CreatedAt  string
 	TemplateID string
-	Input string
-	ID string
+	Input      string
+	ID         string
 }
 
 type Template struct {
-	UpdatedAt string
-	CreatedAt string
-	Input TemplateInput
-	Template string
+	UpdatedAt   string
+	CreatedAt   string
+	Input       TemplateInput
+	Template    string
 	Description string
-	Name string
-	ID string
+	Name        string
+	ID          string
 }
 
 type Service struct {
-	UpdatedAt string
-	CreatedAt string
+	UpdatedAt   string
+	CreatedAt   string
 	Description string
-	Private bool
-	Name string
-	ID string
+	Private     bool
+	Name        string
+	ID          string
 }
 
 type User struct {
 	UpdatedAt string
 	CreatedAt string
-	Password string
-	Email string
-	Name string
-	ID string
+	Password  string
+	Email     string
+	Name      string
+	ID        string
 }
-

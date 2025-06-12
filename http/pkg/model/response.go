@@ -15,7 +15,14 @@ type CheckUserResponse struct {
 }
 
 type ServiceResponse struct {
+	WithError
 	Service
 	Templates []Template
 	Users     []User
+}
+
+type TemplateResponse struct {
+	WithError
+	ServiceID  string
+	TemplateID string
 }

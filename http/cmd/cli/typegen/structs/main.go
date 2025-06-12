@@ -65,7 +65,7 @@ func resolveCycles(lines []string) (string, error) {
 			// HACK - remove many-to-many cycles like [Service ServiceOnUsers]
 			// in fact, only DBML resolves those fields and cannot be used in
 			// either services, hence we get rid of them here
-			if fieldName == typeName || toRemoveRegex.MatchString(line)  {
+			if fieldName == typeName || toRemoveRegex.MatchString(line) {
 				continue
 			}
 		}

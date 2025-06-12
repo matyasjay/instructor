@@ -30,14 +30,14 @@ export default function ServiceHeader() {
   };
 
   return (
-    <div className="h-20 px-5 py-3 flex justify-between items-center border-b-1 border-primary/40 bg-secondary">
+    <div className="h-20 px-5 py-3 flex justify-between items-center bg-primary/20 border-t-1 border-primary border-b-1 border-b-white/30">
       {!selected ? null : (
         <Fragment>
-          <div className="flex flex-col gap-1 py-6 bg-secondary/30 mr-auto ">
-            <h1 className="flex capitalize font-extrabold text-lg gap-5 items-center">
+          <div className="flex flex-col gap-1 py-6 mr-auto">
+            <h1 className="flex gap-5 items-center font-bold text-lg uppercase tracking-widest">
               {selected.name ?? ""}
             </h1>
-            <span className="flex items-center gap-4 text-xs italic">
+            <span className="flex items-center text-xs italic">
               {mapServiceField(selected.updatedAt, "updatedAt")}
             </span>
           </div>

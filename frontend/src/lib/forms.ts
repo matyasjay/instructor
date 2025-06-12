@@ -54,7 +54,7 @@ export const createTemplateForm: Form = {
     description: z.string(),
     template: z.string().max(200),
     input: z.string(),
-    service: z.string().min(3),
+    serviceId: z.string().min(3),
   }),
   fields: {
     name: {
@@ -63,14 +63,13 @@ export const createTemplateForm: Form = {
     template: {
       label: "Template",
     },
-    service: {
+    serviceId: {
       label: "Service",
       type: "select",
       placeholder: "Please choose...",
-      description: "The template will be connected to this service.",
       asyncOptions: async () => {
         const response = await authPost<{ private: boolean }, Service[]>(
-          ENDPOINT.USER_GET,
+          ENDPOINT.SERVICE_GET,
           { private: true },
           { skipNormalize: true },
         );
