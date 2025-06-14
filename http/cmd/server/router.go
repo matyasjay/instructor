@@ -40,8 +40,7 @@ func RegisterRoutes(e *echo.Echo) {
 	}
 	auth.Use(echojwt.WithConfig(jwtConfig))
 
-	auth.GET("/user/check", user.Check)
-	auth.POST("/user/get", user.Get)
+	auth.GET("/user/get", user.Get)
 	auth.POST("/service/create", service.Create)
 	auth.POST("/service/get", service.Get)
 	auth.POST("/template/get", template.Get)

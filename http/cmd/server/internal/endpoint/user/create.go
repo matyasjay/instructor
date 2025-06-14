@@ -31,16 +31,16 @@ func Create(c echo.Context) error {
 	var user model.User
 
 	err = db.QueryRow(`
-		INSERT INTO instructor."User" (id, name, email, password)
-		VALUES ($1, $2, $3, $4)
-		RETURNING id, email
+		INSERT INTO instructor."User" (id, name, email, password, role)
+		VALUES ($1, $2, $3, $4, 'USER')
+		RETURNING id, name, email, role
 	`, uuid.New(), input.Name, input.Email, hash).
-		Scan(&user.ID, &user.Email)
+		Scan(&user.ID, &user.Name, &user.Email, &user.Role)
 	if err != nil {
 		return err
 	}
 
-	token := util.GenerateJWT(user.ID)
+	token := util.GenerateJWT(user)
 	tokenString, err := util.TokenToString(token)
 	if err != nil {
 		return err
@@ -48,8 +48,14 @@ func Create(c echo.Context) error {
 
 	claims := token.Claims.(jwt.MapClaims)
 	return c.JSON(http.StatusCreated, model.UserResponse{
-		User:   user,
+		User: model.UserDetails{
+			ID:        user.ID,
+			Email:     user.Email,
+			Name:      user.Name,
+			Role:      user.Role,
+			CreatedAt: user.CreatedAt,
+		},
 		Token:  tokenString,
-		Expire: int(claims["exp"].(int64)),
+		Expire: int(claims["expire"].(int64)),
 	})
 }

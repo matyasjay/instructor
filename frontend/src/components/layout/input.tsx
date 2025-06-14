@@ -1,15 +1,9 @@
-import React from "react";
-import { FieldValues, UseFormReturn } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import React from 'react';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { useQuery } from '@tanstack/react-query';
+import { Checkbox } from '@/components/ui/checkbox';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -18,12 +12,12 @@ import {
   SelectTrigger,
   SelectGroup,
   SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { normalizeObjectKeys } from "@/lib/utils";
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { normalizeObjectKeys } from '@/lib/utils';
 
 type FormFieldProps = {
-  field: FormField;
+  field: DefaultFormField;
   form: UseFormReturn<FieldValues>;
 };
 
@@ -33,19 +27,10 @@ export function InputField({ field, form }: FormFieldProps) {
       control={form.control}
       name={field.name}
       render={({ field: formField }) => (
-        <FormItem
-          key={formField.name}
-          className="flex flex-row items-center gap-2"
-        >
-          <FormLabel className="text-sm font-normal whitespace-nowrap justify-end w-[200px]">
-            {field.label}
-          </FormLabel>
+        <FormItem key={formField.name} className="flex flex-row items-center gap-2">
+          <FormLabel className="text-sm font-normal whitespace-nowrap justify-end w-[200px]">{field.label}</FormLabel>
           <FormControl className="w-full">
-            <Input
-              type={field.type}
-              value={field.value + ""}
-              onChange={field.handleChange}
-            />
+            <Input type={field.type} value={field.value + ''} onChange={field.handleChange} />
           </FormControl>
         </FormItem>
       )}
@@ -59,15 +44,9 @@ export function CheckboxField({ field, form }: FormFieldProps) {
       control={form.control}
       name={field.name}
       render={({ field: formField }) => (
-        <FormItem
-          key={formField.name}
-          className="flex flex-row items-center gap-2 ml-[120px]"
-        >
+        <FormItem key={formField.name} className="flex flex-row items-center gap-2 ml-[120px]">
           <FormControl className="w-full">
-            <Checkbox
-              checked={!field.value}
-              onCheckedChange={field.handleChange}
-            />
+            <Checkbox checked={!field.value} onCheckedChange={field.handleChange} />
           </FormControl>
           <FormLabel className="text-sm font-normal">{field.label}</FormLabel>
         </FormItem>
@@ -82,14 +61,9 @@ export function ToggleField({ field, form }: FormFieldProps) {
       control={form.control}
       name={field.name}
       render={({ field: formField }) => (
-        <FormItem
-          key={formField.name}
-          className="flex flex-col justify-center gap-2"
-        >
+        <FormItem key={formField.name} className="flex flex-col justify-center gap-2">
           <div className="flex gap-2">
-            <FormLabel className="text-sm font-normal justify-end w-[200px]">
-              {field.label}
-            </FormLabel>
+            <FormLabel className="text-sm font-normal justify-end w-[200px]">{field.label}</FormLabel>
             <FormControl className="w-full items-center">
               <div className="flex items-center">
                 <Switch
@@ -101,11 +75,7 @@ export function ToggleField({ field, form }: FormFieldProps) {
               </div>
             </FormControl>
           </div>
-          {!!field.description && (
-            <FormDescription className="ml-[145px]">
-              {field.description}
-            </FormDescription>
-          )}
+          {!!field.description && <FormDescription className="ml-[145px]">{field.description}</FormDescription>}
         </FormItem>
       )}
     />
@@ -119,7 +89,7 @@ export function SelectField({ field, form }: FormFieldProps) {
   });
 
   const options =
-    !data || "error" in data || isPending
+    !data || 'error' in data || isPending
       ? (field.options ?? [])
       : data?.map((item) => {
           const normalizedItem = Object(normalizeObjectKeys(item));
@@ -136,9 +106,7 @@ export function SelectField({ field, form }: FormFieldProps) {
       render={({ field: formField }) => (
         <FormItem key={formField.name} className="flex flex-col justify-center">
           <div className="flex">
-            <FormLabel className="text-sm font-normal justify-end w-[200px] mr-2">
-              {field.label}
-            </FormLabel>
+            <FormLabel className="text-sm font-normal justify-end w-[200px] mr-2">{field.label}</FormLabel>
             <Select onValueChange={field.handleChange}>
               <FormControl className="w-full">
                 <SelectTrigger className="cursor-pointer">
@@ -149,11 +117,7 @@ export function SelectField({ field, form }: FormFieldProps) {
                 <SelectContent>
                   <SelectLabel>{field.label}</SelectLabel>
                   {options?.map((option) => (
-                    <SelectItem
-                      key={option.label}
-                      value={option.value}
-                      className="cursor-pointer"
-                    >
+                    <SelectItem key={option.label} value={option.value} className="cursor-pointer">
                       {option.label}
                     </SelectItem>
                   ))}
@@ -161,11 +125,7 @@ export function SelectField({ field, form }: FormFieldProps) {
               </SelectGroup>
             </Select>
           </div>
-          {!!field.description && (
-            <FormDescription className="ml-[145px]">
-              {field.description}
-            </FormDescription>
-          )}
+          {!!field.description && <FormDescription className="ml-[145px]">{field.description}</FormDescription>}
         </FormItem>
       )}
     />

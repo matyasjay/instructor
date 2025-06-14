@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function ServiceListSkeleton() {
   return (
@@ -19,9 +19,7 @@ export function ServiceDetailsSkeleton() {
       {[...Array(5)].map((_, index) => (
         <div key={index} className="flex space-y-4 gap-8">
           <Skeleton className={`h-6 w-[350px] bg-secondary/50`} />
-          <Skeleton
-            className={`h-6 w-[${index % 2 ? "40%" : "60%"}] ${index % 2 ? "mr-auto" : ""} bg-secondary/50`}
-          />
+          <Skeleton className={`h-6 w-[${index % 2 ? '40%' : '60%'}] ${index % 2 ? 'mr-auto' : ''} bg-secondary/50`} />
         </div>
       ))}
       {[...Array(2)].map((_, index) => (
@@ -33,9 +31,7 @@ export function ServiceDetailsSkeleton() {
       {[...Array(5)].map((_, index) => (
         <div key={index} className="flex space-y-4 gap-8">
           <Skeleton className="h-6 w-[350px] bg-secondary/50" />
-          <Skeleton
-            className={`h-6 w-[${index % 2 ? "40%" : "60%"}] ${index % 2 ? "mr-auto" : ""} bg-secondary/50`}
-          />
+          <Skeleton className={`h-6 w-[${index % 2 ? '40%' : '60%'}] ${index % 2 ? 'mr-auto' : ''} bg-secondary/50`} />
         </div>
       ))}
     </div>

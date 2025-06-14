@@ -4,6 +4,7 @@ CREATE TABLE "User" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "role" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -14,8 +15,8 @@ CREATE TABLE "User" (
 CREATE TABLE "Service" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "private" BOOLEAN NOT NULL DEFAULT false,
-    "description" TEXT NOT NULL DEFAULT '',
+    "private" BOOLEAN NOT NULL,
+    "description" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -35,14 +36,16 @@ CREATE TABLE "Template" (
 );
 
 -- CreateTable
-CREATE TABLE "TemplateInput" (
+CREATE TABLE "Input" (
     "id" TEXT NOT NULL,
-    "input" TEXT NOT NULL DEFAULT '',
-    "templateId" TEXT NOT NULL DEFAULT '',
+    "input" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "templateId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "TemplateInput_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Input_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -61,6 +64,14 @@ CREATE TABLE "TemplatesOnServices" (
     CONSTRAINT "TemplatesOnServices_pkey" PRIMARY KEY ("templateId","serviceId")
 );
 
+-- CreateTable
+CREATE TABLE "InputsOnTemplates" (
+    "templateId" TEXT NOT NULL,
+    "inputId" TEXT NOT NULL,
+
+    CONSTRAINT "InputsOnTemplates_pkey" PRIMARY KEY ("templateId","inputId")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_name_key" ON "User"("name");
 
@@ -74,10 +85,7 @@ CREATE UNIQUE INDEX "Service_name_key" ON "Service"("name");
 CREATE UNIQUE INDEX "Template_name_key" ON "Template"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "TemplateInput_templateId_key" ON "TemplateInput"("templateId");
-
--- AddForeignKey
-ALTER TABLE "TemplateInput" ADD CONSTRAINT "TemplateInput_templateId_fkey" FOREIGN KEY ("templateId") REFERENCES "Template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+CREATE UNIQUE INDEX "Input_templateId_key" ON "Input"("templateId");
 
 -- AddForeignKey
 ALTER TABLE "ServicesOnUsers" ADD CONSTRAINT "ServicesOnUsers_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -90,3 +98,9 @@ ALTER TABLE "TemplatesOnServices" ADD CONSTRAINT "TemplatesOnServices_templateId
 
 -- AddForeignKey
 ALTER TABLE "TemplatesOnServices" ADD CONSTRAINT "TemplatesOnServices_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "Service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "InputsOnTemplates" ADD CONSTRAINT "InputsOnTemplates_templateId_fkey" FOREIGN KEY ("templateId") REFERENCES "Template"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "InputsOnTemplates" ADD CONSTRAINT "InputsOnTemplates_inputId_fkey" FOREIGN KEY ("inputId") REFERENCES "Input"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

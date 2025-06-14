@@ -1,86 +1,76 @@
-import js from "@eslint/js";
-import importplugin from "eslint-plugin-import";
-import prettierplugin from "eslint-plugin-prettier";
-import reactplugin from "eslint-plugin-react";
-import hooksplugin from "eslint-plugin-react-hooks";
-import globals from "globals";
-import tseslint from "typescript-eslint";
+import js from '@eslint/js';
+import importplugin from 'eslint-plugin-import';
+import prettierplugin from 'eslint-plugin-prettier/recommended';
+import reactplugin from 'eslint-plugin-react';
+import hooksplugin from 'eslint-plugin-react-hooks';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  { ignores: ["dist"] },
+  { ignores: ['dist'] },
   {
-    files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     languageOptions: {
       globals: {
-        Atomics: "readonly",
-        SharedArrayBuffer: "readonly",
+        Atomics: 'readonly',
+        SharedArrayBuffer: 'readonly',
         ...globals.browser,
         ...globals.jest,
         ...globals.nodeBuiltin,
         ...globals.commonjs,
       },
       parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
+        ecmaVersion: 'latest',
+        sourceType: 'module',
         ecmaFeatures: { jsx: true },
       },
     },
     plugins: {
       react: reactplugin,
-      "react-hooks": hooksplugin,
-      prettier: prettierplugin,
+      'react-hooks': hooksplugin,
       import: importplugin,
     },
     rules: {
       ...hooksplugin.configs.recommended.rules,
-      "@typescript-eslint/no-unused-vars": [
-        "error",
+      '@typescript-eslint/no-unused-vars': [
+        'error',
         {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          caughtErrors: "none",
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrors: 'none',
         },
       ],
-      "import/order": [
-        "error",
+      'import/order': [
+        'error',
         {
           pathGroups: [
             {
-              pattern: "react**",
-              group: "builtin",
-              position: "before",
+              pattern: 'react**',
+              group: 'builtin',
+              position: 'before',
             },
             {
-              pattern: "react-dom/client",
-              group: "builtin",
-              position: "before",
+              pattern: 'react-dom/client',
+              group: 'builtin',
+              position: 'before',
             },
             {
-              pattern: "react-router**",
-              group: "builtin",
-              position: "after",
+              pattern: 'react-router**',
+              group: 'builtin',
+              position: 'after',
             },
             {
-              pattern: "@/**",
-              group: "internal",
+              pattern: '@/**',
+              group: 'internal',
             },
           ],
-          pathGroupsExcludedImportTypes: ["react"],
-          "newlines-between": "never",
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index",
-            "object",
-            "type",
-          ],
+          pathGroupsExcludedImportTypes: ['react'],
+          'newlines-between': 'never',
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
           alphabetize: {
-            order: "asc",
+            order: 'asc',
             caseInsensitive: true,
           },
         },
@@ -88,10 +78,10 @@ export default [
     },
     settings: {
       ct: {
-        version: "detect",
+        version: 'detect',
       },
-      "prettier/prettier": [
-        "error",
+      'prettier/prettier': [
+        'error',
         {},
         {
           usePrettierrc: true,
@@ -99,4 +89,5 @@ export default [
       ],
     },
   },
+  prettierplugin,
 ];

@@ -1,24 +1,17 @@
-import { Fragment } from "react";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import useServiceDashboard from "@/lib/hooks/useServiceDashboard";
-import { PAGES } from "@/lib/pages";
-import { cn } from "@/lib/utils";
-import { ServiceListSkeleton } from "./skeletons";
+import { Fragment } from 'react';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import useServiceDashboard from '@/lib/hooks/useServiceDashboard';
+import { PAGES } from '@/lib/pages';
+import { cn } from '@/lib/utils';
+import { ServiceListSkeleton } from './skeletons';
 
 export default function ServiceList() {
-  const { title, isPending, services, selected, setSelected } =
-    useServiceDashboard();
+  const { title, isPending, services, selected, setSelected } = useServiceDashboard();
 
   const handleSelect = (serviceId: string) => () => {
-    setSelected(
-      services.find(({ id }) => id === serviceId) ?? Object.create(null),
-    );
-    window.history.pushState(
-      null,
-      "",
-      `${PAGES.PRIVATE.SERVICE_OWN}/${serviceId}`,
-    );
+    setSelected(services.find(({ id }) => id === serviceId) ?? Object.create(null));
+    window.history.pushState(null, '', `${PAGES.PRIVATE.SERVICE_OWN}/${serviceId}`);
   };
 
   return (
@@ -38,8 +31,8 @@ export default function ServiceList() {
               key={service.id}
               onClick={handleSelect(service.id)}
               className={cn(
-                "w-full text-left items-center justify-start cursor-pointer rounded-none bg-secondary capitalize h-12",
-                selected?.id === service.id && "bg-primary/70",
+                'w-full text-left items-center justify-start cursor-pointer rounded-none bg-secondary capitalize h-12',
+                selected?.id === service.id && 'bg-primary/70',
               )}
             >
               {service.name}

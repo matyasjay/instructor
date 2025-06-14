@@ -1,48 +1,84 @@
-import z from "zod";
-import { ENDPOINT } from "./endpoints";
-import { authPost } from "./utils";
+import z from 'zod/v4';
 
 export const createServiceForm: Form = {
   schema: z.object({
     userId: z.string(),
     name: z.string().min(5).max(30),
     description: z.string().min(10).max(150).optional(),
-    private: z.boolean(),
+    private: z.string().transform((arg) => !!arg),
   }),
   fields: {
+    name: {
+      type: 'text',
+      label: 'Name',
+    },
+    description: {
+      type: 'text',
+      label: 'Description',
+    },
     private: {
-      type: "toggle",
-      description: "Private services are not discoverable by others.",
+      type: 'toggle',
+      label: 'Private',
     },
   },
 };
 
 export const createUserForm: Form = {
-  schema: z.object({
-    email: z.string().email(),
-    name: z.string().min(5).max(30),
-    password: z.string().min(8),
-    password_confirm: z.string().min(8),
-  }),
+  schema: z
+    .object({
+      email: z.email(),
+      name: z.string().min(5, { error: 'Name must be at least five (5) characters long!' }).max(30, {
+        error: 'Name cannot be more than thirty (30) characters long!',
+      }),
+      password: z.string().min(8, {
+        error: 'Password must be at least eight (8) characters long!',
+      }),
+      password_confirm: z.string(),
+    })
+    .check((ctx) => {
+      if (ctx.value.password_confirm !== ctx.value.password) {
+        ctx.issues.push({
+          code: 'custom',
+          error: 'Password and confirmation must match!',
+          input: ctx.value.password_confirm,
+        });
+      }
+    }),
   fields: {
     email: {
-      label: "E-mail",
+      label: 'E-mail',
+      type: 'email',
+    },
+    name: {
+      label: 'Name',
+      type: 'text',
+    },
+    password: {
+      label: 'Password',
+      type: 'password',
     },
     password_confirm: {
-      label: "Confirm password",
-      type: "password",
+      label: 'Confirm',
+      type: 'password',
     },
   },
 };
 
 export const loginUserForm: Form = {
   schema: z.object({
-    email: z.string().email(),
-    password: z.string().min(8),
+    email: z.email({ error: 'The e-mail address you entered is not valid!' }),
+    password: z.string().min(8, {
+      error: 'Password must be at least eight (8) characters long!',
+    }),
   }),
   fields: {
     email: {
-      label: "E-mail",
+      type: 'email',
+      label: 'E-mail',
+    },
+    password: {
+      type: 'password',
+      label: 'Password',
     },
   },
 };
@@ -54,32 +90,13 @@ export const createTemplateForm: Form = {
     description: z.string(),
     template: z.string().max(200),
     input: z.string(),
-    serviceId: z.string().min(3),
   }),
   fields: {
     name: {
-      label: "Name",
+      label: 'Name',
     },
     template: {
-      label: "Template",
-    },
-    serviceId: {
-      label: "Service",
-      type: "select",
-      placeholder: "Please choose...",
-      asyncOptions: async () => {
-        const response = await authPost<{ private: boolean }, Service[]>(
-          ENDPOINT.SERVICE_GET,
-          { private: true },
-          { skipNormalize: true },
-        );
-
-        if ("error" in response && response.error) {
-          throw response.error;
-        }
-
-        return response as Service[];
-      },
+      label: 'Template',
     },
   },
 };

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { STORAGE } from "@/lib/cookies";
-import { REQUEST_KEY } from "../query";
-import { authPost, normalizeObjectKeys } from "../utils";
+import { useEffect, useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { STORAGE } from '@/lib/cookies';
+import { REQUEST_KEY } from '../query';
+import { authPost, normalizeObjectKeys } from '../utils';
 
 type UseFetchProps<P = Record<string, unknown>> = {
   endpoint: Endpoint;
@@ -10,7 +10,7 @@ type UseFetchProps<P = Record<string, unknown>> = {
 };
 
 function _fetch<P, R>(endpoint: Endpoint, params?: P) {
-  const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}");
+  const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? '{}');
   return async function post() {
     const response = authPost<P, R>(
       endpoint,
@@ -18,17 +18,14 @@ function _fetch<P, R>(endpoint: Endpoint, params?: P) {
       { skipNormalize: true },
     );
 
-    if ("error" in response) {
+    if ('error' in response) {
       throw response.error;
     }
     return response as Promise<R>;
   };
 }
 
-export default function useFetch<
-  P = Record<string, unknown>,
-  R = Record<string, unknown>,
->({
+export default function useFetch<P = Record<string, unknown>, R = Record<string, unknown>>({
   params,
   endpoint,
 }: UseFetchProps<P>): {
@@ -62,9 +59,7 @@ export default function useFetch<
     return () => clearTimeout(timeout);
   }, []); // eslint-disable-line
 
-  const response = Array.isArray(data)
-    ? data.filter(Boolean).map<R>(normalizeObjectKeys)
-    : normalizeObjectKeys(data);
+  const response = Array.isArray(data) ? data.filter(Boolean).map<R>(normalizeObjectKeys) : normalizeObjectKeys(data);
 
   const isPending = rawIsPending || !delayFinished;
 

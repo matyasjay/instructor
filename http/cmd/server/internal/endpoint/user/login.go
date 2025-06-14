@@ -27,24 +27,32 @@ func Login(c echo.Context) error {
 	err = internal.WithTxDefault(func(tx *sql.Tx) error {
 		var passwordHash string
 		row := tx.QueryRow(`
-			SELECT id, name, email, password
+			SELECT id, name, email, password, role, "createdAt"
 			FROM instructor."User"
 			WHERE email=$1
 		`, safeInput.Email)
-		err := row.Scan(&user.ID, &user.Name, &user.Email, &passwordHash)
+		err := row.Scan(&user.ID, &user.Name, &user.Email, &passwordHash, &user.Role, &user.CreatedAt)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Unable to find user!")
 		}
 		if err := util.CheckPasswordHash(safeInput.Password, passwordHash); !err {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Invalid credentials!")
 		}
-		token = util.GenerateJWT(user.ID)
+		token = util.GenerateJWT(user)
 		return nil
 	})
+
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, model.UserResponse{
-			User:  user,
+			User: model.UserDetails{
+				ID:        user.ID,
+				Email:     user.Email,
+				Name:      user.Name,
+				Role:      user.Role,
+				CreatedAt: user.CreatedAt,
+			},
 			Token: tokenString,
+			Expire: -1,
 			WithError: model.WithError{
 				Error: err,
 			},
@@ -58,8 +66,14 @@ func Login(c echo.Context) error {
 
 	claims := token.Claims.(jwt.MapClaims)
 	return c.JSON(http.StatusOK, model.UserResponse{
-		User:   user,
+		User: model.UserDetails{
+			ID:        user.ID,
+			Email:     user.Email,
+			Name:      user.Name,
+			Role:      user.Role,
+			CreatedAt: user.CreatedAt,
+		},
 		Token:  tokenString,
-		Expire: int(claims["exp"].(int64)),
+		Expire: int(claims["expire"].(int64)),
 	})
 }

@@ -1,15 +1,23 @@
 package model
 
+type UserDetails struct {
+	ID string
+	Email string
+	Name string
+	Role string
+	CreatedAt string
+}
+
 type UserResponse struct {
 	WithError
-	User   User
+	User   UserDetails
 	Token  string
 	Expire int
 }
 
 type CheckUserResponse struct {
 	WithError
-	UserID string
+	User   User
 	Token  string
 	Expire int
 }
@@ -25,4 +33,9 @@ type TemplateResponse struct {
 	WithError
 	ServiceID string
 	Template  Template
+}
+
+type InputResponse struct {
+	WithError
+	Input  Input
 }

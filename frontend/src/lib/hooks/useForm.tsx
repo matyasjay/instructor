@@ -1,55 +1,28 @@
-import React, { useState } from "react";
-import {
-  FieldValues,
-  UseFormReturn,
-  useForm as useReactHookForm,
-} from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import Cookies from "js-cookie";
-import { ZodError } from "zod";
-import { COOKIES, STORAGE } from "@/lib/cookies";
-import useAuth from "@/lib/hooks/useAuth";
-import { REQUEST_KEY } from "@/lib/query";
-import {
-  authPost,
-  normalizeObjectKeys,
-  parseErrorObject,
-  throttle,
-} from "@/lib/utils";
+import React, { useState } from 'react';
+import { FieldValues, UseFormReturn, useForm as useReactHookForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { ZodError } from 'zod/v4';
+import { STORAGE } from '@/lib/cookies';
+import { normalizeObjectKeys, parseErrorObject, throttle } from '@/lib/utils';
 
-export type UseFormProps = {
-  endpoint: Endpoint;
+export type UseFormProps<T, R> = {
   form: Form;
-  /* eslint-disable-next-line */ // find a better generic to resolve `any`
-  handleUpdate?: (entry: any) => void;
+  onSubmit: (data: T) => Promise<ApiResponse<R>>;
+  mutationKey: string;
 };
 
-export default function useForm({
+export default function useForm<T, R>({
+  mutationKey,
+  onSubmit,
   form: { schema, fields: fieldConfig },
-  endpoint,
-  handleUpdate,
-}: UseFormProps) {
-  const zodSchema = schema as unknown as FormSchema<ZodType>;
-  const defaultValues = Object.fromEntries(
-    Object.keys(zodSchema.shape).map((key) => [key, ""]),
-  );
+}: UseFormProps<T, R>) {
+  const zodSchema = schema;
 
-  const formFields = Object.keys(zodSchema.shape)
-    .filter((field) => field !== "userId")
-    .map((key) => ({
-      type: key,
-      name: key,
-      label:
-        key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1"),
-    }));
-
-  const mutationKey = REQUEST_KEY[endpoint];
+  const defaultValues = Object.fromEntries(Object.keys(zodSchema.shape).map((mutationKey) => [mutationKey, '']));
 
   const [state, setState] = useState(defaultValues);
-  const [error, setError] = useState<string>("");
-  const [alerted, setAlerted] = useState(false);
-  const { setAuthenticated } = useAuth();
+  const [error, setError] = useState<string>('');
 
   const resolver = zodResolver(Object(zodSchema));
 
@@ -62,31 +35,17 @@ export default function useForm({
     mutationFn: async function mutationFn(input: Record<string, unknown>) {
       const parsedSchema = zodSchema.safeParse(input);
 
-      if (parsedSchema.error) {
+      if (!parsedSchema.success) {
         throw {
           ...parsedSchema.error,
           zod: parsedSchema.error instanceof ZodError,
         };
       }
 
-      const response = await authPost<
-        Record<string, unknown>,
-        Record<string, unknown>
-      >(endpoint, Object(parsedSchema.data));
+      const response = await onSubmit(parsedSchema.data as T);
 
-      if ("error" in response && !!response.error) {
+      if (!response || (typeof response === 'object' && 'error' in response && !!response.error)) {
         throw response;
-      }
-
-      if (Object(response).token) {
-        window.localStorage.setItem(
-          STORAGE.USER,
-          JSON.stringify(Object(response).user),
-        );
-
-        Cookies.set(COOKIES.JWT, Object(response).token);
-
-        setAuthenticated(true);
       }
 
       return normalizeObjectKeys(response);
@@ -96,30 +55,24 @@ export default function useForm({
     onError: (e) => {
       setError(parseErrorObject(e));
     },
-    onSuccess: (data) => {
-      handleUpdate?.(data);
-      setAlerted(!!data);
-    },
   });
 
   const checkError = () => {
-    throttle(() => setError(""), 200);
+    throttle(() => setError(''), 200);
   };
 
-  const handleChange =
-    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      checkError();
-      setState((prev) => ({
-        ...prev,
-        [field]:
-          typeof e === "string" || typeof e === "boolean" ? e : e.target.value,
-      }));
-    };
+  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    checkError();
+    setState((prev) => ({
+      ...prev,
+      [field]: typeof e === 'string' || typeof e === 'boolean' ? e : e.target.value,
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? "{}");
+    setError('');
+    const user = JSON.parse(window.localStorage.getItem(STORAGE.USER) ?? '{}');
     const payload = {
       ...state,
       userId: user.id,
@@ -127,22 +80,18 @@ export default function useForm({
     mutation.mutate(payload);
   };
 
-  const handleDismiss = () => {
-    setAlerted(false);
-  };
+  const formFields = Object.keys(zodSchema.shape).filter((field) => field !== 'userId');
 
   const fields = formFields.map((field) => ({
-    ...field,
-    ...fieldConfig?.[field.name],
-    handleChange: handleChange(field.name),
-    value: state[field.name],
+    ...fieldConfig?.[field],
+    name: field,
+    handleChange: handleChange(field),
+    value: state[field],
   })) as FormField[];
 
   return {
     form,
     handleSubmit,
-    alerted,
-    handleDismiss,
     error,
     fields,
   };

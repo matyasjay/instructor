@@ -1,33 +1,49 @@
-import { PlusIcon } from "lucide-react";
-import AlertButton from "@/components/feature/alert-button";
-import FormLayout from "@/components/layout/form";
-import { Button } from "@/components/ui/button";
-import { ENDPOINT } from "@/lib/endpoints";
-import { createTemplateForm } from "@/lib/forms";
+import { Fragment } from 'react';
+import { useParams } from 'react-router';
+import { PlusIcon } from 'lucide-react';
+import AlertButton from '@/components/feature/alert-button';
+import FormLayout from '@/components/layout/form';
+import { ENDPOINT } from '@/lib/endpoints';
+import { createTemplateForm } from '@/lib/forms';
+import { REQUEST_KEY } from '@/lib/query';
+import { authPost } from '@/lib/utils';
 
 type TemplateNewProps = {
-  optimisticUpdate: (template: TemplateResponse) => void;
+  onUpdate: (template: ApiResponse<TemplateResponse>) => void;
 };
 
-export default function TemplateNew({ optimisticUpdate }: TemplateNewProps) {
+export default function TemplateNew({ onUpdate }: TemplateNewProps) {
+  const { id } = useParams();
+
+  const handleSubmit = async (input: PostTemplateInput) => {
+    const result = await authPost<PostTemplateInput, TemplateResponse>(ENDPOINT.TEMPLATE_CREATE, {
+      ...input,
+      serviceId: id ?? '',
+    });
+    if (!result.error) {
+      onUpdate(result);
+    }
+    return result;
+  };
+
   return (
     <AlertButton
       title="Create New Template"
       trigger={
-        <Button className="cursor-pointer rounded-none" variant="outline">
+        <Fragment>
           <PlusIcon />
           Template
-        </Button>
+        </Fragment>
       }
+      triggerVariant="outline"
       description="Fill in the details below then submit to create a new template."
       content={
         <FormLayout
           form={createTemplateForm}
-          endpoint={ENDPOINT.TEMPLATE_CREATE}
-          handleUpdate={optimisticUpdate}
+          mutationKey={REQUEST_KEY[ENDPOINT.TEMPLATE_CREATE]}
+          onSubmit={handleSubmit}
         />
       }
-      triggerVariant="default"
     />
   );
 }

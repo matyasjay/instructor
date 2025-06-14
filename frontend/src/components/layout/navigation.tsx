@@ -1,22 +1,46 @@
-import { Fragment } from "react";
-import AlertButton from "@/components/feature/alert-button";
-import FormLayout from "@/components/layout/form";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { ENDPOINT } from "@/lib/endpoints";
-import { createUserForm, loginUserForm } from "@/lib/forms";
-import useAppNavigation from "@/lib/hooks/useAppNavigation";
-import useAuth from "@/lib/hooks/useAuth";
-import useLogout from "@/lib/hooks/useLogout";
-import useUser from "@/lib/hooks/useUser";
-import { PRIMARY_ROUTES } from "@/lib/menu";
-import { PAGES } from "@/lib/pages";
+import { Fragment } from 'react';
+import Cookies from 'js-cookie';
+import AlertButton from '@/components/feature/alert-button';
+import FormLayout from '@/components/layout/form';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { COOKIES, STORAGE } from '@/lib/cookies';
+import { ENDPOINT } from '@/lib/endpoints';
+import { createUserForm, loginUserForm } from '@/lib/forms';
+import useAppNavigation from '@/lib/hooks/useAppNavigation';
+import useAuth from '@/lib/hooks/useAuth';
+import useLogout from '@/lib/hooks/useLogout';
+import useUser from '@/lib/hooks/useUser';
+import { PRIMARY_ROUTES } from '@/lib/menu';
+import { PAGES } from '@/lib/pages';
+import { REQUEST_KEY } from '@/lib/query';
+import { authPost } from '@/lib/utils';
 
 export default function Navigation() {
-  const { authenticated } = useAuth();
+  const { authenticated, setAuthenticated } = useAuth();
   const user = useUser();
   const logout = useLogout();
   const { left, right, handleNavigate } = useAppNavigation();
+
+  const handleAuthenticated = (result: ApiResponse<UserResponse>) => {
+    if (!result.error && 'token' in result) {
+      window.localStorage.setItem(STORAGE.USER, JSON.stringify(result.user));
+      Cookies.set(COOKIES.JWT, result.token);
+      setAuthenticated(true);
+    }
+  };
+
+  const handleLogin = async (input: PostUserInput) => {
+    const result = await authPost<PostUserInput, UserResponse>(ENDPOINT.USER_LOGIN, input);
+    handleAuthenticated(result);
+    return result;
+  };
+
+  const handleSignup = async (input: PostUserInput & { password: string; password_confirm: string }) => {
+    const result = await authPost<PostUserInput, UserResponse>(ENDPOINT.USER_CREATE, input);
+    handleAuthenticated(result);
+    return result;
+  };
 
   return (
     <nav className="h-[70px] fixed top-0 left-0 right-0 bg-sidebar flex items-center px-5 py-3 gap-3 max-w-[1400px] mx-auto border-x-1 z-50 shadow-md border-b-1">
@@ -31,38 +55,27 @@ export default function Navigation() {
         <Fragment>
           {left.map((page) => (
             <Button
-              variant={
-                PRIMARY_ROUTES.includes(page.id?.split("#")[0] ?? "")
-                  ? "default"
-                  : "ghost"
-              }
+              variant={PRIMARY_ROUTES.includes(page.id?.split('#')[0] ?? '') ? 'default' : 'ghost'}
               className="cursor-pointer rounded-none"
-              onClick={handleNavigate(page.path + "")}
+              onClick={handleNavigate(page.path + '')}
               key={page.id}
             >
-              {page.id?.split("#")[1]}
+              {page.id?.split('#')[1]}
             </Button>
           ))}
-          <h3
-            id="account-details"
-            className="flex flex-col items-end ml-auto text-gray-400"
-          >
+          <h3 id="account-details" className="flex flex-col items-end ml-auto text-gray-400">
             <span className="font-normal">{user.name}</span>
             <span className="text-gray-500 text-xs">{user.email}</span>
           </h3>
           <Separator orientation="vertical" />
           {right.map((page) => (
             <Button
-              variant={
-                PRIMARY_ROUTES.includes(page.id?.split("#")[0] ?? "")
-                  ? "default"
-                  : "ghost"
-              }
+              variant={PRIMARY_ROUTES.includes(page.id?.split('#')[0] ?? '') ? 'default' : 'ghost'}
               className="cursor-pointer rounded-none"
-              onClick={handleNavigate(page.path + "")}
+              onClick={handleNavigate(page.path + '')}
               key={page.id}
             >
-              {page.id?.split("#")[1]}
+              {page.id?.split('#')[1]}
             </Button>
           ))}
           <AlertButton
@@ -82,7 +95,7 @@ export default function Navigation() {
             title="Sign In"
             trigger="Sign In"
             content={
-              <FormLayout endpoint={ENDPOINT.USER_LOGIN} form={loginUserForm} />
+              <FormLayout mutationKey={REQUEST_KEY[ENDPOINT.USER_LOGIN]} form={loginUserForm} onSubmit={handleLogin} />
             }
             description="Fill in your credentials to log in to your account."
             className="ml-auto"
@@ -94,8 +107,9 @@ export default function Navigation() {
             description="Fill in your details below to create a new account."
             content={
               <FormLayout
-                endpoint={ENDPOINT.USER_CREATE}
+                mutationKey={REQUEST_KEY[ENDPOINT.USER_CREATE]}
                 form={createUserForm}
+                onSubmit={handleSignup}
               />
             }
           />

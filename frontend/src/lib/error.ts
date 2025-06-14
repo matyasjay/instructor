@@ -1,1 +1,1 @@
-export const PageNotFoundError = Error("Page Not Found");
+export const PageNotFoundError = Error('Page Not Found');

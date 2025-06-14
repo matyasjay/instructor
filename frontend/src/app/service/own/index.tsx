@@ -1,4 +1,4 @@
-import ServicesDashboard from "@/components/feature/dashboard/services";
+import ServicesDashboard from '@/components/feature/dashboard/services';
 
 function ServiceOwn() {
   return <ServicesDashboard title="My Services" type="user" />;

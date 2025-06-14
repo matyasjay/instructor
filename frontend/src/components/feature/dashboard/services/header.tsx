@@ -1,13 +1,12 @@
-import { Fragment } from "react";
-import { CopyIcon, CpuIcon, TrashIcon, WrenchIcon } from "lucide-react";
-import TemplateNew from "@/app/template/new";
-import { Button } from "@/components/ui/button";
-import useServiceDashboard from "@/lib/hooks/useServiceDashboard";
-import mapServiceField from "./fields";
+import { Fragment } from 'react';
+import { CopyIcon, CpuIcon, TrashIcon, WrenchIcon } from 'lucide-react';
+import TemplateNew from '@/app/template/new';
+import { Button } from '@/components/ui/button';
+import useServiceDashboard from '@/lib/hooks/useServiceDashboard';
+import mapServiceField from './fields';
 
 export default function ServiceHeader() {
-  const { selected, setSelected, type, isPending, services } =
-    useServiceDashboard();
+  const { selected, setSelected, type, isPending, services } = useServiceDashboard();
 
   const actionsDisabled = isPending || !services?.length;
 
@@ -31,14 +30,15 @@ export default function ServiceHeader() {
     //
   };
 
-  const handleUpdate = (response: TemplateResponse) => {
+  const handleUpdate = (response: ApiResponse<TemplateResponse>) => {
     setSelected((prev) => ({
       ...(prev ?? Object.create(null)),
-      templates: (prev?.templates ?? []).reduce(
-        (acc, current) =>
-          current.id === response.template.id ? acc : [...acc, current],
-        Array(0),
-      ),
+      templates: (prev?.templates ?? []).reduce((acc, current) => {
+        if (!response.error && 'template' in response) {
+          return current.id === response.template.id ? acc : [...acc, current];
+        }
+        return acc;
+      }, Array(0)),
     }));
   };
 
@@ -48,11 +48,9 @@ export default function ServiceHeader() {
         <Fragment>
           <div className="flex flex-col gap-1 py-6 mr-auto">
             <h1 className="flex gap-5 items-center font-bold text-lg uppercase tracking-widest">
-              {selected.name ?? ""}&nbsp;-&nbsp;Details
+              {selected.name ?? ''}&nbsp;-&nbsp;Details
             </h1>
-            <span className="flex items-center text-xs italic">
-              {mapServiceField(selected.updatedAt, "updatedAt")}
-            </span>
+            <span className="flex items-center text-xs italic">{mapServiceField(selected.updatedAt, 'updatedAt')}</span>
           </div>
           <div className="flex items-center">
             <Button
@@ -64,9 +62,9 @@ export default function ServiceHeader() {
               <CpuIcon />
               Start
             </Button>
-            <TemplateNew optimisticUpdate={handleUpdate} />
-            {type === "user" && mapServiceField(selected?.private, "private")}
-            {type === "all" ? (
+            <TemplateNew onUpdate={handleUpdate} />
+            {type === 'user' && mapServiceField(selected?.private, 'private')}
+            {type === 'all' ? (
               <Button
                 className="flex w-30 cursor-pointer m-0 rounded-none"
                 variant="outline"

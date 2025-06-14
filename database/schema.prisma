@@ -9,24 +9,25 @@ datasource db {
 }
 
 model User {
-  id         String            @id @default(uuid())
-  name       String            @unique
-  email      String            @unique
-  password   String
-  services   ServicesOnUsers[]
-  createdAt  DateTime          @default(now())
-  updatedAt  DateTime          @default(now()) @updatedAt
+  id        String            @id @default(uuid())
+  name      String            @unique
+  email     String            @unique
+  password  String
+  role      String
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @default(now()) @updatedAt
+  services  ServicesOnUsers[]
 }
 
 model Service {
   id          String                @id @default(uuid())
   name        String                @unique
   private     Boolean
-  description String?
-  users       ServicesOnUsers[]
-  templates   TemplatesOnServices[]
+  description String
   createdAt   DateTime              @default(now())
   updatedAt   DateTime              @default(now()) @updatedAt
+  users       ServicesOnUsers[]
+  templates   TemplatesOnServices[]
 }
 
 model Template {
@@ -34,19 +35,21 @@ model Template {
   name        String                @unique
   description String
   template    String
-  services    TemplatesOnServices[]
-  input       TemplateInput?
   createdAt   DateTime              @default(now())
   updatedAt   DateTime              @default(now()) @updatedAt
+  services    TemplatesOnServices[]
+  inputs      InputsOnTemplates[]
 }
 
-model TemplateInput {
-  id         String   @id @default(uuid())
-  input      String?
-  template   Template @relation(fields: [templateId], references: [id])
-  templateId String   @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now()) @updatedAt
+model Input {
+  id          String              @id @default(uuid())
+  input       String
+  description String
+  type        String
+  templateId  String              @unique
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @default(now()) @updatedAt
+  template    InputsOnTemplates[]
 }
 
 model ServicesOnUsers {
@@ -65,4 +68,13 @@ model TemplatesOnServices {
   serviceId  String
 
   @@id([templateId, serviceId])
+}
+
+model InputsOnTemplates {
+  template   Template @relation(fields: [templateId], references: [id])
+  templateId String
+  input      Input    @relation(fields: [inputId], references: [id])
+  inputId    String
+
+  @@id([templateId, inputId])
 }

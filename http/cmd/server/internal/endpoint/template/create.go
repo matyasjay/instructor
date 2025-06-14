@@ -23,7 +23,6 @@ func Create(c echo.Context) error {
 
 	var template model.Template
 	var service model.Service
-	var input model.TemplateInput
 
 	err = internal.WithTxDefault(func(tx *sql.Tx) error {
 		err = tx.QueryRow(`
@@ -46,14 +45,27 @@ func Create(c echo.Context) error {
 			return err
 		}
 
-		err = tx.QueryRow(`
-			INSERT INTO instructor."TemplateInput" (id, input, "templateId", "createdAt", "updatedAt")
-			VALUES ($1, $2, $3, NOW(), NOW())
-			RETURNING id
-		`, uuid.New(), &safeInput.Input, &template.ID).
-			Scan(&input.ID)
-		if err != nil {
-			return err
+		for i := 1; i < len(safeInput.Input); i++ {
+			var input model.Input
+
+			err = tx.QueryRow(`
+				INSERT INTO instructor."TemplateInput" (id, input, "templateId", "createdAt", "updatedAt")
+				VALUES ($1, $2, $3, NOW(), NOW())
+				RETURNING id
+			`, uuid.New(), &safeInput.Input[i], &template.ID).
+				Scan(&input.ID)
+			if err != nil {
+				return err
+			}
+
+			_ = tx.QueryRow(`
+				INSERT INTO instructor."InputsOnTemplates" ("inputId", "templateId")
+				VALUES ($1, $2)
+				RETURNING "inputId", "templateId"
+			`, &input.ID, &template.ID)
+			if err != nil {
+				return err
+			}
 		}
 
 		return nil
@@ -67,7 +79,7 @@ func Create(c echo.Context) error {
 		Template: model.Template{
 			ID:          template.ID,
 			Description: template.Description,
-			Input:       template.Input,
+			Name:        template.Name,
 			Template:    template.Template,
 			CreatedAt:   template.CreatedAt,
 			UpdatedAt:   template.UpdatedAt,

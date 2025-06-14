@@ -1,42 +1,31 @@
 package user
 
 import (
-	"http/cmd/server/internal"
 	"http/pkg/model"
+	"http/pkg/util"
 	"net/http"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
-
-	_ "github.com/lib/pq"
 )
 
 func Get(c echo.Context) error {
-	db := internal.GetDB()
-
-	var input model.PostUserInput
-	if err := c.Bind(&input); err != nil {
-		return err
-	}
-
-	id := input.UserID
-
-	var user model.User
-
-	row := db.QueryRow(`
-		SELECT id, name, email
-		FROM instructor."User"
-		WHERE id=$1
-	`, id)
-
-	err := row.Scan(&user.ID, &user.Name, &user.Email)
-
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	token, err := util.TokenToString(user)
 	if err != nil {
-		return c.JSON(http.StatusNotFound, model.UserResponse{
-			WithError: model.WithError{
-				Error: err,
-			},
-		})
+		return echo.NewHTTPError(http.StatusUnauthorized, "You have no permission to perform this action!")
 	}
 
-	return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, model.UserResponse{
+		User: model.UserDetails{
+			ID:        string(claims["id"].(string)),
+			Email:     string(claims["email"].(string)),
+			Name:      string(claims["name"].(string)),
+			Role:      string(claims["role"].(string)),
+			CreatedAt: string(claims["createdAt"].(string)),
+		},
+		Token:  token,
+		Expire: int(claims["expire"].(float64)),
+	})
 }

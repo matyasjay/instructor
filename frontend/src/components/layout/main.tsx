@@ -1,7 +1,7 @@
-import { Outlet } from "react-router";
-import ErrorBoundary from "@/components/context/error";
-import Backdrop from "@/components/layout/backdrop";
-import Navigation from "@/components/layout/navigation";
+import { Outlet } from 'react-router';
+import ErrorBoundary from '@/components/context/error';
+import Backdrop from '@/components/layout/backdrop';
+import Navigation from '@/components/layout/navigation';
 
 export default function Layout({ children }: { children?: React.ReactNode }) {
   return (

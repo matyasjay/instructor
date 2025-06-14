@@ -9,17 +9,17 @@ type PostUserInput struct {
 
 type PostTemplateInput struct {
 	WithUser
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Template    string `json:"template"`
-	Input       string `json:"input"`
-	ServiceID   string `json:"serviceId"`
+	Name        string           `json:"name"`
+	Description string           `json:"description"`
+	Template    string           `json:"template"`
+	Input       []PostInputInput `json:"input"`
+	ServiceID   string           `json:"serviceId"`
 }
 
-type PostTemplateInputInput struct {
-	WithUser
-	Name     string `json:"name"`
-	Template string `json:"template"`
+type PostInputInput struct {
+	Input       string `json:"input"`
+	Type        string `json:"type"`
+	Description string `json:"description"`
 }
 
 type PostServiceInput struct {

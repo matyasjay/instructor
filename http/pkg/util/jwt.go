@@ -1,6 +1,7 @@
 package util
 
 import (
+	"http/pkg/model"
 	"os"
 	"time"
 
@@ -20,10 +21,14 @@ func CheckPasswordHash(password, hash string) bool {
 	return bcrypt.CompareHashAndPassword([]byte(hash), []byte(password)) == nil
 }
 
-func GenerateJWT(userID string) *jwt.Token {
+func GenerateJWT(user model.User) *jwt.Token {
 	claims := jwt.MapClaims{
-		"user_id": userID,
-		"exp":     time.Now().Add(time.Hour * 72).Unix(),
+		"id":        user.ID,
+		"name":      user.Name,
+		"email":     user.Email,
+		"role":      user.Role,
+		"createdAt": user.CreatedAt,
+		"expire":    time.Now().Add(time.Hour * 72).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token

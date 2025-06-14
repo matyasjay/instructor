@@ -1,12 +1,8 @@
-import {
-  IndexRouteObject,
-  NonIndexRouteObject,
-  useNavigate,
-} from "react-router";
-import { menu } from "@/lib/menu";
+import { IndexRouteObject, NonIndexRouteObject, useNavigate } from 'react-router';
+import { menu } from '@/lib/menu';
 
 function getPageOrder(page: Nullable<string>) {
-  return +(page?.split("#")[0] ?? 0);
+  return +(page?.split('#')[0] ?? 0);
 }
 
 function getNavigationItems(pages: (IndexRouteObject | NonIndexRouteObject)[]) {

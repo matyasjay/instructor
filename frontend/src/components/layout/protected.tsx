@@ -1,6 +1,6 @@
-import { Navigate, Outlet } from "react-router";
-import useAuth from "@/lib/hooks/useAuth";
-import { PAGES } from "@/lib/pages";
+import { Navigate, Outlet } from 'react-router';
+import useAuth from '@/lib/hooks/useAuth';
+import { PAGES } from '@/lib/pages';
 
 export default function ProtectedLayout() {
   const { authenticated } = useAuth();

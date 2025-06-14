@@ -3,6 +3,7 @@
 declare type User = {
   updatedAt: string;
   createdAt: string;
+  role: string;
   password: string;
   email: string;
   name: string;
@@ -15,36 +16,41 @@ declare type PostUserInput = {
   userId: string;
 };
 
+declare type UserDetails = {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  createdAt: string;
+};
+
 declare type UserResponse = {
-  user: User;
+  user: UserDetails;
   token: string;
   expire: number;
   error: error;
 };
 
-declare type TemplateInput = {
-  updatedAt: string;
-  createdAt: string;
-  templateId: string;
-  input: string;
-  id: string;
-};
-
 declare type Template = {
   updatedAt: string;
   createdAt: string;
-  input: TemplateInput;
   template: string;
   description: string;
   name: string;
   id: string;
+};
+
+declare type PostInputInput = {
+  input: string;
+  type: string;
+  description: string;
 };
 
 declare type PostTemplateInput = {
   name: string;
   description: string;
   template: string;
-  input: string;
+  input: PostInputInput[] | null;
   serviceId: string;
   userId: string;
 };
@@ -55,10 +61,19 @@ declare type TemplateResponse = {
   error: error;
 };
 
-declare type PostTemplateInputInput = {
-  name: string;
-  template: string;
-  userId: string;
+declare type Input = {
+  updatedAt: string;
+  createdAt: string;
+  templateId: string;
+  type: string;
+  description: string;
+  input: string;
+  id: string;
+};
+
+declare type InputResponse = {
+  input: Input;
+  error: error;
 };
 
 declare type Service = {
