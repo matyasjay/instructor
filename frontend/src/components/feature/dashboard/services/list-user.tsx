@@ -23,9 +23,9 @@ export default function ServiceList() {
     setServicesList((prev) => [...prev, service]);
   };
 
-  useEffect(()=> {
-    setServicesList(services)
-  },[services])
+  useEffect(() => {
+    setServicesList(services);
+  }, [services]);
 
   return (
     <Fragment>
