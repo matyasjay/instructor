@@ -23,7 +23,7 @@ declare type NestedFormFieldMeta = Partial<FormField> & {
   form: Form;
 };
 
-declare type FormFieldMeta = DefaultFormFieldMeta | NestedFormFieldMeta
+declare type FormFieldMeta = DefaultFormFieldMeta | NestedFormFieldMeta;
 
 declare type Form<S = $ZodLooseShape, C = $ZodObjectConfig> = {
   schema: ZodObject<S, C>;
