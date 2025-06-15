@@ -12,9 +12,22 @@ declare type ZodObjectConfig = import('zod/v4/core').$ZodObjectConfig;
 
 declare type Field = User[keyof User] | Template[keyof Template] | Service[keyof Service];
 
+declare type DefaultFormFieldMeta = Partial<FormField> & {
+  label: string;
+  name?: string;
+  description?: string;
+};
+
+declare type NestedFormFieldMeta = Partial<FormField> & {
+  type: 'form';
+  form: Form;
+};
+
+declare type FormFieldMeta = DefaultFormFieldMeta | NestedFormFieldMeta
+
 declare type Form<S = $ZodLooseShape, C = $ZodObjectConfig> = {
   schema: ZodObject<S, C>;
-  fields: Record<string, Partial<FormField>>;
+  fields: Record<string, FormFieldMeta>;
 };
 
 declare type DefaultFormField = {
@@ -42,7 +55,14 @@ declare type NestedFormField = {
   onSubmit: <T, R>(input: T) => R;
 };
 
-declare type FormField = DefaultFormField | NestedFormField;
+declare type InputListFormField = {
+  type: 'input-list';
+  name: string;
+  label: string;
+  options: { label: string; type: 'string' | 'boolean' | 'number' }[];
+};
+
+declare type FormField = DefaultFormField | NestedFormField | InputListFormField;
 
 declare type CheckedState = import('@radix-ui/react-checkbox').CheckedState;
 

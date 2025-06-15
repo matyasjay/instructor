@@ -31,14 +31,14 @@ export default function ServiceDetails() {
       </div>
     );
 
+  console.log(service?.users);
+
   return (
     <Fragment>
       <ServiceHeader />
-      {!!service && (
-        <div className="flex items-center text-left text-xs px-5 py-2 bg-secondary/30 border-b-1 border-primary">
-          Used by&nbsp;{mapServiceField(service?.users, 'users')}
-        </div>
-      )}
+      <div className="mt-20 flex items-center text-left text-xs px-5 py-2 bg-secondary/30 border-b-1 border-primary">
+        {!!service && <>Used by{mapServiceField(service?.users, 'users')}</>}
+      </div>
       <ScrollArea className="h-[calc(100dvh - 150px)] w-full">
         {isPending ? (
           <ServiceDetailsSkeleton />

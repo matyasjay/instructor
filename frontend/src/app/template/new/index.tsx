@@ -18,6 +18,7 @@ export const createTemplateForm: Form = {
     name: z.string().min(5),
     description: z.string(),
     template: z.string().max(200),
+    inputs: z.string(),
   }),
   fields: {
     name: {
@@ -43,7 +44,12 @@ export const createTemplateForm: Form = {
           inputs: {
             name: 'inputs',
             label: 'Inputs',
-            type: 'text',
+            type: 'input-list',
+            options: [
+              { label: 'Text', type: 'string' },
+              { label: 'Number', type: 'number' },
+              { label: 'Toggle', type: 'boolean' },
+            ],
           },
         },
       },

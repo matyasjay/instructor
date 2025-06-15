@@ -19,7 +19,7 @@ export default function ServiceDetails() {
   return (
     <Fragment>
       <ServiceHeader />
-      <ScrollArea className="h-[calc(100dvh - 150px)] w-full pt-4">
+      <ScrollArea className="mt-20 h-[calc(100dvh - 150px)] w-full pt-4">
         {isPending ? (
           <ServiceDetailsSkeleton />
         ) : !selected ? null : (

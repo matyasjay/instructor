@@ -8,10 +8,25 @@ import ErrorLayout from './error';
 import { CheckboxField, InputField, SelectField, ToggleField } from './input';
 
 function renderFormFields(form: UseFormReturn) {
-  return function (field: FormField) {
+  return function (field: Nullable<FormField>) {
+    if (!field) {
+      return null;
+    }
+
     if (field.type === 'form') {
       return (
         <FormLayout key="nested-form" form={field.form} onSubmit={field.onSubmit} mutationKey={field.key} noSubmit />
+      );
+    }
+
+    if (field.type === 'input-list') {
+      return (
+        <div className="flex flex-col">
+          {field.label}
+          {field.options.map((option) => (
+            <div key={option.label}>{option.label}</div>
+          ))}
+        </div>
       );
     }
 

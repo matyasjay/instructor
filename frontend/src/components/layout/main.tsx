@@ -13,10 +13,7 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
             <div className="max-w-[1400px] bg-accent mx-auto border-x-1 overflow-y-auto fixed top-[70px] left-0 right-0 bottom-0">
               <div className="flex flex-col gap-3.5 mx-auto align-middle min-h-full bg-gray-900">
                 <Backdrop />
-                <div
-                  className="fixed top-[70px] left-[50%] translate-x-[-50%] right-0 bottom-0 overflow-auto w-full max-w-[1400px] px-[1px]"
-                  id="main_content"
-                >
+                <div className="fixed top-[70px] left-[50%] translate-x-[-50%] right-0 bottom-0 overflow-hidden w-full max-w-[1400px] px-[1px]">
                   {children ?? <Outlet />}
                 </div>
               </div>

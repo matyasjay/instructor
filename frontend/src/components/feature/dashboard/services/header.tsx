@@ -43,7 +43,7 @@ export default function ServiceHeader() {
   };
 
   return (
-    <div className="h-20 px-5 py-3 flex justify-between items-center bg-primary/20 border-t-1 border-primary border-b-1 border-b-white/30">
+    <div className="fixed left-[300px] right-0 h-20 px-5 py-3 flex justify-between items-center bg-[#1f304c] border-b-1 border-l-1 border-primary/40 z-50">
       {!selected ? null : (
         <Fragment>
           <div className="flex flex-col gap-1 py-6 mr-auto">

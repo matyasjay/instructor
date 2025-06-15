@@ -22,10 +22,15 @@ export default function ServicesDashboard(props: ServicesDeshboardProps) {
 
   return (
     <ServiceProvider {...props}>
-      <div className="flex min-h-[calc(100dvh-70px)]">
-        <div className="min-h-[calc(100dvh-70px)]">{list}</div>
-        <div className="flex w-full min-h-[calc(100dvh-70px)]">
-          <div className="flex flex-col text-balance bg-sidebar w-full">{details}</div>
+      <div className="flex max-h-[calc(100dvh-70px)] overflow-hidden">
+        <div className="w-[300px] max-h-[calc(100dvh-70px)] border-r-1 border-l-primary">{list}</div>
+        <div className="flex max-h-[calc(100dvh-70px)] overflow-auto">
+          <div
+            className="left-[300px] right-0 fixed flex flex-col text-balance bg-sidebar overflow-auto h-full"
+            id="main_content"
+          >
+            {details}
+          </div>
         </div>
       </div>
     </ServiceProvider>
