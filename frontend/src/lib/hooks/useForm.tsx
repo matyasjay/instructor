@@ -1,56 +1,32 @@
 import React, { useState } from 'react';
-import { FieldValues, UseFormReturn, useForm as useReactHookForm } from 'react-hook-form';
+import { FieldValues, useForm as useReactHookForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { ZodError } from 'zod/v4';
 import { STORAGE } from '@/lib/cookies';
 import { normalizeObjectKeys, parseErrorObject, throttle } from '@/lib/utils';
 
-export type UseFormProps<T, R> = {
-  form: Form;
-  onSubmit: (data: T) => Promise<ApiResponse<R>>;
-  mutationKey: string;
-};
-
-export default function useForm<T, R>({
-  mutationKey,
-  onSubmit,
-  form: { schema, fields: fieldConfig },
-}: UseFormProps<T, R>) {
-  const zodSchema = schema;
-
-  const defaultValues = Object.fromEntries(Object.keys(zodSchema.shape).map((mutationKey) => [mutationKey, '']));
-
+export default function useForm({ mutationKey, onSubmit, form: formInput }: UseFormProps) {
+  const defaultValues = Object.fromEntries(Object.keys(formInput.schema.shape).map((key) => [key, '']));
   const [state, setState] = useState(defaultValues);
   const [error, setError] = useState<string>('');
-
-  const resolver = zodResolver(Object(zodSchema));
-
-  const form = useReactHookForm({
-    defaultValues,
-    resolver,
-  }) as UseFormReturn<FieldValues>;
+  const form = useReactHookForm<FieldValues>({ defaultValues, resolver: zodResolver(Object(formInput.schema)) });
 
   const mutation = useMutation({
-    mutationFn: async function mutationFn(input: Record<string, unknown>) {
-      const parsedSchema = zodSchema.safeParse(input);
-
+    mutationFn: async function mutationFn(input: FormInput) {
+      const parsedSchema = formInput.schema.safeParse(input);
       if (!parsedSchema.success) {
         throw {
           ...parsedSchema.error,
           zod: parsedSchema.error instanceof ZodError,
         };
       }
-
-      const response = await onSubmit(parsedSchema.data as T);
-
+      const response = await onSubmit(parsedSchema.data as FormInput);
       if (!response || (typeof response === 'object' && 'error' in response && !!response.error)) {
         throw response;
       }
-
       return normalizeObjectKeys(response);
     },
-
     mutationKey: [mutationKey],
     onError: (e) => {
       setError(parseErrorObject(e));
@@ -76,21 +52,30 @@ export default function useForm<T, R>({
     const payload = {
       ...state,
       userId: user.id,
-    };
+    } as FormInput;
     mutation.mutate(payload);
   };
 
-  const formFields = Object.keys(zodSchema.shape).filter((field) => field !== 'userId');
+  const fields = Object.keys(formInput.schema.shape)
+    .filter((field) => field !== 'userId')
+    .map((field) => ({
+      ...formInput.fields?.[field],
+      name: field,
+      handleChange: handleChange(field),
+      value: state[field],
+    })) as FormField[];
 
-  const fields = formFields.map((field) => ({
-    ...fieldConfig?.[field],
-    name: field,
-    handleChange: handleChange(field),
-    value: state[field],
-  })) as FormField[];
+  const nestedFields = Object.entries(formInput.fields).reduce(
+    (acc, [key, field]) =>
+      field.type === 'form'
+        ? [...acc, { ...field, name: key, handleChange: handleChange(key), value: state[key] }]
+        : acc,
+    Array(0),
+  );
 
   return {
     form,
+    nestedFields,
     handleSubmit,
     error,
     fields,

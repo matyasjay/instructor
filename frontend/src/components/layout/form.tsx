@@ -1,16 +1,18 @@
 import React, { Fragment } from 'react';
-import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator';
-import useForm, { UseFormProps } from '@/lib/hooks/useForm';
+import useForm from '@/lib/hooks/useForm';
 import ErrorLayout from './error';
 import { CheckboxField, InputField, SelectField, ToggleField } from './input';
 
-function renderFormFields(form: UseFormReturn<FieldValues>) {
+function renderFormFields(form: UseFormReturn) {
   return function (field: FormField) {
     if (field.type === 'form') {
-      return <FormLayout form={field.form} onSubmit={field.onSubmit} mutationKey={field.key} />;
+      return (
+        <FormLayout key="nested-form" form={field.form} onSubmit={field.onSubmit} mutationKey={field.key} noSubmit />
+      );
     }
 
     return {
@@ -24,23 +26,34 @@ function renderFormFields(form: UseFormReturn<FieldValues>) {
   };
 }
 
-export default function FormLayout<T, R>(props: UseFormProps<T, R> & { submit?: string }) {
-  const { handleSubmit, error, form, fields } = useForm(props);
+const BaseElement = ({
+  children,
+  isNested,
+  ...props
+}: { children: React.ReactNode; isNested: boolean } & React.HTMLAttributes<HTMLFormElement>) =>
+  isNested ? <div className={props.className}>{children}</div> : <form {...props}>{children}</form>;
+
+export default function FormLayout(props: UseFormProps & { submit?: string; noSubmit?: boolean }) {
+  const { handleSubmit, error, form, nestedFields, fields } = useForm(props);
 
   const fieldMapper = renderFormFields(form);
 
   return (
     <Fragment>
       <Form {...form}>
-        <form onSubmit={handleSubmit} className="bg-sidebar w-full">
+        <BaseElement onSubmit={handleSubmit} className="bg-sidebar w-full" isNested={!!props.noSubmit}>
           <div className="flex flex-col gap-3.5 mx-auto align-middle w-full">
-            {fields.map(fieldMapper)}
-            <Separator />
-            <Button type="submit" className="cursor-pointer w-full max-w-[350px] mx-auto rounded-none">
-              {props.submit ?? 'Submit'}
-            </Button>
+            {[...fields, ...nestedFields].map(fieldMapper)}
+            {props.noSubmit ? null : (
+              <Fragment>
+                <Separator />
+                <Button type="submit" className="cursor-pointer w-full max-w-[350px] mx-auto rounded-none">
+                  {props.submit ?? 'Submit'}
+                </Button>
+              </Fragment>
+            )}
           </div>
-        </form>
+        </BaseElement>
       </Form>
       {error && (
         <ErrorLayout

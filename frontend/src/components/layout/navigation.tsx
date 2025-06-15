@@ -1,12 +1,12 @@
 import { Fragment } from 'react';
 import Cookies from 'js-cookie';
+import z from 'zod/v4';
 import AlertButton from '@/components/feature/alert-button';
 import FormLayout from '@/components/layout/form';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { COOKIES, STORAGE } from '@/lib/cookies';
 import { ENDPOINT } from '@/lib/endpoints';
-import { createUserForm, loginUserForm } from '@/lib/forms';
 import useAppNavigation from '@/lib/hooks/useAppNavigation';
 import useAuth from '@/lib/hooks/useAuth';
 import useLogout from '@/lib/hooks/useLogout';
@@ -15,6 +15,66 @@ import { PRIMARY_ROUTES } from '@/lib/menu';
 import { PAGES } from '@/lib/pages';
 import { REQUEST_KEY } from '@/lib/query';
 import { authPost } from '@/lib/utils';
+
+export const createUserForm: Form = {
+  schema: z
+    .object({
+      email: z.email(),
+      name: z.string().min(5, { error: 'Name must be at least five (5) characters long!' }).max(30, {
+        error: 'Name cannot be more than thirty (30) characters long!',
+      }),
+      password: z.string().min(8, {
+        error: 'Password must be at least eight (8) characters long!',
+      }),
+      password_confirm: z.string(),
+    })
+    .check((ctx) => {
+      if (ctx.value.password_confirm !== ctx.value.password) {
+        ctx.issues.push({
+          code: 'custom',
+          error: 'Password and confirmation must match!',
+          input: ctx.value.password_confirm,
+        });
+      }
+    }),
+  fields: {
+    email: {
+      label: 'E-mail',
+      type: 'email',
+    },
+    name: {
+      label: 'Name',
+      type: 'text',
+    },
+    password: {
+      label: 'Password',
+      type: 'password',
+    },
+    password_confirm: {
+      label: 'Confirm',
+      type: 'password',
+    },
+  },
+};
+
+export const loginUserForm: Form = {
+  schema: z.object({
+    email: z.email({ error: 'The e-mail address you entered is not valid!' }),
+    password: z.string().min(8, {
+      error: 'Password must be at least eight (8) characters long!',
+    }),
+  }),
+  fields: {
+    email: {
+      type: 'email',
+      label: 'E-mail',
+    },
+    password: {
+      type: 'password',
+      label: 'Password',
+    },
+  },
+};
 
 export default function Navigation() {
   const { authenticated, setAuthenticated } = useAuth();
@@ -30,14 +90,14 @@ export default function Navigation() {
     }
   };
 
-  const handleLogin = async (input: PostUserInput) => {
-    const result = await authPost<PostUserInput, UserResponse>(ENDPOINT.USER_LOGIN, input);
+  const handleLogin = async (input: FormInput) => {
+    const result = await authPost<PostUserInput, UserResponse>(ENDPOINT.USER_LOGIN, input as PostUserInput);
     handleAuthenticated(result);
     return result;
   };
 
-  const handleSignup = async (input: PostUserInput & { password: string; password_confirm: string }) => {
-    const result = await authPost<PostUserInput, UserResponse>(ENDPOINT.USER_CREATE, input);
+  const handleSignup = async (input: FormInput) => {
+    const result = await authPost<PostUserInput, UserResponse>(ENDPOINT.USER_CREATE, input as PostUserInput);
     handleAuthenticated(result);
     return result;
   };

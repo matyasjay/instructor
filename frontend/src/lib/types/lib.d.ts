@@ -15,10 +15,4 @@ declare class NullProto {
   private 'propertyIsEnumerable': void;
 }
 
-declare type ZodError<E> = import('zod/v4').ZodError<E>;
-
-declare type ZodType<T, E> = import('zod/v4').ZodType<T, E>;
-
-declare type ZodIssue = ArrayElement<ZodError['issues']>;
-
 declare type ApiResponse<T> = T & { error?: string };
